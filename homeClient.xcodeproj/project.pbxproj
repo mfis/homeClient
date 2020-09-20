@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8C63E1BD25167ADB001C5841 /* HomeClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1BC25167ADB001C5841 /* HomeClientApp.swift */; };
+		8C63E1BD25167ADB001C5841 /* homeClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1BC25167ADB001C5841 /* homeClientApp.swift */; };
 		8C63E1BF25167ADB001C5841 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1BE25167ADB001C5841 /* ContentView.swift */; };
 		8C63E1C125167ADD001C5841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C63E1C025167ADD001C5841 /* Assets.xcassets */; };
 		8C63E1C425167ADD001C5841 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C63E1C325167ADD001C5841 /* Preview Assets.xcassets */; };
 		8C63E1C925167ADD001C5841 /* homeClient WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 8C63E1C825167ADD001C5841 /* homeClient WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8C63E1CE25167ADE001C5841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C63E1CD25167ADE001C5841 /* Assets.xcassets */; };
 		8C63E1D525167ADE001C5841 /* homeClient WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8C63E1D425167ADE001C5841 /* homeClient WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		8C63E1DA25167ADE001C5841 /* HomeClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1D925167ADE001C5841 /* HomeClientApp.swift */; };
+		8C63E1DA25167ADE001C5841 /* homeClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1D925167ADE001C5841 /* homeClientApp.swift */; };
 		8C63E1DC25167ADE001C5841 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1DB25167ADE001C5841 /* ContentView.swift */; };
 		8C63E1DE25167ADE001C5841 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1DD25167ADE001C5841 /* NotificationController.swift */; };
 		8C63E1E025167ADE001C5841 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1DF25167ADE001C5841 /* NotificationView.swift */; };
@@ -85,7 +85,7 @@
 
 /* Begin PBXFileReference section */
 		8C63E1B925167ADB001C5841 /* homeClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = homeClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C63E1BC25167ADB001C5841 /* HomeClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClientApp.swift; sourceTree = "<group>"; };
+		8C63E1BC25167ADB001C5841 /* homeClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeClientApp.swift; sourceTree = "<group>"; };
 		8C63E1BE25167ADB001C5841 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8C63E1C025167ADD001C5841 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C63E1C325167ADD001C5841 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 		8C63E1CD25167ADE001C5841 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C63E1CF25167ADE001C5841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C63E1D425167ADE001C5841 /* homeClient WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "homeClient WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C63E1D925167ADE001C5841 /* HomeClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClientApp.swift; sourceTree = "<group>"; };
+		8C63E1D925167ADE001C5841 /* homeClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeClientApp.swift; sourceTree = "<group>"; };
 		8C63E1DB25167ADE001C5841 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8C63E1DD25167ADE001C5841 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		8C63E1DF25167ADE001C5841 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@
 		8C63E1BB25167ADB001C5841 /* homeClient */ = {
 			isa = PBXGroup;
 			children = (
-				8C63E1BC25167ADB001C5841 /* HomeClientApp.swift */,
+				8C63E1BC25167ADB001C5841 /* homeClientApp.swift */,
 				8C63E1BE25167ADB001C5841 /* ContentView.swift */,
 				8C63E1C025167ADD001C5841 /* Assets.xcassets */,
 				8C63E1C525167ADD001C5841 /* Info.plist */,
@@ -191,7 +191,7 @@
 		8C63E1D825167ADE001C5841 /* homeClient WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				8C63E1D925167ADE001C5841 /* HomeClientApp.swift */,
+				8C63E1D925167ADE001C5841 /* homeClientApp.swift */,
 				8C63E25625174EA6001C5841 /* ComplicationViews */,
 				8C63E1DB25167ADE001C5841 /* ContentView.swift */,
 				8C63E1DD25167ADE001C5841 /* NotificationController.swift */,
@@ -376,7 +376,7 @@
 				8C63E21725167DE8001C5841 /* Data.swift in Sources */,
 				8C63E22F25167E69001C5841 /* SignIn.swift in Sources */,
 				8C63E21D25167E16001C5841 /* UserData.swift in Sources */,
-				8C63E1BD25167ADB001C5841 /* HomeClientApp.swift in Sources */,
+				8C63E1BD25167ADB001C5841 /* homeClientApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,7 +396,7 @@
 				8C63E27125176FCE001C5841 /* Content.swift in Sources */,
 				8C63E1E225167ADE001C5841 /* ComplicationController.swift in Sources */,
 				8C63E24F25174918001C5841 /* SettingsViewWatch.swift in Sources */,
-				8C63E1DA25167ADE001C5841 /* HomeClientApp.swift in Sources */,
+				8C63E1DA25167ADE001C5841 /* homeClientApp.swift in Sources */,
 				8C63E1E025167ADE001C5841 /* NotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

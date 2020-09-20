@@ -28,6 +28,9 @@ struct SettingsViewWatch: View {
                 Image(systemName: self.userData.settingsStateName).imageScale(.medium)
             }
             
+            Section() {
+                Text("Version: 202009202230")
+            }
             
         }.navigationBarTitle(Text("Einstellungen"))
             .onDisappear(){

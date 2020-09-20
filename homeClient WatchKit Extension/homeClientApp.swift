@@ -22,13 +22,12 @@ struct homeClientApp: App {
         }.onChange(of: phase) { newPhase in
             switch newPhase {
             case .active:
-                DispatchQueue.main.async() {
-                    loadModel(userData: userData)
-                }
+                loadModel(userData: userData)
             case .inactive:
                 break
             case .background:
                 userData.homeViewModel.timestamp = "..."
+                break
             @unknown default:
                 break
             }
