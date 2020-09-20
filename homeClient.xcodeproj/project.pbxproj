@@ -21,6 +21,24 @@
 		8C63E1E225167ADE001C5841 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E1E125167ADE001C5841 /* ComplicationController.swift */; };
 		8C63E1E425167ADF001C5841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C63E1E325167ADF001C5841 /* Assets.xcassets */; };
 		8C63E1E725167ADF001C5841 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C63E1E625167ADF001C5841 /* Preview Assets.xcassets */; };
+		8C63E21725167DE8001C5841 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21625167DE8001C5841 /* Data.swift */; };
+		8C63E21825167DE8001C5841 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21625167DE8001C5841 /* Data.swift */; };
+		8C63E21D25167E16001C5841 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21C25167E16001C5841 /* UserData.swift */; };
+		8C63E21E25167E16001C5841 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21C25167E16001C5841 /* UserData.swift */; };
+		8C63E22325167E38001C5841 /* NetworkStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22225167E37001C5841 /* NetworkStructs.swift */; };
+		8C63E22425167E38001C5841 /* NetworkStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22225167E37001C5841 /* NetworkStructs.swift */; };
+		8C63E22925167E52001C5841 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22825167E52001C5841 /* Network.swift */; };
+		8C63E22A25167E52001C5841 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22825167E52001C5841 /* Network.swift */; };
+		8C63E22F25167E69001C5841 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22E25167E69001C5841 /* SignIn.swift */; };
+		8C63E23025167E69001C5841 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22E25167E69001C5841 /* SignIn.swift */; };
+		8C63E23525167EC1001C5841 /* signInFirst.html in Resources */ = {isa = PBXBuildFile; fileRef = 8C63E23425167EC1001C5841 /* signInFirst.html */; };
+		8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E23925169EFA001C5841 /* SettingsView.swift */; };
+		8C63E2422516A1E0001C5841 /* WebViewObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E2412516A1E0001C5841 /* WebViewObserver.swift */; };
+		8C63E24F25174918001C5841 /* SettingsViewWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E24E25174918001C5841 /* SettingsViewWatch.swift */; };
+		8C63E25825174ECA001C5841 /* CircularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E25725174ECA001C5841 /* CircularView.swift */; };
+		8C63E263251754A3001C5841 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
+		8C63E26A25176F1F001C5841 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E249251747D9001C5841 /* Content.swift */; };
+		8C63E27125176FCE001C5841 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E249251747D9001C5841 /* Content.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +103,18 @@
 		8C63E1E625167ADF001C5841 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8C63E1E825167ADF001C5841 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C63E1E925167ADF001C5841 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		8C63E21625167DE8001C5841 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		8C63E21C25167E16001C5841 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		8C63E22225167E37001C5841 /* NetworkStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStructs.swift; sourceTree = "<group>"; };
+		8C63E22825167E52001C5841 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		8C63E22E25167E69001C5841 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
+		8C63E23425167EC1001C5841 /* signInFirst.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = signInFirst.html; sourceTree = "<group>"; };
+		8C63E23925169EFA001C5841 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		8C63E2412516A1E0001C5841 /* WebViewObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewObserver.swift; sourceTree = "<group>"; };
+		8C63E249251747D9001C5841 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		8C63E24E25174918001C5841 /* SettingsViewWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewWatch.swift; sourceTree = "<group>"; };
+		8C63E25725174ECA001C5841 /* CircularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularView.swift; sourceTree = "<group>"; };
+		8C63E262251754A3001C5841 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +138,7 @@
 		8C63E1B025167ADB001C5841 = {
 			isa = PBXGroup;
 			children = (
+				8C63E1FD25167C4A001C5841 /* shared */,
 				8C63E1BB25167ADB001C5841 /* homeClient */,
 				8C63E1CC25167ADD001C5841 /* homeClient WatchKit App */,
 				8C63E1D825167ADE001C5841 /* homeClient WatchKit Extension */,
@@ -133,6 +164,9 @@
 				8C63E1C025167ADD001C5841 /* Assets.xcassets */,
 				8C63E1C525167ADD001C5841 /* Info.plist */,
 				8C63E1C225167ADD001C5841 /* Preview Content */,
+				8C63E23425167EC1001C5841 /* signInFirst.html */,
+				8C63E23925169EFA001C5841 /* SettingsView.swift */,
+				8C63E2412516A1E0001C5841 /* WebViewObserver.swift */,
 			);
 			path = homeClient;
 			sourceTree = "<group>";
@@ -157,6 +191,7 @@
 		8C63E1D825167ADE001C5841 /* homeClient WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				8C63E25625174EA6001C5841 /* ComplicationViews */,
 				8C63E1D925167ADE001C5841 /* homeClientApp.swift */,
 				8C63E1DB25167ADE001C5841 /* ContentView.swift */,
 				8C63E1DD25167ADE001C5841 /* NotificationController.swift */,
@@ -166,6 +201,8 @@
 				8C63E1E825167ADF001C5841 /* Info.plist */,
 				8C63E1E925167ADF001C5841 /* PushNotificationPayload.apns */,
 				8C63E1E525167ADF001C5841 /* Preview Content */,
+				8C63E24E25174918001C5841 /* SettingsViewWatch.swift */,
+				8C63E262251754A3001C5841 /* Utils.swift */,
 			);
 			path = "homeClient WatchKit Extension";
 			sourceTree = "<group>";
@@ -176,6 +213,27 @@
 				8C63E1E625167ADF001C5841 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8C63E1FD25167C4A001C5841 /* shared */ = {
+			isa = PBXGroup;
+			children = (
+				8C63E249251747D9001C5841 /* Content.swift */,
+				8C63E21625167DE8001C5841 /* Data.swift */,
+				8C63E21C25167E16001C5841 /* UserData.swift */,
+				8C63E22225167E37001C5841 /* NetworkStructs.swift */,
+				8C63E22825167E52001C5841 /* Network.swift */,
+				8C63E22E25167E69001C5841 /* SignIn.swift */,
+			);
+			path = shared;
+			sourceTree = "<group>";
+		};
+		8C63E25625174EA6001C5841 /* ComplicationViews */ = {
+			isa = PBXGroup;
+			children = (
+				8C63E25725174ECA001C5841 /* CircularView.swift */,
+			);
+			path = ComplicationViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +339,7 @@
 			files = (
 				8C63E1C425167ADD001C5841 /* Preview Assets.xcassets in Resources */,
 				8C63E1C125167ADD001C5841 /* Assets.xcassets in Resources */,
+				8C63E23525167EC1001C5841 /* signInFirst.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +367,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C63E2422516A1E0001C5841 /* WebViewObserver.swift in Sources */,
+				8C63E22325167E38001C5841 /* NetworkStructs.swift in Sources */,
+				8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */,
+				8C63E26A25176F1F001C5841 /* Content.swift in Sources */,
 				8C63E1BF25167ADB001C5841 /* ContentView.swift in Sources */,
+				8C63E22925167E52001C5841 /* Network.swift in Sources */,
+				8C63E21725167DE8001C5841 /* Data.swift in Sources */,
+				8C63E22F25167E69001C5841 /* SignIn.swift in Sources */,
+				8C63E21D25167E16001C5841 /* UserData.swift in Sources */,
 				8C63E1BD25167ADB001C5841 /* homeClientApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,8 +385,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C63E1DE25167ADE001C5841 /* NotificationController.swift in Sources */,
+				8C63E22425167E38001C5841 /* NetworkStructs.swift in Sources */,
+				8C63E21825167DE8001C5841 /* Data.swift in Sources */,
+				8C63E263251754A3001C5841 /* Utils.swift in Sources */,
+				8C63E21E25167E16001C5841 /* UserData.swift in Sources */,
+				8C63E25825174ECA001C5841 /* CircularView.swift in Sources */,
+				8C63E23025167E69001C5841 /* SignIn.swift in Sources */,
 				8C63E1DC25167ADE001C5841 /* ContentView.swift in Sources */,
+				8C63E22A25167E52001C5841 /* Network.swift in Sources */,
+				8C63E27125176FCE001C5841 /* Content.swift in Sources */,
 				8C63E1E225167ADE001C5841 /* ComplicationController.swift in Sources */,
+				8C63E24F25174918001C5841 /* SettingsViewWatch.swift in Sources */,
 				8C63E1DA25167ADE001C5841 /* homeClientApp.swift in Sources */,
 				8C63E1E025167ADE001C5841 /* NotificationView.swift in Sources */,
 			);

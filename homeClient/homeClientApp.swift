@@ -9,9 +9,26 @@ import SwiftUI
 
 @main
 struct homeClientApp: App {
+    
+    @Environment(\.scenePhase) private var phase
+    @StateObject private var userData = UserData()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(userData)
+        }.onChange(of: phase) { newPhase in
+            switch newPhase {
+            case .active:
+                userData.device = UIDevice.current.name
+                userData.isInBackground = false
+            case .inactive:
+                break
+            case .background:
+                userData.isInBackground = true
+                userData.webViewTitle = ""
+            @unknown default:
+                break
+            }
         }
     }
 }

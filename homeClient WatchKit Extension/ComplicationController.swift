@@ -6,7 +6,7 @@
 //
 
 import ClockKit
-
+import SwiftUI
 
 class ComplicationController: NSObject, CLKComplicationDataSource {
     
@@ -14,7 +14,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
 
     func getComplicationDescriptors(handler: @escaping ([CLKComplicationDescriptor]) -> Void) {
         let descriptors = [
-            CLKComplicationDescriptor(identifier: "complication", displayName: "homeClient", supportedFamilies: CLKComplicationFamily.allCases)
+            CLKComplicationDescriptor(identifier: "complication", displayName: "Zuhause", supportedFamilies: CLKComplicationFamily.allCases)
             // Multiple complication support can be added here with more descriptors
         ]
         
@@ -42,18 +42,127 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
         // Call the handler with the current timeline entry
-        handler(nil)
+        handler(createTimelineEntry(forComplication: complication, date: Date()))
     }
     
     func getTimelineEntries(for complication: CLKComplication, after date: Date, limit: Int, withHandler handler: @escaping ([CLKComplicationTimelineEntry]?) -> Void) {
         // Call the handler with the timeline entries after the given date
-        handler(nil)
+        handler([createTimelineEntry(forComplication: complication, date: Date())])
     }
 
     // MARK: - Sample Templates
     
     func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
         // This method will be called once per supported complication, and the results will be cached
-        handler(nil)
+        handler(createTemplate(forComplication: complication))
+    }
+    
+    // MARK: - Complication implementation
+    
+    private func createTimelineEntry(forComplication complication: CLKComplication, date: Date) -> CLKComplicationTimelineEntry {
+        let template = createTemplate(forComplication: complication)
+        return CLKComplicationTimelineEntry(date: date, complicationTemplate: template)
+    }
+    
+    private func createTemplate(forComplication complication: CLKComplication) -> CLKComplicationTemplate {
+        switch complication.family {
+        case .modularSmall:
+            return createModularSmallTemplate()
+        case .modularLarge:
+            return createModularLargeTemplate()
+        case .utilitarianSmall, .utilitarianSmallFlat:
+            return createUtilitarianSmallFlatTemplate()
+        case .utilitarianLarge:
+            return createUtilitarianLargeTemplate()
+        case .circularSmall:
+            return createCircularSmallTemplate()
+        case .extraLarge:
+            return createExtraLargeTemplate()
+        case .graphicCorner:
+            return createGraphicCornerTemplate()
+        case .graphicCircular:
+            return createGraphicCircleTemplate()
+        case .graphicRectangular:
+            return createGraphicRectangularTemplate()
+        case .graphicBezel:
+            return createGraphicBezelTemplate()
+        case .graphicExtraLarge:
+            return createGraphicExtraLargeTemplate()
+        @unknown default:
+            fatalError("*** Unknown Complication Family ***")
+        }
+    }
+    
+    private func imageProvider() -> CLKImageProvider {
+        return CLKImageProvider(onePieceImage: UIImage(named: "zuhauseWithBackground")!)
+    }
+    
+    private func imageProviderFullColor() -> CLKFullColorImageProvider {
+        return CLKFullColorImageProvider(fullColorImage: UIImage(named: "zuhauseWithBackground")!)
+    }
+    
+    private func imageProviderCircular() -> CLKComplicationTemplateGraphicCircularImage {
+        return CLKComplicationTemplateGraphicCircularImage(imageProvider: imageProviderFullColor())
+    }
+    
+    private func textProvider() -> CLKTextProvider {
+        return CLKTextProvider(format: "Zuhause")
+    }
+    
+    private func textProviderLineTwo() -> CLKTextProvider {
+        return CLKTextProvider(format: "")
+    }
+    
+    private func createModularSmallTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateModularSmallSimpleImage(imageProvider: imageProvider())
+        // return CLKComplicationTemplateGraphicCircularView(CircularView())
+    }
+    
+    private func createModularLargeTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateModularLargeStandardBody(headerTextProvider: textProvider(), body1TextProvider: textProvider())
+    }
+    
+    private func createUtilitarianSmallFlatTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateUtilitarianSmallFlat(textProvider: textProvider())
+    }
+    
+    private func createUtilitarianLargeTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateUtilitarianLargeFlat(textProvider: textProvider())
+    }
+    
+    private func createCircularSmallTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateCircularSmallSimpleImage(imageProvider: imageProvider())
+        // return CLKComplicationTemplateCircularSGraphicCircularView(CircularView())
+    }
+    
+    private func createExtraLargeTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateExtraLargeSimpleImage(imageProvider: imageProvider())
+    }
+    
+    private func createGraphicCornerTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateGraphicCornerTextImage(textProvider: textProvider(), imageProvider: imageProviderFullColor())
+    }
+    
+    private func createGraphicCircleTemplate() -> CLKComplicationTemplate {
+        // return CLKComplicationTemplateGraphicCircularImage(imageProvider: imageProviderFullColor())
+        return CLKComplicationTemplateGraphicCircularView(CircularView())
+    }
+    
+    private func createGraphicRectangularTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateGraphicRectangularFullImage(imageProvider: imageProviderFullColor())
+    }
+    
+    private func createGraphicBezelTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateGraphicBezelCircularText(circularTemplate: imageProviderCircular(), textProvider: textProvider())
+    }
+    
+    private func createGraphicExtraLargeTemplate() -> CLKComplicationTemplate {
+        return CLKComplicationTemplateGraphicExtraLargeCircularImage(imageProvider: imageProviderFullColor())
+    }
+}
+
+struct ComplicationController_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }
