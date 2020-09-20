@@ -68,6 +68,10 @@ func auth(_ urlString : String, userData : UserData){
                     userData.settingsLoginMessage = "Die Anmeldung war erfolgreich."
                     
                     userData.settingsUserPassword = ""
+                    
+                    #if os(watchOS)
+                        _ = userData.initHomeViewModel()
+                    #endif
                 }
             }else{
                 DispatchQueue.main.async() {

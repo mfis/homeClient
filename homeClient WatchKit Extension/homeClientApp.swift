@@ -22,16 +22,16 @@ struct homeClientApp: App {
         }.onChange(of: phase) { newPhase in
             switch newPhase {
             case .active:
-                print("*** ACTIVE phase ***")
-                loadModel(userData: userData)
+                DispatchQueue.main.async() {
+                    loadModel(userData: userData)
+                }
             case .inactive:
-                print("*** INACTIVE phase ***")
                 break
             case .background:
-                print("*** BACKGROUND phase ***") 
-                break
+                DispatchQueue.main.async() {
+                    userData.homeViewModel.timestamp = "..."
+                }
             @unknown default:
-                print("*** DEFAULT phase ***")
                 break
             }
         }

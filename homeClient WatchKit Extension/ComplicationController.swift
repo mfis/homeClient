@@ -94,7 +94,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     }
     
     private func imageProvider() -> CLKImageProvider {
-        return CLKImageProvider(onePieceImage: UIImage(named: "zuhauseWithBackground")!)
+        return CLKImageProvider(onePieceImage: UIImage(named: "zuhauseWhite")!)
     }
     
     private func imageProviderFullColor() -> CLKFullColorImageProvider {
