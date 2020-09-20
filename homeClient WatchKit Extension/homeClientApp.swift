@@ -28,9 +28,7 @@ struct homeClientApp: App {
             case .inactive:
                 break
             case .background:
-                DispatchQueue.main.async() {
-                    userData.homeViewModel.timestamp = "..."
-                }
+                userData.homeViewModel.timestamp = "..."
             @unknown default:
                 break
             }
