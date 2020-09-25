@@ -19,6 +19,7 @@ struct ContentView: View {
                 HStack {
                     Text(userData.homeViewModel.timestamp).frame(maxWidth: .infinity).frame(height: 1).font(.footnote)
                 }.onTapGesture {
+                    clearModel(&self.userData.homeViewModel)
                     loadModel(userData: self.userData)
                 }
                 NavigationLink(destination: SettingsViewWatch().environmentObject(userData)) {

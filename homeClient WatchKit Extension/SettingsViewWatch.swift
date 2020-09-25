@@ -29,7 +29,7 @@ struct SettingsViewWatch: View {
             }
             
             Section() {
-                Text("Version: 202009202230")
+                Text("Version: 20200925_2230")
             }
             
         }.navigationBarTitle(Text("Einstellungen"))

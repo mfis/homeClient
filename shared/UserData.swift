@@ -38,6 +38,6 @@ final class UserData: ObservableObject {
     @Published var settingsStateName = "circle"
     @Published var settingsLoginMessage = ""
     
-    @Published var homeViewModel = HomeViewModel(timestamp: "", places: [])
+    @Published var homeViewModel = HomeViewModel(timestamp: "", defaultAccent: "ffffff", places: [])
     
 }

@@ -26,7 +26,7 @@ struct homeClientApp: App {
             case .inactive:
                 break
             case .background:
-                userData.homeViewModel.timestamp = "..."
+                clearModel(&self.userData.homeViewModel)
                 break
             @unknown default:
                 break

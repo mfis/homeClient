@@ -12,7 +12,7 @@ func loadModel(userData : UserData) {
      
     func onError(){
         DispatchQueue.main.async() {
-            userData.homeViewModel = HomeViewModel(timestamp: "Fehler!", places: [])
+            userData.homeViewModel = HomeViewModel(timestamp: "Fehler!", defaultAccent: "ffffff", places: [])
         }
     }
     
@@ -29,7 +29,7 @@ func loadModel(userData : UserData) {
     
     if(userData.homeUrl.isEmpty){
         let signInMsg = HomeViewPlaceModel(id: "signInMsg" , name: "Bitte anmelden.", values: [])
-        userData.homeViewModel = HomeViewModel(timestamp: "-", places: [signInMsg])
+        userData.homeViewModel = HomeViewModel(timestamp: "-", defaultAccent: "ffffff", places: [signInMsg])
     }else{
         let authDict = ["appUserName": userData.homeUserName, "appUserToken": userData.homeUserToken, "appDevice" : userData.device]
         httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=watch", timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
