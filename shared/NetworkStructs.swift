@@ -33,15 +33,7 @@ struct HomeViewModel: Codable {
     var places : [HomeViewPlaceModel]
 }
 
-func clearModel(_ model : inout HomeViewModel){
-    model.timestamp = ". . ."
-    for (i, var place) in model.places.enumerated() {
-        for (j, var kv) in place.values.enumerated() {
-            kv.value = ". . ."
-            kv.tendency = ""
-            kv.accent = model.defaultAccent
-            place.values[j] = kv
-        }
-        model.places[i] = place
-    }
+func newEmptyModel(state: String, msg : String) -> HomeViewModel {
+    return HomeViewModel(timestamp: state, defaultAccent: "ffffff", places: [HomeViewPlaceModel(id: "msg" , name: msg, values: [])])
 }
+

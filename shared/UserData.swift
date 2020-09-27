@@ -12,6 +12,16 @@ import SwiftUI
 final class UserData: ObservableObject {
     
     func initHomeViewModel() -> UserData {
+        
+        if let infoPath = Bundle.main.path(forResource: "Info.plist", ofType: nil),
+           let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
+           let infoDate : Date = infoAttr[FileAttributeKey(rawValue: "NSFileCreationDate")] as? Date
+         {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyyMMdd_HHmm"
+            build = formatter.string(from: infoDate)
+        }
+        
         loadModel(userData: self)
         return self
     } 
@@ -38,6 +48,8 @@ final class UserData: ObservableObject {
     @Published var settingsStateName = "circle"
     @Published var settingsLoginMessage = ""
     
-    @Published var homeViewModel = HomeViewModel(timestamp: "", defaultAccent: "ffffff", places: [])
+    @Published var homeViewModel = newEmptyModel(state: "", msg: "")
+    @Published var modelTimestamp = "n/a"
     
+    @Published var build : String = "n/a"
 }

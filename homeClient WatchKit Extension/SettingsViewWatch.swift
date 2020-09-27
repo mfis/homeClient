@@ -29,7 +29,10 @@ struct SettingsViewWatch: View {
             }
             
             Section() {
-                Text("Version: 20200925_2230")
+                VStack {
+                    Text("Refresh: " + userData.modelTimestamp)
+                    Text("Version: " + userData.build)
+                }
             }
             
         }.navigationBarTitle(Text("Einstellungen"))

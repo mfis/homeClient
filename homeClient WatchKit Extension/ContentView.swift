@@ -17,13 +17,26 @@ struct ContentView: View {
         Form {
             HStack{
                 HStack {
-                    Text(userData.homeViewModel.timestamp).frame(maxWidth: .infinity).frame(height: 1).font(.footnote)
+                    if(userData.homeViewModel.timestamp == "OK"){
+                        Image(systemName: "arrow.clockwise.circle").frame(maxWidth: .infinity)
+                    }else{
+                        Text(userData.homeViewModel.timestamp).frame(maxWidth: .infinity)
+                    }
                 }.onTapGesture {
-                    clearModel(&self.userData.homeViewModel)
+                    userData.homeViewModel.timestamp = ". . ."
+                    for (i, var place) in userData.homeViewModel.places.enumerated() {
+                        for (j, var kv) in place.values.enumerated() {
+                            kv.value = ". . ." 
+                            kv.tendency = ""
+                            kv.accent = userData.homeViewModel.defaultAccent
+                            place.values[j] = kv
+                        }
+                        userData.homeViewModel.places[i] = place
+                    }
                     loadModel(userData: self.userData)
                 }
                 NavigationLink(destination: SettingsViewWatch().environmentObject(userData)) {
-                    Image(systemName: "slider.horizontal.3").frame(maxWidth: .infinity).imageScale(.small)
+                    Image(systemName: "slider.horizontal.3").frame(maxWidth: .infinity)
                 }.padding(0)
             }
             List(userData.homeViewModel.places) { place in
