@@ -19,11 +19,24 @@ func loadModel(userData : UserData) {
     func onSuccess(response : String){
         let decoder = JSONDecoder ()
         if var newModel = try? decoder.decode(HomeViewModel.self, from: response.data(using: .utf8)!) {
+            var clearModel = newModel
+            clearModel.timestamp = ". . ."
+            for (i, var place) in clearModel.places.enumerated() {
+                for (j, var kv) in place.values.enumerated() {
+                    kv.value = ". . ."
+                    kv.tendency = ""
+                    kv.accent = clearModel.defaultAccent
+                    place.values[j] = kv
+                }
+                clearModel.places[i] = place
+            }
             DispatchQueue.main.async() {
+                userData.clearHomeViewModel = clearModel
                 userData.modelTimestamp = newModel.timestamp
                 newModel.timestamp = "OK"
                 userData.homeViewModel = newModel
             }
+            
         }else{
             onError()
         }

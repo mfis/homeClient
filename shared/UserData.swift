@@ -49,6 +49,7 @@ final class UserData: ObservableObject {
     @Published var settingsLoginMessage = ""
     
     @Published var homeViewModel = newEmptyModel(state: "", msg: "")
+    @Published var clearHomeViewModel = newEmptyModel(state: "", msg: "")
     @Published var modelTimestamp = "n/a"
     
     @Published var build : String = "n/a"

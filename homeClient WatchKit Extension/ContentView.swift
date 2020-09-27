@@ -23,15 +23,8 @@ struct ContentView: View {
                         Text(userData.homeViewModel.timestamp).frame(maxWidth: .infinity)
                     }
                 }.onTapGesture {
-                    userData.homeViewModel.timestamp = ". . ."
-                    for (i, var place) in userData.homeViewModel.places.enumerated() {
-                        for (j, var kv) in place.values.enumerated() {
-                            kv.value = ". . ." 
-                            kv.tendency = ""
-                            kv.accent = userData.homeViewModel.defaultAccent
-                            place.values[j] = kv
-                        }
-                        userData.homeViewModel.places[i] = place
+                    DispatchQueue.main.async() {
+                        userData.homeViewModel = userData.clearHomeViewModel
                     }
                     loadModel(userData: self.userData)
                 }
