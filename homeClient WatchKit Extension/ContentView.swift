@@ -11,7 +11,8 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject private var userData : UserData
-    @State var isActive = false
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+        
     
     var body: some View {
         Form {
@@ -33,18 +34,36 @@ struct ContentView: View {
                 }.padding(0)
             }
             List(userData.homeViewModel.places) { place in
-                VStack{
-                    Text(place.name).foregroundColor(.white).font(Font.headline)
-                    ForEach(place.values) { entry in
-                        HStack(spacing: 2){
-                            Text(entry.key).foregroundColor(Color.init(hexString: entry.accent)).font(.footnote)
-                            Spacer()
-                            Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent))
+                if(place.actions.isEmpty){
+                    VStack{
+                        Text(place.name).foregroundColor(.white).font(Font.headline)
+                        ForEach(place.values) { entry in
+                            HStack(spacing: 2){
+                                Text(entry.key).foregroundColor(Color.init(hexString: entry.accent)).font(.footnote)
+                                Spacer()
+                                Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent))
+                            }
+                        }
+                    }
+                }else{
+                    NavigationLink(destination: ActionView(place: place).environmentObject(userData)) {
+                        VStack{
+                            Text(place.name + " ⇨").foregroundColor(.white).font(Font.headline)
+                            ForEach(place.values) { entry in
+                                HStack(spacing: 2){
+                                    Text(entry.key).foregroundColor(Color.init(hexString: entry.accent)).font(.footnote)
+                                    Spacer()
+                                    Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent))
+                                }
+                            }
                         }
                     }
                 }
             }
         }.navigationBarTitle("Zuhause")
+        .onReceive(timer) { _ in
+            loadModel(userData: userData)
+        }
     }
     
 }

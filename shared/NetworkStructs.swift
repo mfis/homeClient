@@ -21,10 +21,17 @@ struct HomeViewValueModel:  Hashable, Codable, Identifiable  {
     var tendency : String
 }
 
+struct HomeViewActionModel:  Hashable, Codable, Identifiable  {
+    var id : String
+    var name : String
+    var link : String
+}
+
 struct HomeViewPlaceModel: Hashable, Codable, Identifiable {
     var id : String
     var name : String
     var values : [HomeViewValueModel]
+    var actions : [HomeViewActionModel]
 }
 
 struct HomeViewModel: Codable {
@@ -34,6 +41,6 @@ struct HomeViewModel: Codable {
 }
 
 func newEmptyModel(state: String, msg : String) -> HomeViewModel {
-    return HomeViewModel(timestamp: state, defaultAccent: "ffffff", places: [HomeViewPlaceModel(id: "msg" , name: msg, values: [])])
+    return HomeViewModel(timestamp: state, defaultAccent: "ffffff", places: [HomeViewPlaceModel(id: "msg" , name: msg, values: [], actions: [])])
 }
 
