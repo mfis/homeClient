@@ -41,6 +41,7 @@
 		8C63E27125176FCE001C5841 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E249251747D9001C5841 /* Content.swift */; };
 		8CE7863725290A510076715D /* ActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863625290A510076715D /* ActionView.swift */; };
 		8CE7863F252910AD0076715D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863E252910AD0076715D /* Action.swift */; };
+		8CF47383252BA99600CE1629 /* PinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF47382252BA99600CE1629 /* PinView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		8C63E262251754A3001C5841 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		8CE7863625290A510076715D /* ActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionView.swift; sourceTree = "<group>"; };
 		8CE7863E252910AD0076715D /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		8CF47382252BA99600CE1629 /* PinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				8C63E1E525167ADF001C5841 /* Preview Content */,
 				8C63E24E25174918001C5841 /* SettingsViewWatch.swift */,
 				8C63E262251754A3001C5841 /* Utils.swift */,
+				8CF47382252BA99600CE1629 /* PinView.swift */,
 			);
 			path = "homeClient WatchKit Extension";
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				8C63E1E225167ADE001C5841 /* ComplicationController.swift in Sources */,
 				8C63E24F25174918001C5841 /* SettingsViewWatch.swift in Sources */,
 				8C63E1DA25167ADE001C5841 /* homeClientApp.swift in Sources */,
+				8CF47383252BA99600CE1629 /* PinView.swift in Sources */,
 				8C63E1E025167ADE001C5841 /* NotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
