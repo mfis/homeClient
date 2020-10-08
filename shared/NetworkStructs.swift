@@ -31,7 +31,7 @@ struct HomeViewPlaceModel: Hashable, Codable, Identifiable {
     var id : String
     var name : String
     var values : [HomeViewValueModel]
-    var actions : [HomeViewActionModel]
+    var actions : [[HomeViewActionModel]]
 }
 
 struct HomeViewModel: Codable {

@@ -18,31 +18,34 @@ struct ActionView: View {
     
     var body: some View {
         Form {
-            Button("Show Modal") {
-                self.showModal.toggle()
-            }.sheet(isPresented: $showModal, onDismiss: {print("MODAL DISMISSED: " + pin)}) {
-                PinView(length : pinLength, pin: $pin, showModal: self.$showModal)
-            }
-            List(place.actions) { action in
-                HStack {
-                    Spacer()
-                    if(action.link == "#"){
-                        Text(action.name).foregroundColor(.gray)
-                    }else{
-                        Text(action.name)
-                    }
-                    Spacer()
-                }.contentShape(Rectangle()).onTapGesture {
-                    if(action.link != "#"){
-                        doAction(action.link, userData: self.userData, presentation: presentation)
+            ForEach(place.actions, id: \.self) { section in
+                Section(){
+                    List(section) { action in
+                        if(action.link == "#"){
+                            Text(action.name).foregroundColor(.black)
+                        }else{
+                            if(action.link.contains("&securityPin=")){
+                                Button(action.name) {
+                                    self.showModal.toggle()
+                                }.sheet(isPresented: $showModal, onDismiss: {
+                                    if(pin.count==pinLength){
+                                        doAction(action.link + pin, userData: self.userData, presentation: presentation)
+                                    }
+                                    pin = ""
+                                }) {
+                                    PinView(length : pinLength, pin: $pin, showModal: self.$showModal)
+                                }
+                            }else{
+                                Button(action.name) {
+                                    doAction(action.link, userData: self.userData, presentation: presentation)
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }.navigationBarTitle("Aktion").onDisappear(perform: {
-            pin = ""
-        })
+        }.navigationBarTitle("Aktion")
     }
-    
 }
 
 

@@ -68,7 +68,7 @@ struct PinButton: ButtonStyle {
             .foregroundColor(.white)
             .background(Color.init(hexString: "17202a"))
             .cornerRadius(4)
-            .scaleEffect(configuration.isPressed ? 0.5 : 1.0)
+            .scaleEffect(configuration.isPressed ? 1.5 : 1.0)
             .font(.headline)
     }
 }
