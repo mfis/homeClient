@@ -44,6 +44,7 @@ final class UserData: ObservableObject {
     @Published var webViewTitle = ""
     
     @Published var isInBackground = false
+    @Published var showAlert = false
     
     @Published var settingsStateName = "circle"
     @Published var settingsLoginMessage = ""

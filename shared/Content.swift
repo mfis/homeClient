@@ -12,7 +12,9 @@ func loadModel(userData : UserData) {
      
     func onError(){
         DispatchQueue.main.async() {
-            userData.homeViewModel = newEmptyModel(state: "😥", msg: "Keine Verbindung")
+            if(userData.isInBackground == false){
+                userData.homeViewModel = newEmptyModel(state: "😥", msg: "Keine Verbindung")
+            }
         }
     }
     
@@ -44,6 +46,8 @@ func loadModel(userData : UserData) {
     
     if(userData.homeUrl.isEmpty){
         userData.homeViewModel = newEmptyModel(state: "👉", msg: "Bitte anmelden")
+    } else if (userData.isInBackground){
+        // no refresh
     }else{
         let authDict = ["appUserName": userData.homeUserName, "appUserToken": userData.homeUserToken, "appDevice" : userData.device]
         httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=watch", timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)

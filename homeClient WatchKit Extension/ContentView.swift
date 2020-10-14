@@ -13,7 +13,6 @@ struct ContentView: View {
     @EnvironmentObject private var userData : UserData
     let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
         
-    
     var body: some View {
         Form {
             HStack{

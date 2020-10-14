@@ -48,6 +48,12 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
             errorHandler()
             return
         }
+        if let httpResponse = response as? HTTPURLResponse {
+            if(httpResponse.statusCode != 200){
+                errorHandler()
+                return
+            }
+        }
         guard let data = data else {return}
         let dataString = String(data: data, encoding: String.Encoding.utf8)! as String
         successHandler(dataString)
