@@ -21,7 +21,7 @@ func signIn(userData : UserData){
 
 func validateLogin(_ urlString : String, userData : UserData) {
     
-    func onError(){
+    func onError(msg : String){
         showLoginResult(state: false, userData : userData)
         DispatchQueue.main.async() {
             userData.settingsLoginMessage = "Keine Home-Client Installation unter URL vorhanden."
@@ -39,7 +39,7 @@ func validateLogin(_ urlString : String, userData : UserData) {
 
 func auth(_ urlString : String, userData : UserData){
     
-    func onError(){
+    func onError(msg : String){
         showLoginResult(state: false, userData : userData)
         DispatchQueue.main.async() {
             userData.settingsLoginMessage = "Verbindungsfehler!"

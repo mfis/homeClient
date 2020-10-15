@@ -15,23 +15,6 @@ struct ContentView: View {
         
     var body: some View {
         Form {
-            HStack{
-                HStack {
-                    if(userData.homeViewModel.timestamp == "OK"){
-                        Image(systemName: "arrow.clockwise.circle").frame(maxWidth: .infinity)
-                    }else{
-                        Text(userData.homeViewModel.timestamp).frame(maxWidth: .infinity)
-                    }
-                }.onTapGesture {
-                    DispatchQueue.main.async() {
-                        userData.homeViewModel = userData.clearHomeViewModel
-                    }
-                    loadModel(userData: self.userData)
-                }
-                NavigationLink(destination: SettingsViewWatch().environmentObject(userData)) {
-                    Image(systemName: "slider.horizontal.3").frame(maxWidth: .infinity)
-                }.padding(0)
-            }
             List(userData.homeViewModel.places) { place in
                 if(place.actions.isEmpty){
                     VStack{
@@ -59,9 +42,12 @@ struct ContentView: View {
                     }
                 }
             }
+            NavigationLink(destination: SettingsViewWatch().environmentObject(userData)) {
+                Image(systemName: "slider.horizontal.3").frame(maxWidth: .infinity)
+            }.buttonStyle(PinButton())
         }.navigationBarTitle("Zuhause")
         .onReceive(timer) { _ in
-            loadModel(userData: userData)
+            loadModel(userData: userData, from : "timer")
         }
     }
     

@@ -24,7 +24,7 @@ enum HttpMethod : String{
     case POST = "POST"
 }
 
-typealias HttpErrorHandler = () -> Void
+typealias HttpErrorHandler = (_ msg : String) -> Void
 typealias HttpSuccessHandler = (_ response : String) -> Void
 
 func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, postParams: [String: String]?, authHeaderFields: [String: String]?, errorHandler : @escaping HttpErrorHandler, successHandler : @escaping HttpSuccessHandler) {
@@ -44,13 +44,13 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
     }
     
     let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-        if let _ = error {
-            errorHandler()
+        if let e = error {
+            errorHandler("\(e)")
             return
         }
         if let httpResponse = response as? HTTPURLResponse {
             if(httpResponse.statusCode != 200){
-                errorHandler()
+                errorHandler("StatusCode: \(httpResponse.statusCode)")
                 return
             }
         }

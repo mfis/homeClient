@@ -22,7 +22,7 @@ struct homeClientApp: App {
             switch newPhase {
             case .active:
                 userData.isInBackground = false
-                loadModel(userData: userData)
+                loadModel(userData: userData, from : "active")
             case .inactive:
                 break
             case .background:

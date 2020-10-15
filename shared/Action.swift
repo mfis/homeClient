@@ -9,14 +9,15 @@ import SwiftUI
 
 func doAction(_ urlString : String, userData : UserData, presentation : Binding<PresentationMode>) {
     
-    func onError(){
+    func onError(msg : String){
         DispatchQueue.main.async() {
-            userData.showAlert = true;
+            userData.showAlert = true
+            userData.lastErrorMsg = msg
         }
     }
     
     func onSuccess(response : String){
-        loadModel(userData: userData)
+        loadModel(userData: userData, from : "action")
         DispatchQueue.main.async() {
             presentation.wrappedValue.dismiss()
         }

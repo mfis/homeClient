@@ -22,7 +22,7 @@ final class UserData: ObservableObject {
             build = formatter.string(from: infoDate)
         }
         
-        loadModel(userData: self)
+        loadModel(userData: self, from: "init")
         return self
     } 
     
@@ -54,4 +54,5 @@ final class UserData: ObservableObject {
     @Published var modelTimestamp = "n/a"
     
     @Published var build : String = "n/a"
+    @Published var lastErrorMsg : String = ""
 }
