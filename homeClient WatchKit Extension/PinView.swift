@@ -44,7 +44,7 @@ struct PinView: View {
                 }
                 HStack {
                     Button("X"){pin = ""; showModal = false}.buttonStyle(PinButton())
-                    Button("0"){press("9")}.buttonStyle(PinButton())
+                    Button("0"){press("0")}.buttonStyle(PinButton())
                     Button("←"){pin = ""}.buttonStyle(PinButton())
                 }
             }
