@@ -14,6 +14,26 @@ struct SettingsViewWatch: View {
     
     var body: some View {
         Form {
+            if(!userData.homeUrl.isEmpty){
+                Section() {
+                    Button(action: {
+                        userData.homeUrl = "";
+                        userData.settingsUrl = ""
+                        userData.homeUserName = ""
+                        userData.settingsUserName = ""
+                        userData.homeUserToken = ""
+                        saveUrl(newUrl: "")
+                        saveUserName(newUserName: "")
+                        saveUserToken(newUserToken: "")
+                        DispatchQueue.main.async() {
+                            userData.settingsStateName = "circle"
+                        }
+                    }) {
+                        Text("Abmelden")
+                    }
+                }
+            }
+            
             TextField("URL", text: $userData.settingsUrl)
             TextField("Anmeldename", text: $userData.settingsUserName)
             SecureField("Passwort", text: $userData.settingsUserPassword)

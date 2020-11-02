@@ -109,7 +109,7 @@ struct WebView : UIViewRepresentable {
             var request = URLRequest.init(url: URL.init(string: userData.homeUrl)!)
             request.addValue(userData.homeUserName, forHTTPHeaderField: "appUserName")
             request.addValue(userData.homeUserToken, forHTTPHeaderField: "appUserToken")
-            request.addValue(UIDevice.current.name, forHTTPHeaderField: "appDevice")
+            request.addValue("CookieBased_" + UIDevice.current.name, forHTTPHeaderField: "appDevice")
             webView.load(request)
             userData.lastCalledUrl = userData.homeUrl
         }

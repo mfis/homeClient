@@ -19,7 +19,7 @@ struct homeClientApp: App {
         }.onChange(of: phase) { newPhase in
             switch newPhase {
             case .active:
-                userData.device = UIDevice.current.name
+                userData.device = "CookieBased_" + UIDevice.current.name
                 userData.isInBackground = false
             case .inactive:
                 break

@@ -26,7 +26,7 @@ final class UserData: ObservableObject {
         return self
     } 
     
-    @Published var device = "GenericDevice"
+    @Published var device = "TokenBased_GenericDevice"
     
     @Published var homeUrl = loadUrl()
     @Published var settingsUrl = loadUrl()
