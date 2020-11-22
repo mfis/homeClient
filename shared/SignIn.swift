@@ -12,25 +12,37 @@ func signIn(userData : UserData){
     
     var urlString = userData.settingsUrl
     urlString = cleanupUrl(forUrl: urlString)
-    validateLogin(urlString, userData : userData)
+    validateClientInstallation(urlString, userData : userData, doLogin: true)
     
     DispatchQueue.main.async() {
         userData.settingsStateName = "circle"
     }
 }
 
-func validateLogin(_ urlString : String, userData : UserData) {
+func validateClientInstallation(_ urlString : String, userData : UserData, doLogin : Bool) {
     
-    func onError(msg : String){
+    func onError(msg : String, rc : Int){
         showLoginResult(state: false, userData : userData)
         DispatchQueue.main.async() {
+            showLoginResult(state: false, userData : userData)
             userData.settingsLoginMessage = "Keine Home-Client Installation unter URL vorhanden."
         }
     }
     
-    func onSuccess(response : String){
-        if(response == "de.fimatas.home.client"){
-            auth(urlString, userData : userData)
+    func onSuccess(response : String, newToken : String?){
+        if(response == "de_fimatas_homeclient"){
+            if(doLogin){
+                auth(urlString, userData : userData)
+            }else{
+                DispatchQueue.main.async() {
+                    showLoginResult(state: true, userData : userData)
+                    userData.settingsLoginMessage = "Verbindung erfolgreich."
+                    userData.homeUrl = urlString
+                    userData.settingsUrl = urlString
+                    userData.lastCalledUrl = ""
+                    saveUrl(newUrl: urlString)
+                }
+            }
         }
     }
     
@@ -39,7 +51,7 @@ func validateLogin(_ urlString : String, userData : UserData) {
 
 func auth(_ urlString : String, userData : UserData){
     
-    func onError(msg : String){
+    func onError(msg : String, rc : Int){
         showLoginResult(state: false, userData : userData)
         DispatchQueue.main.async() {
             userData.settingsLoginMessage = "Verbindungsfehler!"
@@ -47,7 +59,7 @@ func auth(_ urlString : String, userData : UserData){
         }
     }
     
-    func onSuccess(response : String){
+    func onSuccess(response : String, newToken : String?){
         do{
             let model = try JSONDecoder().decode(TokenCreationResponseModel.self, from: response.data(using: .utf8)!)
             
@@ -103,4 +115,15 @@ func showLoginResult(state : Bool, userData : UserData){
             userData.settingsStateName = "bolt.horizontal.circle.fill"
         }
     }
+}
+
+func logout(userData : UserData) {
+    userData.homeUrl = "";
+    userData.settingsUrl = ""
+    userData.homeUserName = ""
+    userData.settingsUserName = ""
+    userData.homeUserToken = ""
+    saveUrl(newUrl: "")
+    saveUserName(newUserName: "")
+    saveUserToken(newUserToken: "")
 }

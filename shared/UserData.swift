@@ -26,7 +26,7 @@ final class UserData: ObservableObject {
         return self
     } 
     
-    @Published var device = "TokenBased_GenericDevice"
+    @Published var device = "GenericDevice"
     
     @Published var homeUrl = loadUrl()
     @Published var settingsUrl = loadUrl()
@@ -52,6 +52,9 @@ final class UserData: ObservableObject {
     @Published var homeViewModel = newEmptyModel(state: "", msg: "")
     @Published var clearHomeViewModel = newEmptyModel(state: "", msg: "")
     @Published var modelTimestamp = "n/a"
+    
+    @Published var doTimer = true
+    @Published var doTokenRefresh = true
     
     @Published var build : String = "n/a"
     @Published var lastErrorMsg : String = ""

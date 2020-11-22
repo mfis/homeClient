@@ -24,8 +24,8 @@ enum HttpMethod : String{
     case POST = "POST"
 }
 
-typealias HttpErrorHandler = (_ msg : String) -> Void
-typealias HttpSuccessHandler = (_ response : String) -> Void
+typealias HttpErrorHandler = (_ msg : String, _ rc : Int) -> Void
+typealias HttpSuccessHandler = (_ response : String, _ newToken : String?) -> Void
 
 func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, postParams: [String: String]?, authHeaderFields: [String: String]?, errorHandler : @escaping HttpErrorHandler, successHandler : @escaping HttpSuccessHandler) {
     
@@ -41,22 +41,29 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
         request.addValue(authHeaderFields["appUserName"]!, forHTTPHeaderField: "appUserName")
         request.addValue(authHeaderFields["appUserToken"]!, forHTTPHeaderField: "appUserToken")
         request.addValue(authHeaderFields["appDevice"]!, forHTTPHeaderField: "appDevice")
+        if let _ = authHeaderFields["refreshToken"]{
+            request.addValue(authHeaderFields["refreshToken"]!, forHTTPHeaderField: "refreshToken")
+        }
     }
     
     let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
         if let e = error {
-            errorHandler("\(e)")
+            errorHandler("\(e)", -1)
             return
         }
+        var newUserToken : String?
         if let httpResponse = response as? HTTPURLResponse {
             if(httpResponse.statusCode != 200){
-                errorHandler("StatusCode: \(httpResponse.statusCode)")
+                errorHandler("StatusCode: \(httpResponse.statusCode)", httpResponse.statusCode)
                 return
+            }else{
+                newUserToken = httpResponse.value(forHTTPHeaderField: "appUserToken");
+                print("new token: " + (newUserToken ?? ""))
             }
         }
         guard let data = data else {return}
         let dataString = String(data: data, encoding: String.Encoding.utf8)! as String
-        successHandler(dataString)
+        successHandler(dataString, newUserToken)
     }
     
     task.resume()

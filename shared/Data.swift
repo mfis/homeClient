@@ -50,3 +50,8 @@ func loadUserToken() -> String {
 func saveUserToken(newUserToken : String) {
     userDefaults.setValue(newUserToken, forKey: "userDefaultKeyUserToken")
 }
+
+func currentTimeMillis() -> Int64{
+   let nowDouble = NSDate().timeIntervalSince1970
+   return Int64(nowDouble*1000)
+}

@@ -20,17 +20,12 @@ struct SettingsView: View {
                     TextField("URL", text: $userData.settingsUrl).keyboardType(.URL).disableAutocorrection(true).autocapitalization(.none)
                 }
                 
-                Section(header: Text("Authentifizierung")){
-                    TextField("Anmeldename", text: $userData.settingsUserName).disableAutocorrection(true).autocapitalization(.none)
-                    SecureField("Passwort", text: $userData.settingsUserPassword).disableAutocorrection(true).autocapitalization(.none)
-                }
-                
                 Section(footer: Text(self.userData.settingsLoginMessage)){
                     HStack{
                         Button(action: {
-                            signIn(userData : self.userData)
+                            validateClientInstallation(userData.settingsUrl, userData : userData, doLogin: false)
                         }) {
-                            Text("Anmelden")
+                            Text("Übernehmen")
                         }
                         Spacer()
                         Image(systemName: self.userData.settingsStateName).imageScale(.medium)

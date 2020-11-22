@@ -65,6 +65,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     }
     
     private func createTemplate(forComplication complication: CLKComplication) -> CLKComplicationTemplate {
+        
         switch complication.family {
         case .modularSmall:
             return createModularSmallTemplate()
@@ -89,6 +90,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         case .graphicExtraLarge:
             return createGraphicExtraLargeTemplate()
         @unknown default:
+            print("unknown complication family:" + complication.family.rawValue.description)
             fatalError("*** Unknown Complication Family ***")
         }
     }
@@ -115,7 +117,6 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     private func createModularSmallTemplate() -> CLKComplicationTemplate {
         return CLKComplicationTemplateModularSmallSimpleImage(imageProvider: imageProvider())
-        // return CLKComplicationTemplateGraphicCircularView(CircularView())
     }
     
     private func createModularLargeTemplate() -> CLKComplicationTemplate {
@@ -132,7 +133,6 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     private func createCircularSmallTemplate() -> CLKComplicationTemplate {
         return CLKComplicationTemplateCircularSmallSimpleImage(imageProvider: imageProvider())
-        // return CLKComplicationTemplateCircularSGraphicCircularView(CircularView())
     }
     
     private func createExtraLargeTemplate() -> CLKComplicationTemplate {
@@ -144,7 +144,6 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     }
     
     private func createGraphicCircleTemplate() -> CLKComplicationTemplate {
-        // return CLKComplicationTemplateGraphicCircularImage(imageProvider: imageProviderFullColor())
         return CLKComplicationTemplateGraphicCircularView(CircularView())
     }
     
@@ -158,11 +157,5 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     private func createGraphicExtraLargeTemplate() -> CLKComplicationTemplate {
         return CLKComplicationTemplateGraphicExtraLargeCircularImage(imageProvider: imageProviderFullColor())
-    }
-}
-
-struct ComplicationController_Previews: PreviewProvider {
-    static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

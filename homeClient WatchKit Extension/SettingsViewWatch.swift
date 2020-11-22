@@ -17,14 +17,7 @@ struct SettingsViewWatch: View {
             if(!userData.homeUrl.isEmpty){
                 Section() {
                     Button(action: {
-                        userData.homeUrl = "";
-                        userData.settingsUrl = ""
-                        userData.homeUserName = ""
-                        userData.settingsUserName = ""
-                        userData.homeUserToken = ""
-                        saveUrl(newUrl: "")
-                        saveUserName(newUserName: "")
-                        saveUserToken(newUserToken: "")
+                        logout(userData : userData)
                         DispatchQueue.main.async() {
                             userData.settingsStateName = "circle"
                         }
@@ -40,6 +33,7 @@ struct SettingsViewWatch: View {
             
             HStack{
                 Button(action: {
+                    userData.device = WKInterfaceDevice.current().name
                     signIn(userData : self.userData)
                 }) {
                     Text("Anmelden")
