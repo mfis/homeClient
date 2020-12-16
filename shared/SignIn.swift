@@ -81,9 +81,9 @@ func auth(_ urlString : String, userData : UserData){
                     
                     userData.settingsUserPassword = ""
                     
-                    #if os(watchOS)
-                        _ = userData.initHomeViewModel()
-                    #endif
+                    // #if os(watchOS)
+                    //    _ = userData.initHomeViewModel()
+                    //#endif
                 }
             }else{
                 DispatchQueue.main.async() {

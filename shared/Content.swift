@@ -19,7 +19,7 @@ func loadModel(userData : UserData, from : String) {
         
         let actualTime : Int64 = currentTimeMillis()
         if(actualTime - lastLoadModelStart < MIN_TIME_DIFF || actualTime - lastLoadModelEnd < MIN_TIME_DIFF){
-            print("loadModel... still actual update=" + userData.doTokenRefresh.description)
+            // NSLog("loadModel... still actual update=" + userData.doTokenRefresh.description)
             return
         }
 
@@ -31,7 +31,7 @@ func loadModel(userData : UserData, from : String) {
         }
         
         lastLoadModelStart = actualTime
-        print("loadModel... STARTING update=" + userData.doTokenRefresh.description)
+        NSLog("loadModel... STARTING update=" + userData.doTokenRefresh.description)
         
         loadModelInternal(userData: userData, from: from)
     }
@@ -42,7 +42,9 @@ fileprivate func loadModelInternal(userData : UserData, from : String) {
     func onError(msg : String, rc : Int){
         
         if(rc == 401){
-            userData.doTimer = false
+            DispatchQueue.main.async() {
+                userData.doTimer = false
+            }
         }
         
         DispatchQueue.main.async() {
@@ -56,33 +58,50 @@ fileprivate func loadModelInternal(userData : UserData, from : String) {
         lastLoadModelEnd = currentTimeMillis()
         
         if let token = newToken{
-            userData.doTokenRefresh = false
-            userData.homeUserToken = token
+            DispatchQueue.main.async() {
+                userData.doTokenRefresh = false
+                userData.homeUserToken = token
+            }
             saveUserToken(newUserToken: token)
         }
         
         let decoder = JSONDecoder ()
-        if var newModel = try? decoder.decode(HomeViewModel.self, from: response.data(using: .utf8)!) {
+        do{
+        var newModel = try decoder.decode(HomeViewModel.self, from: response.data(using: .utf8)!)
             var clearModel = newModel
-            clearModel.timestamp = ". . ."
-            for (i, var place) in clearModel.places.enumerated() {
-                for (j, var kv) in place.values.enumerated() {
-                    kv.value = ". . ."
-                    kv.tendency = ""
-                    kv.accent = clearModel.defaultAccent
-                    place.values[j] = kv
+                clearModel.timestamp = ". . ."
+                for (i, var place) in clearModel.places.enumerated() {
+                    for (j, var kv) in place.values.enumerated() {
+                        kv.value = ". . ."
+                        kv.tendency = ""
+                        kv.accent = clearModel.defaultAccent
+                        place.values[j] = kv
+                    }
+                    clearModel.places[i] = place
                 }
-                clearModel.places[i] = place
-            }
+                DispatchQueue.main.async() {
+                    userData.clearHomeViewModel = clearModel
+                }
+            
             DispatchQueue.main.async() {
-                userData.clearHomeViewModel = clearModel
                 userData.modelTimestamp = newModel.timestamp
                 newModel.timestamp = "OK"
                 userData.homeViewModel = newModel
             }
-            
-        }else{
-            onError(msg : "error parsing json document", rc : -2)
+
+        // } catch DecodingError.keyNotFound(let key, let context) {
+        //    Swift.print("could not find key \(key) in JSON: \(context.debugDescription)")
+        //} catch DecodingError.valueNotFound(let type, let context) {
+        //    Swift.print("could not find type \(type) in JSON: \(context.debugDescription)")
+        //} catch DecodingError.typeMismatch(let type, let context) {
+        //    Swift.print("type mismatch for type \(type) in JSON: \(context.debugDescription)")
+        //} catch DecodingError.dataCorrupted(let context) {
+        //    Swift.print("data found to be corrupted in JSON: \(context.debugDescription)")
+        //} catch let error as NSError {
+        //    NSLog("Error in read(from:ofType:) domain= \(error.domain), description= \(error.localizedDescription)")
+        } catch let jsonError as NSError {
+            onError(msg : "error parsing json document. \(jsonError.localizedDescription)", rc : -2)
+            // NSLog("response: " + response)
         }
     }
     

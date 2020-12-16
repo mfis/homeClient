@@ -11,7 +11,7 @@ import SwiftUI
 
 final class UserData: ObservableObject {
     
-    func initHomeViewModel() -> UserData {
+    func initHomeViewModel(deviceName : String?) -> UserData {
         
         if let infoPath = Bundle.main.path(forResource: "Info.plist", ofType: nil),
            let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
@@ -22,6 +22,9 @@ final class UserData: ObservableObject {
             build = formatter.string(from: infoDate)
         }
         
+        if let deviceName = deviceName{
+            device = deviceName
+        }
         loadModel(userData: self, from: "init")
         return self
     } 

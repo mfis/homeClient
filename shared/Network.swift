@@ -38,6 +38,7 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
         request.httpBody = buildQuery(postParams).data(using: .utf8)
     }
     if let authHeaderFields = authHeaderFields {
+        NSLog("token used: \(authHeaderFields["appUserToken"]!.prefix(50))")
         request.addValue(authHeaderFields["appUserName"]!, forHTTPHeaderField: "appUserName")
         request.addValue(authHeaderFields["appUserToken"]!, forHTTPHeaderField: "appUserToken")
         request.addValue(authHeaderFields["appDevice"]!, forHTTPHeaderField: "appDevice")
@@ -58,7 +59,9 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
                 return
             }else{
                 newUserToken = httpResponse.value(forHTTPHeaderField: "appUserToken");
-                print("new token: " + (newUserToken ?? ""))
+                if let newUserToken = newUserToken{
+                    NSLog("new token recieved: \(newUserToken.prefix(50))")
+                }
             }
         }
         guard let data = data else {return}
