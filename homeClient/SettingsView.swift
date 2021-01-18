@@ -23,7 +23,7 @@ struct SettingsView: View {
                 Section(footer: Text(self.userData.settingsLoginMessage)){
                     HStack{
                         Button(action: {
-                            validateClientInstallation(userData.settingsUrl, userData : userData, doLogin: false)
+                            validateClientInstallation(urlString: userData.settingsUrl, userData : userData, doLogin: false)
                         }) {
                             Text("Übernehmen")
                         }

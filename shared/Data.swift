@@ -47,6 +47,18 @@ func loadUserToken() -> String {
     }
 }
 
+func loadPushToken() -> String {
+    if let x = userDefaults.string(forKey: "userDefaultKeyPushToken") {
+        return x
+    }else{
+        return ""
+    }
+}
+
+func savePushToken(newPushToken : String) {
+    userDefaults.setValue(newPushToken, forKey: "userDefaultKeyPushToken")
+}
+
 func saveUserToken(newUserToken : String) {
     userDefaults.setValue(newUserToken, forKey: "userDefaultKeyUserToken")
 }

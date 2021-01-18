@@ -35,7 +35,13 @@ struct ActionView: View {
                                 }) {
                                     PinView(length : pinLength, pin: $pin, showModal: self.$showModal)
                                 }.alert(isPresented: $userData.showAlert) {
-                                    Alert(title: Text("Fehler!"), message: Text("Aktion konnte nicht ausgeführt werden."), dismissButton: .default(Text("OK")))
+                                    Alert(title: Text("Fehler"), message: Text("Aktion konnte nicht ausgeführt werden"),
+                                          primaryButton: .default (Text("OK")) {
+                                            print("OK button tapped")
+                                            userData.showAlert = false
+                                          },
+                                         secondaryButton: .cancel()
+                                      )
                                 }
                             }else{
                                 Button(action.name) {

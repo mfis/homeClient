@@ -40,6 +40,17 @@ final class UserData: ObservableObject {
     
     @Published var homeUserToken = loadUserToken()
     
+    @Published var pushToken = loadPushToken()
+    func lookupPushToken() -> String {
+        if(pushToken.isEmpty){
+            pushToken = loadPushToken()
+            if(pushToken.isEmpty){
+                pushToken = "n/a"
+            }
+        }
+        return pushToken
+    }
+    
     @Published var settingsUserPassword = ""
     
     @Published var loginState = ""

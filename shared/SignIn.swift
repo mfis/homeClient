@@ -12,14 +12,14 @@ func signIn(userData : UserData){
     
     var urlString = userData.settingsUrl
     urlString = cleanupUrl(forUrl: urlString)
-    validateClientInstallation(urlString, userData : userData, doLogin: true)
+    validateClientInstallation(urlString: urlString, userData : userData, doLogin: true)
     
     DispatchQueue.main.async() {
         userData.settingsStateName = "circle"
     }
 }
 
-func validateClientInstallation(_ urlString : String, userData : UserData, doLogin : Bool) {
+func validateClientInstallation(urlString : String, userData : UserData, doLogin : Bool) {
     
     func onError(msg : String, rc : Int){
         showLoginResult(state: false, userData : userData)
@@ -32,21 +32,23 @@ func validateClientInstallation(_ urlString : String, userData : UserData, doLog
     func onSuccess(response : String, newToken : String?){
         if(response == "de_fimatas_homeclient"){
             if(doLogin){
-                auth(urlString, userData : userData)
+                auth(cleanedUrlString, userData : userData)
             }else{
                 DispatchQueue.main.async() {
                     showLoginResult(state: true, userData : userData)
                     userData.settingsLoginMessage = "Verbindung erfolgreich."
-                    userData.homeUrl = urlString
-                    userData.settingsUrl = urlString
+                    userData.homeUrl = cleanedUrlString
+                    userData.settingsUrl = cleanedUrlString
                     userData.lastCalledUrl = ""
-                    saveUrl(newUrl: urlString)
+                    saveUrl(newUrl: cleanedUrlString)
                 }
             }
         }
     }
     
-    httpCall(urlString: urlString + "whoami", timeoutSeconds: 3.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: nil, errorHandler: onError, successHandler: onSuccess)
+    let cleanedUrlString = cleanupUrl(forUrl: urlString)
+    
+    httpCall(urlString: cleanedUrlString + "whoami", timeoutSeconds: 3.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: nil, errorHandler: onError, successHandler: onSuccess)
 }
 
 func auth(_ urlString : String, userData : UserData){
