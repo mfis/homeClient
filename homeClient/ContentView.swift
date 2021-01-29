@@ -88,6 +88,7 @@ struct WebView : UIViewRepresentable {
         webViewObserver.userData = userData
         webViewObserver.webView = webView
         webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
+        webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
         loadWebView(webView)
         
         return webView
@@ -95,12 +96,21 @@ struct WebView : UIViewRepresentable {
     
     func updateUIView(_ webView: WKWebView, context: Context) {
         
+        if(userData.doWebViewLogout){
+            userData.doWebViewLogout = false
+            webView.evaluateJavaScript("window.location.href = '/logoff';") { (result, error) in
+                if let error = error {
+                    print("logout JS error: \(error)")
+                }
+            }
+        }
+        
         if(!userData.homeUrl.isEmpty && userData.lastCalledUrl != userData.homeUrl){
             loadWebView(webView)
         }
     }
     
-    fileprivate func loadWebView(_ webView: WKWebView) {
+    func loadWebView(_ webView: WKWebView) {
         
         if userData.homeUrl.isEmpty {
             let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
@@ -110,6 +120,7 @@ struct WebView : UIViewRepresentable {
             var request = URLRequest.init(url: URL.init(string: userData.homeUrl)!)
             request.addValue(UIDevice.current.name, forHTTPHeaderField: "appDevice") // obsolete
             request.addValue("true", forHTTPHeaderField: "SITE_REQUEST_IS_APP")
+            request.addValue(UIDevice.current.name, forHTTPHeaderField: "CLIENT_NAME")
             webView.load(request)
             userData.lastCalledUrl = userData.homeUrl
         }

@@ -32,6 +32,16 @@ struct SettingsView: View {
                     }
                 }
                 
+                if(!userData.homeUrl.isEmpty && userData.webViewPath == "/"){
+                    Section(){
+                        Button(action: {
+                            userData.doWebViewLogout = true
+                        }) {
+                            Text("Abmelden")
+                        }
+                    }
+                }
+                
             }.navigationBarTitle(Text("Einstellungen"))
         }            .onDisappear(){
             self.userData.settingsStateName = "circle"

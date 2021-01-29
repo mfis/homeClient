@@ -35,13 +35,23 @@ class WebViewObserver : NSObject {
                                     self.userData.webViewTitle = newTitleValue
                                 }
                             }
-                            webView?.evaluateJavaScript("if(document.getElementById('SITE_REQUEST_IS_APP')!==null){document.getElementById('SITE_REQUEST_IS_APP').value='true'; setPushToken('\(userData.lookupPushToken())');}") { (result, error) in
+                            webView?.evaluateJavaScript("if(document.getElementById('SITE_REQUEST_IS_APP')!==null){setPushToken('\(userData.lookupPushToken())', ' \(UIDevice.current.name)');}") { (result, error) in
                                 if let error = error {
                                     print("setPushToken JS error: \(error)")
                                 }
                             }
                         }
                         lastTitleValue = newTitleValue
+                    }
+                }
+            }
+        case #keyPath(WKWebView.url):
+            if let dict = change{
+                for (key,value) in dict {
+                    if(key.rawValue == "new"){
+                        if let url = value as? NSURL {
+                            self.userData.webViewPath = url.path ?? ""
+                        }
                     }
                 }
             }
