@@ -11,7 +11,7 @@ import SwiftUI
 struct homeClientApp: App {
     
     @Environment(\.scenePhase) private var phase
-    @StateObject private var userData = UserData().initHomeViewModel(deviceName: WKInterfaceDevice.current().name)
+    @StateObject private var userData = UserData().initHomeViewModel(deviceName: WKInterfaceDevice.current().name, loadWatchModel: true)
     
     var body: some Scene {
         WindowGroup {

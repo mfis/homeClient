@@ -85,6 +85,7 @@ struct WebView : UIViewRepresentable {
         let webView = WKWebView()
         webView.isOpaque = false
         webView.backgroundColor = .clear
+        webView.customUserAgent = "HomeClientAppWebView"
         webViewObserver.userData = userData
         webViewObserver.webView = webView
         webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
@@ -118,9 +119,7 @@ struct WebView : UIViewRepresentable {
             userData.lastCalledUrl = fileUrl.absoluteString
         }else{
             var request = URLRequest.init(url: URL.init(string: userData.homeUrl)!)
-            request.addValue(UIDevice.current.name, forHTTPHeaderField: "appDevice") // obsolete
-            request.addValue("true", forHTTPHeaderField: "SITE_REQUEST_IS_APP")
-            request.addValue(UIDevice.current.name, forHTTPHeaderField: "CLIENT_NAME")
+            request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
             webView.load(request)
             userData.lastCalledUrl = userData.homeUrl
         }

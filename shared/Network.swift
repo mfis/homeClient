@@ -38,7 +38,7 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
         request.httpBody = buildQuery(postParams).data(using: .utf8)
     }
     if let authHeaderFields = authHeaderFields {
-        NSLog("token used: \(authHeaderFields["appUserToken"]!.prefix(50))")
+        NSLog("token used: \(authHeaderFields["appUserToken"]!.prefix(50)) for url=\(urlString)")
         request.addValue(authHeaderFields["appUserName"]!, forHTTPHeaderField: "appUserName")
         request.addValue(authHeaderFields["appUserToken"]!, forHTTPHeaderField: "appUserToken")
         request.addValue(authHeaderFields["appDevice"]!, forHTTPHeaderField: "appDevice")

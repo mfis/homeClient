@@ -14,7 +14,7 @@ import os
 struct homeClientApp: App {
     
     @Environment(\.scenePhase) private var phase
-    @StateObject private var userData = UserData()
+    @StateObject private var userData = UserData().initHomeViewModel(deviceName: UIDevice.current.name, loadWatchModel: false)
     // @StateObject var notificationCenter = NotificationCenter()
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     
@@ -25,7 +25,6 @@ struct homeClientApp: App {
             switch newPhase {
             case .active:
                 // registerForPushNotifications()
-                userData.device = "CookieBased_" + UIDevice.current.name
                 userData.isInBackground = false
             case .inactive:
                 break

@@ -11,7 +11,7 @@ import SwiftUI
 
 final class UserData: ObservableObject {
     
-    func initHomeViewModel(deviceName : String?) -> UserData {
+    func initHomeViewModel(deviceName : String?, loadWatchModel : Bool) -> UserData {
         
         if let infoPath = Bundle.main.path(forResource: "Info.plist", ofType: nil),
            let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
@@ -23,9 +23,11 @@ final class UserData: ObservableObject {
         }
         
         if let deviceName = deviceName{
-            device = deviceName
+            device = deviceName.replacingOccurrences( of:"[^0-9A-Za-z]", with: "", options: .regularExpression)
         }
-        loadModel(userData: self, from: "init")
+        if(loadWatchModel){
+            loadModel(userData: self, from: "init")
+        }
         return self
     } 
     

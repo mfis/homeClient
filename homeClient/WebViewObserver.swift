@@ -30,14 +30,13 @@ class WebViewObserver : NSObject {
                                         self.userData.webViewTitle = String(newTitleValue[range.upperBound...])
                                     }
                                 }
-                            }else if(newTitleValue.contains(":") && newTitleValue.count==5){ // abwaertskompatibel fuer home<7.0.0
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    self.userData.webViewTitle = newTitleValue
-                                }
                             }
-                            webView?.evaluateJavaScript("if(document.getElementById('SITE_REQUEST_IS_APP')!==null){setPushToken('\(userData.lookupPushToken())', ' \(UIDevice.current.name)');}") { (result, error) in
-                                if let error = error {
-                                    print("setPushToken JS error: \(error)")
+                            if(!userData.homeUrl.isEmpty && userData.webViewPath == "/"){
+                                // print("evaluateJavaScript: " + newTitleValue + " - setPushToken('\(userData.lookupPushToken())', '\(userData.device)');");
+                                webView?.evaluateJavaScript("if(typeof setPushToken === 'function'){setPushToken('\(userData.lookupPushToken())', '\(userData.device)');}") { (result, error) in
+                                    if let error = error {
+                                        print("setPushToken JS error: \(error)")
+                                    }
                                 }
                             }
                         }
