@@ -32,7 +32,6 @@ class WebViewObserver : NSObject {
                                 }
                             }
                             if(!userData.homeUrl.isEmpty && userData.webViewPath == "/"){
-                                // print("evaluateJavaScript: " + newTitleValue + " - setPushToken('\(userData.lookupPushToken())', '\(userData.device)');");
                                 webView?.evaluateJavaScript("if(typeof setPushToken === 'function'){setPushToken('\(userData.lookupPushToken())', '\(userData.device)');}") { (result, error) in
                                     if let error = error {
                                         print("setPushToken JS error: \(error)")
