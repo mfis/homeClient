@@ -15,7 +15,6 @@ struct homeClientApp: App {
     
     @Environment(\.scenePhase) private var phase
     @StateObject private var userData = UserData().initHomeViewModel(deviceName: UIDevice.current.name, loadWatchModel: false)
-    // @StateObject var notificationCenter = NotificationCenter()
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     
     var body: some Scene {
@@ -24,13 +23,13 @@ struct homeClientApp: App {
         }.onChange(of: phase) { newPhase in
             switch newPhase {
             case .active:
-                // registerForPushNotifications()
                 userData.isInBackground = false
             case .inactive:
                 break
             case .background:
                 userData.isInBackground = true
                 userData.webViewTitle = ""
+                UIApplication.shared.applicationIconBadgeNumber = 0
             @unknown default:
                 break
             }
@@ -42,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         registerForPushNotifications()
-        // check if launched from notofication
+        // check if launched from notification
         let notificationOption = launchOptions?[.remoteNotification]
         if
           let notification = notificationOption as? [String: AnyObject],
@@ -55,7 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
-        // print("Device Token: \(token)")
         savePushToken(newPushToken: token)
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
