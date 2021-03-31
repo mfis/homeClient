@@ -38,11 +38,16 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
         request.httpBody = buildQuery(postParams).data(using: .utf8)
     }
     if let authHeaderFields = authHeaderFields {
-        NSLog("token used: \(authHeaderFields["appUserToken"]!.prefix(50)) for url=\(urlString)")
+        #if DEBUG
+            NSLog("### httpCall() token used: \(authHeaderFields["appUserToken"]!.prefix(50)) for url=\(urlString)")
+        #endif
         request.addValue(authHeaderFields["appUserName"]!, forHTTPHeaderField: "appUserName")
         request.addValue(authHeaderFields["appUserToken"]!, forHTTPHeaderField: "appUserToken")
         request.addValue(authHeaderFields["appDevice"]!, forHTTPHeaderField: "appDevice")
         if let _ = authHeaderFields["refreshToken"]{
+            #if DEBUG
+                NSLog("### httpCall() requesting new token")
+            #endif
             request.addValue(authHeaderFields["refreshToken"]!, forHTTPHeaderField: "refreshToken")
         }
     }
@@ -60,7 +65,9 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
             }else{
                 newUserToken = httpResponse.value(forHTTPHeaderField: "appUserToken");
                 if let newUserToken = newUserToken{
-                    NSLog("new token recieved: \(newUserToken.prefix(50))")
+                    #if DEBUG
+                        NSLog("### httpCall() new token recieved: \(newUserToken.prefix(50))")
+                    #endif
                 }
             }
         }

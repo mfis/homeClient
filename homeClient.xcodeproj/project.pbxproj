@@ -557,6 +557,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 7.0.0_beta2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -581,6 +582,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 7.0.0_beta2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -602,6 +604,7 @@
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
+				MARKETING_VERSION = 7.0.0_beta2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -622,6 +625,7 @@
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
+				MARKETING_VERSION = 7.0.0_beta2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -640,6 +644,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -649,6 +654,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 7.0.0_beta2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -664,6 +670,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -673,6 +680,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 7.0.0_beta2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

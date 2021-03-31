@@ -41,6 +41,9 @@ func saveUserName(newUserName : String) {
 
 func loadUserToken() -> String {
     if let x = userDefaults.string(forKey: "userDefaultKeyUserToken") {
+        #if DEBUG
+            NSLog("### loadUserToken(): \(x.prefix(50))")
+        #endif
         return x
     }else{
         return ""
@@ -60,6 +63,9 @@ func savePushToken(newPushToken : String) {
 }
 
 func saveUserToken(newUserToken : String) {
+    #if DEBUG
+        NSLog("### saveUserToken(): \(newUserToken.prefix(50))")
+    #endif
     userDefaults.setValue(newUserToken, forKey: "userDefaultKeyUserToken")
 }
 

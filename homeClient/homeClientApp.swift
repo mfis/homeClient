@@ -21,6 +21,9 @@ struct homeClientApp: App {
         WindowGroup {
             ContentView().environmentObject(userData)
         }.onChange(of: phase) { newPhase in
+            // #if DEBUG
+                NSLog("### iOS App onChange: \(newPhase)")
+            // #endif
             switch newPhase {
             case .active:
                 userData.isInBackground = false

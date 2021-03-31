@@ -17,9 +17,6 @@ func doAction(_ urlString : String, userData : UserData, presentation : Binding<
     }
     
     func onSuccess(response : String, newToken : String?){
-        if let token = newToken{
-            userData.homeUserToken = token
-        }
         loadModel(userData: userData, from : "action")
         DispatchQueue.main.async() {
             presentation.wrappedValue.dismiss()

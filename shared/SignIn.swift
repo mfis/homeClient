@@ -82,10 +82,7 @@ func auth(_ urlString : String, userData : UserData){
                     userData.settingsLoginMessage = "Die Anmeldung war erfolgreich."
                     
                     userData.settingsUserPassword = ""
-                    
-                    // #if os(watchOS)
-                    //    _ = userData.initHomeViewModel()
-                    //#endif
+                    userData.doTimer = true
                 }
             }else{
                 DispatchQueue.main.async() {
@@ -120,12 +117,9 @@ func showLoginResult(state : Bool, userData : UserData){
 }
 
 func logout(userData : UserData) {
-    userData.homeUrl = "";
-    userData.settingsUrl = ""
     userData.homeUserName = ""
     userData.settingsUserName = ""
     userData.homeUserToken = ""
-    saveUrl(newUrl: "")
     saveUserName(newUserName: "")
     saveUserToken(newUserToken: "")
 }

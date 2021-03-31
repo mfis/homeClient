@@ -12,43 +12,13 @@ struct ActionView: View {
     @State var place : HomeViewPlaceModel
     @EnvironmentObject private var userData : UserData
     @Environment(\.presentationMode) var presentation
-    @State private var showModal = false
-    @State var pin = ""
-    let pinLength = 6
     
     var body: some View {
         Form {
             ForEach(place.actions, id: \.self) { section in
                 Section(){
                     List(section) { action in
-                        if(action.link == "#"){
-                            Text(action.name).foregroundColor(.black)
-                        }else{
-                            if(action.link.contains("&securityPin=")){
-                                Button(action.name) {
-                                    self.showModal.toggle()
-                                }.sheet(isPresented: $showModal, onDismiss: {
-                                    if(pin.count==pinLength){
-                                        doAction(action.link + pin, userData: self.userData, presentation: presentation)
-                                    }
-                                    pin = ""
-                                }) {
-                                    PinView(length : pinLength, pin: $pin, showModal: self.$showModal)
-                                }.alert(isPresented: $userData.showAlert) {
-                                    Alert(title: Text("Fehler"), message: Text("Aktion konnte nicht ausgeführt werden"),
-                                          primaryButton: .default (Text("OK")) {
-                                            print("OK button tapped")
-                                            userData.showAlert = false
-                                          },
-                                         secondaryButton: .cancel()
-                                      )
-                                }
-                            }else{
-                                Button(action.name) {
-                                    doAction(action.link, userData: self.userData, presentation: presentation)
-                                }
-                            }
-                        }
+                        ActionListEntry(action: action)
                     }
                 }
             }
@@ -56,9 +26,61 @@ struct ActionView: View {
     }
 }
 
+struct ActionListEntry : View {
+    
+    var action : HomeViewActionModel
+    
+    var body: some View {
+        if(action.link == "#"){
+            Text(action.name).foregroundColor(.black)
+        }else{
+            if(action.link.contains("securityPin")){
+                SecureActionButton(action: action)
+            }else{
+                DefaultActionButton(action: action)
+            }
+        }
+    }
+}
 
-struct ActionView_Previews: PreviewProvider {
-    static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+struct DefaultActionButton : View {
+    
+    var action : HomeViewActionModel
+    @EnvironmentObject private var userData : UserData
+    @Environment(\.presentationMode) var presentation
+    
+    var body: some View {
+        Button(action.name) {
+            doAction(action.link, userData: self.userData, presentation: presentation)
+        }
+    }
+}
+
+struct SecureActionButton : View {
+    
+    var action : HomeViewActionModel
+    @EnvironmentObject private var userData : UserData
+    @Environment(\.presentationMode) var presentation
+    @State var pin = ""
+    @State private var showModal = false
+    let pinLength = 6
+    
+    var body: some View {
+        Button(action.name) {
+            self.showModal.toggle()
+        }.sheet(isPresented: $showModal, onDismiss: {
+            if(pin.count==pinLength){
+                doAction(action.link + pin, userData: self.userData, presentation: presentation)
+            }
+            pin = ""
+        }) {
+            PinView(length : pinLength, pin: $pin, showModal: self.$showModal)
+        }.alert(isPresented: $userData.showAlert) {
+            Alert(title: Text("Fehler"), message: Text("Aktion konnte nicht ausgeführt werden"),
+                  dismissButton: .default (Text("Na gut")) {
+                    userData.showAlert = false
+                  }
+              )
+        }
     }
 }

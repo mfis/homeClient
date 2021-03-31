@@ -18,12 +18,11 @@ func loadModel(userData : UserData, from : String) {
     dispatchQueueLoadModel.async(flags: .barrier) {
         
         let actualTime : Int64 = currentTimeMillis()
-        if(actualTime - lastLoadModelStart < MIN_TIME_DIFF || actualTime - lastLoadModelEnd < MIN_TIME_DIFF){
-            // NSLog("loadModel... still actual update=" + userData.doTokenRefresh.description)
+        if(from != "action" && (actualTime - lastLoadModelStart < MIN_TIME_DIFF || actualTime - lastLoadModelEnd < MIN_TIME_DIFF)){
             return
         }
 
-        if(userData.homeUrl.isEmpty){
+        if(userData.homeUserToken.isEmpty){
             DispatchQueue.main.async() {
                 userData.homeViewModel = newEmptyModel(state: "👉", msg: "Bitte anmelden")
             }
@@ -31,7 +30,9 @@ func loadModel(userData : UserData, from : String) {
         }
         
         lastLoadModelStart = actualTime
-        NSLog("loadModel... STARTING update=" + userData.doTokenRefresh.description)
+        #if DEBUG
+            NSLog("loadModel... STARTING update=" + userData.doTokenRefresh.description)
+        #endif
         
         loadModelInternal(userData: userData, from: from)
     }

@@ -14,7 +14,7 @@ struct SettingsViewWatch: View {
     
     var body: some View {
         Form {
-            if(!userData.homeUrl.isEmpty){
+            if(!userData.homeUserToken.isEmpty){
                 Section() {
                     Button(action: {
                         logout(userData : userData)
@@ -33,7 +33,6 @@ struct SettingsViewWatch: View {
             
             HStack{
                 Button(action: {
-                    userData.device = WKInterfaceDevice.current().name
                     signIn(userData : self.userData)
                 }) {
                     Text("Anmelden")

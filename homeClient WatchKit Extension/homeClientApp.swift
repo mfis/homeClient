@@ -21,7 +21,6 @@ struct homeClientApp: App {
         }.onChange(of: phase) { newPhase in
             switch newPhase {
             case .active:
-                userData.device = WKInterfaceDevice.current().name
                 userData.isInBackground = false
                 userData.doTimer = true
                 userData.doTokenRefresh = true
