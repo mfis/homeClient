@@ -107,6 +107,6 @@ fileprivate func loadModelInternal(userData : UserData, from : String) {
     }
     
     let authDict = ["appUserName": userData.homeUserName, "appUserToken": userData.homeUserToken, "appDevice" : userData.device, "refreshToken" : userData.doTokenRefresh.description]
-    httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=watch", timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
+    httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=watch", pin: nil, timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
 }
 

@@ -51,7 +51,7 @@ struct DefaultActionButton : View {
     
     var body: some View {
         Button(action.name) {
-            doAction(action.link, userData: self.userData, presentation: presentation)
+            doAction(action.link, pin: nil, userData: self.userData, presentation: presentation)
         }
     }
 }
@@ -70,7 +70,7 @@ struct SecureActionButton : View {
             self.showModal.toggle()
         }.sheet(isPresented: $showModal, onDismiss: {
             if(pin.count==pinLength){
-                doAction(action.link + pin, userData: self.userData, presentation: presentation)
+                doAction(action.link, pin: pin, userData: self.userData, presentation: presentation)
             }
             pin = ""
         }) {

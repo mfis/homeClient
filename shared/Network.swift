@@ -27,7 +27,7 @@ enum HttpMethod : String{
 typealias HttpErrorHandler = (_ msg : String, _ rc : Int) -> Void
 typealias HttpSuccessHandler = (_ response : String, _ newToken : String?) -> Void
 
-func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, postParams: [String: String]?, authHeaderFields: [String: String]?, errorHandler : @escaping HttpErrorHandler, successHandler : @escaping HttpSuccessHandler) {
+func httpCall(urlString : String, pin: String?, timeoutSeconds : Double, method : HttpMethod, postParams: [String: String]?, authHeaderFields: [String: String]?, errorHandler : @escaping HttpErrorHandler, successHandler : @escaping HttpSuccessHandler) {
     
     let url = URL(string: urlString)
     guard let requestUrl = url else { fatalError() }
@@ -51,6 +51,10 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
             #endif
             request.addValue(authHeaderFields["refreshToken"]!, forHTTPHeaderField: "refreshToken")
         }
+    }
+    
+    if let pin = pin {
+        request.addValue(pin.replacingOccurrences( of:"[^0-9A-Za-z]", with: "", options: .regularExpression), forHTTPHeaderField: "pin")
     }
     
     let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
