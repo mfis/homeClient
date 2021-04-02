@@ -37,6 +37,7 @@ func httpCall(urlString : String, timeoutSeconds : Double, method : HttpMethod, 
     if let postParams = postParams {
         request.httpBody = buildQuery(postParams).data(using: .utf8)
     }
+    request.addValue("true", forHTTPHeaderField: "CSRF")
     if let authHeaderFields = authHeaderFields {
         #if DEBUG
             NSLog("### httpCall() token used: \(authHeaderFields["appUserToken"]!.prefix(50)) for url=\(urlString)")
