@@ -34,7 +34,7 @@ struct ActionListEntry : View {
         if(action.link == "#"){
             Text(action.name).foregroundColor(.black)
         }else{
-            if(action.link.contains("securityPin")){
+            if(action.link.contains("needsPin")){
                 SecureActionButton(action: action)
             }else{
                 DefaultActionButton(action: action)
