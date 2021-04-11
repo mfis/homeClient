@@ -17,6 +17,10 @@ func loadModel(userData : UserData, from : String) {
     
     dispatchQueueLoadModel.async(flags: .barrier) {
         
+        if(userData.isInBackground){
+            return
+        }
+        
         let actualTime : Int64 = currentTimeMillis()
         if(from != "action" && (actualTime - lastLoadModelStart < MIN_TIME_DIFF || actualTime - lastLoadModelEnd < MIN_TIME_DIFF)){
             return

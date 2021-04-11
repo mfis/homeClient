@@ -78,7 +78,10 @@ struct SecureActionButton : View {
         }.alert(isPresented: $userData.showAlert) {
             Alert(title: Text("Fehler"), message: Text("Aktion konnte nicht ausgeführt werden"),
                   dismissButton: .default (Text("Na gut")) {
-                    userData.showAlert = false
+                    self.userData.showAlert = false // Test #1
+                    DispatchQueue.main.async {
+                        userData.showAlert = false // Test #2
+                    }
                   }
               )
         }

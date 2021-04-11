@@ -50,6 +50,13 @@ func loadUserToken() -> String {
     }
 }
 
+func saveUserToken(newUserToken : String) {
+    #if DEBUG
+        NSLog("### saveUserToken(): \(newUserToken.prefix(50))")
+    #endif
+    userDefaults.setValue(newUserToken, forKey: "userDefaultKeyUserToken")
+}
+
 func loadPushToken() -> String {
     if let x = userDefaults.string(forKey: "userDefaultKeyPushToken") {
         return x
@@ -60,13 +67,6 @@ func loadPushToken() -> String {
 
 func savePushToken(newPushToken : String) {
     userDefaults.setValue(newPushToken, forKey: "userDefaultKeyPushToken")
-}
-
-func saveUserToken(newUserToken : String) {
-    #if DEBUG
-        NSLog("### saveUserToken(): \(newUserToken.prefix(50))")
-    #endif
-    userDefaults.setValue(newUserToken, forKey: "userDefaultKeyUserToken")
 }
 
 func currentTimeMillis() -> Int64{

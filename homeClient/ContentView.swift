@@ -41,14 +41,13 @@ struct Content : View {
     }
     
     var body: some View {
-        WebView()
+        WebViewComponent()
             .navigationBarTitle(Text("Zuhause"), displayMode: .inline)
             .navigationBarItems(
                 leading:  NavIconLeft(),
                 trailing: NavIconRight()
-        ).edgesIgnoringSafeArea(.bottom)
+            ).edgesIgnoringSafeArea(.bottom)
     }
-    
 }
 
 struct NavIconLeft : View {
@@ -71,62 +70,6 @@ struct NavIconRight : View {
         NavigationLink(destination: SettingsView().environmentObject(userData)) {
             Image(systemName: "slider.horizontal.3")
         }.buttonStyle(PlainButtonStyle())
-    }
-}
-
-struct WebView : UIViewRepresentable {
-    
-    @EnvironmentObject private var userData : UserData
-    
-    var webViewObserver = WebViewObserver();
-    
-    func makeUIView(context: Context) -> WKWebView  {
-        
-        let webView = WKWebView()
-        webView.isOpaque = false
-        webView.backgroundColor = .clear
-        webView.customUserAgent = "HomeClientAppWebView"
-        webViewObserver.userData = userData
-        webViewObserver.webView = webView
-        webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
-        webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
-        loadWebView(webView)
-        
-        return webView
-    }
-    
-    func updateUIView(_ webView: WKWebView, context: Context) {
-        
-        if(userData.doWebViewLogout){
-            userData.doWebViewLogout = false
-            webView.evaluateJavaScript("window.location.href = '/logoff';") { (result, error) in
-                if let error = error {
-                    print("logout JS error: \(error)")
-                }
-            }
-        }
-        
-        if(!userData.homeUrl.isEmpty && userData.lastCalledUrl != userData.homeUrl){
-            loadWebView(webView)
-        }
-    }
-    
-    func loadWebView(_ webView: WKWebView) {
-        
-        if userData.homeUrl.isEmpty {
-            let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
-            webView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl.deletingLastPathComponent())
-            userData.lastCalledUrl = fileUrl.absoluteString
-        }else{
-            var request = URLRequest.init(url: URL.init(string: userData.homeUrl)!)
-            request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
-            webView.load(request)
-            userData.lastCalledUrl = userData.homeUrl
-        }
-    }
-    
-    func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator){
-        uiView.removeObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title))
     }
 }
 
