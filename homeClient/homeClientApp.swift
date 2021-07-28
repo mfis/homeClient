@@ -9,12 +9,13 @@ import SwiftUI
 import UserNotifications
 import CoreData
 import os
+import WidgetKit
 
 @main
 struct homeClientApp: App {
     
     @Environment(\.scenePhase) private var phase
-    @StateObject private var userData = UserData().initHomeViewModel(deviceName: UIDevice.current.name, loadWatchModel: false)
+    @StateObject private var userData = initHomeViewModel(deviceName: UIDevice.current.name, isLoadWatchModel: false)
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     
     var body: some Scene {
@@ -33,6 +34,7 @@ struct homeClientApp: App {
                 userData.isInBackground = true
                 userData.webViewTitle = ""
                 UIApplication.shared.applicationIconBadgeNumber = 0
+                WidgetCenter.shared.reloadAllTimelines()
             @unknown default:
                 break
             }
@@ -88,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print(userInfo) // the payload that is attached to the push notification
             // you can customize the notification presentation options. Below code will show notification banner as well as play a sound. If you want to add a badge too, add .badge in the array.
             completionHandler([UNNotificationPresentationOptions.banner])
+            WidgetCenter.shared.reloadAllTimelines()
     }
 }
 

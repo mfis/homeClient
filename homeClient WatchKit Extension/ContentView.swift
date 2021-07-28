@@ -15,15 +15,15 @@ struct ContentView: View {
         
     var body: some View {
         Form {
-            List(userData.homeViewModel.places) { place in
+            List(userData.watchModel.places) { place in
                 if(place.actions.isEmpty){
                     VStack{
                         Text(place.name).foregroundColor(.white).font(Font.headline)
                         ForEach(place.values) { entry in
                             HStack(spacing: 2){
-                                Text(entry.key).foregroundColor(Color.init(hexString: entry.accent)).font(.footnote)
+                                Text(entry.key).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff")).font(.footnote)
                                 Spacer()
-                                Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent))
+                                Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff"))
                             }
                         }
                     }
@@ -33,9 +33,9 @@ struct ContentView: View {
                             Text(place.name + " ⇨").foregroundColor(.white).font(Font.headline)
                             ForEach(place.values) { entry in
                                 HStack(spacing: 2){
-                                    Text(entry.key).foregroundColor(Color.init(hexString: entry.accent)).font(.footnote)
+                                    Text(entry.key).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff")).font(.footnote)
                                     Spacer()
-                                    Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent))
+                                    Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff"))
                                 }
                             }
                         }
@@ -48,7 +48,7 @@ struct ContentView: View {
         }.navigationBarTitle("Zuhause")
         .onReceive(timer) { _ in
             if(userData.doTimer){
-                loadModel(userData: userData, from : "timer")
+                loadWatchModel(userData: userData, from : "timer")
             }
          }
     }

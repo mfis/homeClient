@@ -11,7 +11,7 @@ import SwiftUI
 struct homeClientApp: App {
     
     @Environment(\.scenePhase) private var phase
-    @StateObject private var userData = UserData().initHomeViewModel(deviceName: WKInterfaceDevice.current().name, loadWatchModel: true)
+    @StateObject private var userData = initHomeViewModel(deviceName:  WKInterfaceDevice.current().name, isLoadWatchModel: true)
     
     var body: some Scene {
         WindowGroup {
@@ -24,13 +24,13 @@ struct homeClientApp: App {
                 userData.isInBackground = false
                 userData.doTimer = true
                 userData.doTokenRefresh = true
-                loadModel(userData: userData, from : "active")
+                loadWatchModel(userData: userData, from : "active")
             case .inactive:
                 break
             case .background:
                 userData.isInBackground = true
                 DispatchQueue.main.async() {
-                    userData.homeViewModel = userData.clearHomeViewModel
+                    userData.watchModel = userData.clearwatchModel
                 }
                 break
             @unknown default:

@@ -13,7 +13,7 @@ fileprivate var lastLoadModelEnd : Int64 = 0
 fileprivate let MIN_TIME_DIFF : Int64 = 4900
 fileprivate let dispatchQueueLoadModel = DispatchQueue(label: "DispatchQueueLoadModel", attributes: .concurrent)
 
-func loadModel(userData : UserData, from : String) {
+func loadWatchModel(userData : UserData, from : String) { 
     
     dispatchQueueLoadModel.async(flags: .barrier) {
         
@@ -28,7 +28,7 @@ func loadModel(userData : UserData, from : String) {
 
         if(userData.homeUserToken.isEmpty){
             DispatchQueue.main.async() {
-                userData.homeViewModel = newEmptyModel(state: "👉", msg: "Bitte anmelden")
+                userData.watchModel = newEmptyModel(state: "👉", msg: "Bitte anmelden")
             }
             return
         }
@@ -38,11 +38,11 @@ func loadModel(userData : UserData, from : String) {
             NSLog("loadModel... STARTING update=" + userData.doTokenRefresh.description)
         #endif
         
-        loadModelInternal(userData: userData, from: from)
+        loadModelInternal(userData: userData, from: from, target: "watch")
     }
 }
 
-fileprivate func loadModelInternal(userData : UserData, from : String) {
+fileprivate func loadModelInternal(userData : UserData, from : String, target : String) {
     
     func onError(msg : String, rc : Int){
         
@@ -53,7 +53,7 @@ fileprivate func loadModelInternal(userData : UserData, from : String) {
         }
         
         DispatchQueue.main.async() {
-            userData.homeViewModel = userData.clearHomeViewModel
+            userData.watchModel = userData.clearwatchModel
             userData.lastErrorMsg = "load_\(from):" + msg
         }
     }
@@ -85,13 +85,13 @@ fileprivate func loadModelInternal(userData : UserData, from : String) {
                     clearModel.places[i] = place
                 }
                 DispatchQueue.main.async() {
-                    userData.clearHomeViewModel = clearModel
+                    userData.clearwatchModel = clearModel
                 }
             
             DispatchQueue.main.async() {
                 userData.modelTimestamp = newModel.timestamp
                 newModel.timestamp = "OK"
-                userData.homeViewModel = newModel
+                userData.watchModel = newModel
             }
 
         // } catch DecodingError.keyNotFound(let key, let context) {
@@ -111,6 +111,6 @@ fileprivate func loadModelInternal(userData : UserData, from : String) {
     }
     
     let authDict = ["appUserName": userData.homeUserName, "appUserToken": userData.homeUserToken, "appDevice" : userData.device, "refreshToken" : userData.doTokenRefresh.description]
-    httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=watch", pin: nil, timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
+    httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=" + target, pin: nil, timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
 }
 

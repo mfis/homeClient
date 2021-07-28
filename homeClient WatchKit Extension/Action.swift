@@ -17,7 +17,7 @@ func doAction(_ urlString : String, pin : String?, userData : UserData, presenta
     }
     
     func onSuccess(response : String, newToken : String?){
-        loadModel(userData: userData, from : "action")
+        loadWatchModel(userData: userData, from : "action")
         DispatchQueue.main.async() {
             presentation.wrappedValue.dismiss()
         }

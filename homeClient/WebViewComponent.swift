@@ -50,6 +50,7 @@ struct WebViewComponent : UIViewRepresentable {
         
         // Workaround for cookie refresh bug
         readLoginTokenCookie(webView.configuration.websiteDataStore)
+        saveRefreshState(newState: false)
     }
     
     func loadWebView(_ webView: WKWebView) {
@@ -62,6 +63,7 @@ struct WebViewComponent : UIViewRepresentable {
             var request = URLRequest.init(url: URL.init(string: userData.homeUrl)!)
             request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
             request.addValue(userData.homeUserToken, forHTTPHeaderField: "appAdditionalCookieHeader")
+            saveRefreshState(newState: true)
             webView.load(request)
             userData.lastCalledUrl = userData.homeUrl
         }
@@ -78,6 +80,7 @@ struct WebViewComponent : UIViewRepresentable {
                     if(userData.homeUserToken != cookie.value){
                         userData.homeUserToken = cookie.value
                         saveUserToken(newUserToken: cookie.value)
+                        saveUserName(newUserName: cookie.value.components(separatedBy: "*")[0])
                     }
                 }
             }

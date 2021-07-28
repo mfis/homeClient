@@ -28,9 +28,15 @@ extension String {
 }
 
 extension Color {
-    init(hexString: String) {
+    init(hexString: String, defaultHexString: String) {
+        var hex: String
+        if(hexString.isEmpty){
+            hex = defaultHexString
+        }else{
+            hex = hexString
+        }
         var int: UInt64 = 0
-        Scanner(string: hexString).scanHexInt64(&int)
+        Scanner(string: hex).scanHexInt64(&int)
         let r, g, b: UInt64
         (r, g, b) = (int >> 16, int >> 8 & 0xFF, int & 0xFF)
         
