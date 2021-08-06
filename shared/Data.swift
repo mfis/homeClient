@@ -109,8 +109,3 @@ func loadRefreshState() -> Bool {
 func saveRefreshState(newState : Bool) {
     userDefaults.setValue(newState==true ? "true" : "false", forKey: "userDefaultRefreshState")
 }
-
-func currentTimeMillis() -> Int64{
-   let nowDouble = NSDate().timeIntervalSince1970
-   return Int64(nowDouble*1000)
-}

@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject private var userData : UserData
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: TIMER_INTERVAL_SECONDS, on: .main, in: .common).autoconnect() 
         
     var body: some View {
         Form {
@@ -47,9 +47,7 @@ struct ContentView: View {
             }.buttonStyle(PinButton())
         }.navigationBarTitle("Zuhause")
         .onReceive(timer) { _ in
-            if(userData.doTimer){
-                loadWatchModel(userData: userData, from : "timer")
-            }
+            loadWatchModel(userData: userData, from : CONST_APP_TIMER)
          }
     }
     

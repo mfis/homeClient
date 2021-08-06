@@ -7,7 +7,7 @@
 
 import Foundation
 
-func initHomeViewModel(deviceName : String?, isLoadWatchModel : Bool) -> UserData {
+func initHomeViewModel(deviceName : String?) -> UserData {
     
     migrateUserDefaults()
     
@@ -18,15 +18,12 @@ func initHomeViewModel(deviceName : String?, isLoadWatchModel : Bool) -> UserDat
        let infoDate : Date = infoAttr[FileAttributeKey(rawValue: "NSFileCreationDate")] as? Date
      {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd_HHmm"
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
         userData.build = formatter.string(from: infoDate)
     }
     
     if let deviceName = deviceName{
         userData.device = deviceName.replacingOccurrences( of:"[^0-9A-Za-z]", with: "", options: .regularExpression)
-    }
-    if(isLoadWatchModel){
-        loadWatchModel(userData: userData, from: "init")
     }
     return userData
 }

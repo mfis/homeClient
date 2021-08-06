@@ -44,8 +44,11 @@ final class UserData: ObservableObject {
     @Published var modelTimestamp = "n/a"
     
     @Published var doTimer = true
-    @Published var doTokenRefresh = true
     
     @Published var build : String = "n/a"
-    @Published var lastErrorMsg : String = ""
+    
+    @Published var lastTimerTs : String = "n/a"
+    @Published var lastSuccessTs : String = "n/a"
+    @Published var lastErrorTs : String = "n/a"
+    @Published var lastErrorMsg : String = "n/a"
 }

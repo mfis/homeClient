@@ -42,6 +42,8 @@ struct SettingsView: View {
                     }
                 }
                 
+                Text("Version: \(userData.build)").foregroundColor(.gray)
+                
             }.navigationBarTitle(Text("Einstellungen"))
         }            .onDisappear(){
             self.userData.settingsStateName = "circle"

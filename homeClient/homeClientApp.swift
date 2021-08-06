@@ -15,7 +15,7 @@ import WidgetKit
 struct homeClientApp: App {
     
     @Environment(\.scenePhase) private var phase
-    @StateObject private var userData = initHomeViewModel(deviceName: UIDevice.current.name, isLoadWatchModel: false)
+    @StateObject private var userData = initHomeViewModel(deviceName: UIDevice.current.name)
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
     
     var body: some Scene {

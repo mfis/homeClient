@@ -43,7 +43,7 @@ struct SettingsViewWatch: View {
             
             Section() {
                 VStack {
-                    Text("Refresh:\n\(userData.modelTimestamp)\nVersion:\n\(userData.build)\nLastError:\n\(userData.lastErrorMsg)").foregroundColor(.gray)
+                    Text("Version:\n\(userData.build)\nModel:\n\(userData.modelTimestamp)\nTimerTS:\n\(userData.lastTimerTs)\nSuccessTS:\n\(userData.lastSuccessTs)\nErrorTS:\n\(userData.lastErrorTs)\nErrorMsg:\n\(userData.lastErrorMsg)").foregroundColor(.gray)
                 }
             }
             
