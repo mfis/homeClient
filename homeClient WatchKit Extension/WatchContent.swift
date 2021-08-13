@@ -20,7 +20,7 @@ func loadWatchModel(userData : UserData, from : String) {
         userData.lastTimerTs = formattedTS()
     }
         
-    if(from == CONST_APP_TIMER && !userData.doTimer){
+    if((from == CONST_APP_TIMER && !userData.doTimer) || userData.isInBackground){
         return
     }
 
@@ -38,17 +38,11 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
     
     func onError(msg : String, rc : Int){
         
-        if(rc == 401){
-            DispatchQueue.main.async() {
-                userData.doTimer = false
-            }
-        }
-        
         DispatchQueue.main.async() {
+            setTimerOn(userData: userData, rc : rc)
             userData.watchModel = userData.clearwatchModel
             userData.lastErrorMsg = "load_\(from):" + msg
             userData.lastErrorTs = formattedTS()
-            setTimerOn(userData: userData)
         }
     }
     
@@ -56,6 +50,12 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
         
         DispatchQueue.main.async() {
             userData.lastSuccessTs = formattedTS()
+
+            if let token = newToken{
+                userData.homeUserToken = token
+                saveUserToken(newUserToken: token)
+                setTimerOn(userData: userData, rc: 200)
+            }
         }
         
         let decoder = JSONDecoder ()
@@ -89,14 +89,6 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
                 NSLog("json response: " + response)
             #endif
         }
-        
-        DispatchQueue.main.async() {
-            if let token = newToken{
-                userData.homeUserToken = token
-                saveUserToken(newUserToken: token)
-            }
-            setTimerOn(userData: userData)
-        }
     }
     
     let timeout : Double = from == CONST_APP_TIMER ? TIMER_INTERVAL_SECONDS : TIMER_INTERVAL_SECONDS * 2.0;
@@ -107,8 +99,8 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
     httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=" + target, pin: nil, timeoutSeconds: timeout, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
 }
 
-fileprivate func setTimerOn(userData : UserData) {
-    if(userData.isInBackground){
+fileprivate func setTimerOn(userData : UserData, rc : Int) {
+    if(userData.isInBackground || rc == 401){
         userData.doTimer = false
     }else{
         userData.doTimer = true

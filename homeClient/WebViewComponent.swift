@@ -60,10 +60,10 @@ struct WebViewComponent : UIViewRepresentable {
             webView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl.deletingLastPathComponent())
             userData.lastCalledUrl = fileUrl.absoluteString
         }else{
+            saveRefreshState(newState: true)
             var request = URLRequest.init(url: URL.init(string: userData.homeUrl)!)
             request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
             request.addValue(userData.homeUserToken, forHTTPHeaderField: "appAdditionalCookieHeader")
-            saveRefreshState(newState: true)
             webView.load(request)
             userData.lastCalledUrl = userData.homeUrl
         }

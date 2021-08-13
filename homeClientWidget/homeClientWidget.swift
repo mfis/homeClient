@@ -34,20 +34,16 @@ struct Provider: TimelineProvider {
         }
         
         func onSuccess(response : String, newToken : String?){
-            // NSLog("getTimeline - onSuccess")
             let decoder = JSONDecoder ()
             do{
             let newModel = try decoder.decode(HomeViewModel.self, from: response.data(using: .utf8)!)
                 entries.append(SimpleEntry(date: now, model: newModel))
-                // entries.append(SimpleEntry(date: now, model: nil)) // TODO
                 let timeline = Timeline(entries: entries, policy: .after(reloadDate))
                 completion(timeline)
             } catch let jsonError as NSError {
                 onError(msg : "error parsing json document. \(jsonError.localizedDescription)", rc : -2)
             }
         }
-        
-        // NSLog("Widget calling model \(!loadRefreshState()): \(loadUserName()) Token: \(loadUserToken().prefix(20))")
         
         if(!loadUserToken().isEmpty && !loadRefreshState()){
             let authDict = ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : "HomeClientAppWebView"]
@@ -101,12 +97,25 @@ struct WidgetTitleView : View {
             HStack{
                 Image("zuhause")
                     .resizable()
-                        .frame(width: 24.0, height: 24.0)
+                    .frame(width: 28.0, height: 28.0)
+                    .padding(.leading, 10)
                 Text(model?.timestamp ?? "")
                     .fontWeight(.light)
                     .font(.caption)
                     .padding(.top, 5)
                     .foregroundColor(Color.black)
+                Spacer()
+                /*ZStack{
+                    Circle()
+                        //.fill(Color.init(hexString: "fff", defaultHexString: ""))
+                        .strokeBorder(Color.init(hexString: "285028", defaultHexString: ""),lineWidth: 2)
+                        .background(Circle().foregroundColor(Color.red))
+                        .frame(width: 24, height: 24)
+                    Image(systemName: "lock.open")
+                        .resizable()
+                        .frame(width: 14, height: 14).foregroundColor(.black)
+                        //.scaledToFit()
+                }.padding(.trailing, 10) */
             }
         }.padding(.top, 0)
     }

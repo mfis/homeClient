@@ -23,14 +23,15 @@ struct homeClientApp: App {
             case .active:
                 userData.isInBackground = false
                 loadWatchModel(userData: userData, from : CONST_APP_ACTIVATED)
-            case .inactive: 
+            case .inactive:
+                userData.isInBackground = true
+                userData.doTimer = false
+                userData.watchModel = userData.clearwatchModel
                 break
             case .background:
-                DispatchQueue.main.async() {
-                    userData.isInBackground = true
-                    userData.doTimer = false
-                    userData.watchModel = userData.clearwatchModel
-                }
+                userData.isInBackground = true
+                userData.doTimer = false
+                userData.watchModel = userData.clearwatchModel
                 break
             @unknown default:
                 break
