@@ -16,9 +16,11 @@ struct TokenCreationResponseModel: Codable {
 struct HomeViewValueModel:  Hashable, Codable, Identifiable  {
     var id : String
     var key : String
+    var symbol: String = ""
     var value : String
     var accent : String = ""
     var tendency : String
+    var valueDirectives : [String]
 }
 
 struct HomeViewActionModel:  Hashable, Codable, Identifiable  {
@@ -32,6 +34,7 @@ struct HomeViewPlaceModel: Hashable, Codable, Identifiable {
     var name : String
     var values : [HomeViewValueModel]
     var actions : [[HomeViewActionModel]]
+    var placeDirectives : [String]
 }
 
 struct HomeViewModel: Codable {
@@ -41,6 +44,6 @@ struct HomeViewModel: Codable {
 }
 
 func newEmptyModel(state: String, msg : String) -> HomeViewModel {
-    return HomeViewModel(timestamp: state, defaultAccent: "ffffff", places: [HomeViewPlaceModel(id: "msg" , name: msg, values: [], actions: [])])
+    return HomeViewModel(timestamp: state, defaultAccent: "ffffff", places: [HomeViewPlaceModel(id: "msg" , name: msg, values: [], actions: [], placeDirectives: [])])
 }
 

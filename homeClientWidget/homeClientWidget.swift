@@ -53,6 +53,7 @@ struct Provider: TimelineProvider {
 }
 
 struct SimpleEntry: TimelineEntry {
+    
     let date: Date
     let model: HomeViewModel?
 }
@@ -68,7 +69,7 @@ struct homeClientWidgetEntryView : View {
             WidgetTitleView(model: entry.model)
             if let model = entry.model{
                 ForEach(model.places) { place in
-                    if(showItem(id: place.id, widgetFamily: family)){
+                    if(showPlaceAsLabel(placeDirectives: place.placeDirectives, widgetFamily: family)){
                         WidgetPlaceView(place: place)
                     }
                 }
@@ -105,17 +106,26 @@ struct WidgetTitleView : View {
                     .padding(.top, 5)
                     .foregroundColor(Color.black)
                 Spacer()
-                /*ZStack{
-                    Circle()
-                        //.fill(Color.init(hexString: "fff", defaultHexString: ""))
-                        .strokeBorder(Color.init(hexString: "285028", defaultHexString: ""),lineWidth: 2)
-                        .background(Circle().foregroundColor(Color.red))
-                        .frame(width: 24, height: 24)
-                    Image(systemName: "lock.open")
-                        .resizable()
-                        .frame(width: 14, height: 14).foregroundColor(.black)
-                        //.scaledToFit()
-                }.padding(.trailing, 10) */
+                
+                if let model = model{
+                    ForEach(model.places) { place in
+                        if(showPlaceAsSymbol(placeDirectives: place.placeDirectives)){
+                            ForEach(place.values) { value in
+                                ZStack{
+                                    Circle()
+                                        .strokeBorder(Color.init(hexString: "285028", defaultHexString: ""), lineWidth: 1.5)
+                                        .background(Circle().foregroundColor(Color.init(hexString: value.accent, defaultHexString: "", darker: true)))
+                                        .frame(width: 24, height: 24)
+                                    Image(systemName: value.symbol)
+                                        .resizable()
+                                        .foregroundColor(.black)
+                                        .frame(height: 14)
+                                        .scaledToFit()
+                                }.padding(.trailing, 10)
+                            }
+                        }
+                    }
+                }
             }
         }.padding(.top, 0)
     }
@@ -142,7 +152,7 @@ struct WidgetPlaceView : View {
                         Text(value.value + String.init(tendency:value.tendency))
                             .padding(.horizontal, 0)
                             .font(.subheadline)
-                            .foregroundColor(Color.init(hexString: value.accent, defaultHexString: (colorScheme == .dark ? "ffffff" : "000000")))
+                            .foregroundColor(Color.init(hexString: value.accent, defaultHexString: (colorScheme == .dark ? "ffffff" : "000000"), darker: colorScheme == .light))
                     }
                 }
             }
@@ -150,21 +160,33 @@ struct WidgetPlaceView : View {
     }
 }
 
-func showItem(id: String, widgetFamily: WidgetFamily) -> Bool {
+func showPlaceAsLabel(placeDirectives: [String], widgetFamily: WidgetFamily) -> Bool {
+    
     switch widgetFamily {
     case .systemSmall:
-        return !id.contains("-notSmall")
+        return placeDirectives.contains(CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL)
     case .systemMedium:
-        return !id.contains("-notMedium")
+        return placeDirectives.contains(CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM)
     case .systemLarge:
-        return !id.contains("-notLarge")
+        return placeDirectives.contains(CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE)
     default:
-        return true
+        return false
     }
+}
+
+func showPlaceAsSymbol(placeDirectives: [String]) -> Bool {
+    
+    return placeDirectives.contains(CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL)
+}
+
+func showSymbol(valueDirectives: [String]) -> Bool {
+    
+    return !valueDirectives.contains(CONST_VALUE_DIRECTIVE_SYMBOL_SKIP)
 }
 
 @main
 struct homeClientWidget: Widget {
+    
     let kind: String = "homeClientWidget"
 
     var body: some WidgetConfiguration {
@@ -181,27 +203,28 @@ struct homeClientWidget_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", value: "23,0°C", tendency: "EQUAL")
-        let valA2 = HomeViewValueModel(id:"va2", key: "Feuchte", value: "65%rH", tendency: "↑")
+        let WIDGET_LABEL_ALL = [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE]
         
-        let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", accent: "5cb85c", tendency: "↓")
+        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", value: "24,0°C", accent: "ffb84d", tendency: "EQUAL", valueDirectives: [])
+        let valA2 = HomeViewValueModel(id:"va2", key: "Feuchte", value: "65%rH", tendency: "↑", valueDirectives: [])
         
-        let valC1 = HomeViewValueModel(id:"vc1", key: "Fenster", value: "geschlossen", tendency: "")
-        let valC2 = HomeViewValueModel(id:"vc2", key: "Haustür", value: "verriegelt", tendency: "")
+        let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", accent: "66ff66", tendency: "↓", valueDirectives: [])
         
-        let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [])
-        let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [])
-        let placeC = HomeViewPlaceModel(id: "c-notSmall", name: "Fenster und Türen", values: [valC1, valC2], actions: [])
+        let valC1 = HomeViewValueModel(id:"vc1", key: "FensterUndTueren", symbol: "lock", value: "geschlossen", accent: "66ff66", tendency: "", valueDirectives: [])
+        
+        let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [], placeDirectives: WIDGET_LABEL_ALL)
+        let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [], placeDirectives: WIDGET_LABEL_ALL)
+        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
         
         let model: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC])
         
         Group {
-        homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-        homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
-            .previewContext(WidgetPreviewContext(family: .systemMedium)).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
-        homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: nil))
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
+                .previewContext(WidgetPreviewContext(family: .systemSmall))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
+                .previewContext(WidgetPreviewContext(family: .systemMedium)).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: nil))
+                    .previewContext(WidgetPreviewContext(family: .systemMedium))
         }
     }
 }

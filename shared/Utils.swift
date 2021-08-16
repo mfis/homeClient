@@ -8,6 +8,14 @@
 import SwiftUI
 import Foundation
 
+let CONST_PLACE_DIRECTIVE_WATCH_LABEL = "WATCH_LABEL"
+let CONST_PLACE_DIRECTIVE_WATCH_SYMBOL = "WATCH_SYMBOL"
+let CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL = "WIDGET_LABEL_SMALL"
+let CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM = "WIDGET_LABEL_MEDIUM"
+let CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE = "WIDGET_LABEL_LARGE"
+let CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL = "WIDGET_SYMBOL"
+let CONST_VALUE_DIRECTIVE_SYMBOL_SKIP = "SYMBOL_SKIP"
+
 extension String {
     init(tendency: String){
         switch(tendency){
@@ -28,12 +36,15 @@ extension String {
 }
 
 extension Color {
-    init(hexString: String, defaultHexString: String) {
+    init(hexString: String, defaultHexString: String, darker: Bool = false) {
         var hex: String
         if(hexString.isEmpty){
             hex = defaultHexString
         }else{
             hex = hexString
+        }
+        if(hex == "66ff66" && darker){ // green
+            hex = "5cb85c"
         }
         var int: UInt64 = 0
         Scanner(string: hex).scanHexInt64(&int)
