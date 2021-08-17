@@ -63,7 +63,7 @@ extension Color {
         
         var hex: String
         if(input.starts(with: ".")){
-            if let x = colorNameDictDefault[hexOrName.replacingOccurrences(of: ".", with: "")] {
+            if let x = colorNameDictDefault[input.replacingOccurrences(of: ".", with: "")] {
                 hex = x
             } else {
                 hex = "969696" // grey
