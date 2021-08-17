@@ -35,17 +35,49 @@ extension String {
     }
 }
 
+fileprivate var colorNameDictDefault = [
+    "green" : "66ff66",
+    "olive" : "285028",
+    "orange" : "ffb84d",
+    "red" : "ff6666",
+    "blue" : "66b3ff",
+    "black" : "111111",
+    "white" : "ffffff",
+]
+
+fileprivate var colorHexDictDark = [
+    "66ff66" : "5cb85c", // green
+    "111111" : "000000", // black
+]
+
 extension Color {
-    init(hexString: String, defaultHexString: String, darker: Bool = false) {
-        var hex: String
-        if(hexString.isEmpty){
-            hex = defaultHexString
+    
+    init(hexOrName: String, defaultHexOrName: String = "", darker: Bool = false) {
+        
+        var input: String
+        if(hexOrName.isEmpty){
+            input = defaultHexOrName
         }else{
-            hex = hexString
+            input = hexOrName
         }
-        if(hex == "66ff66" && darker){ // green
-            hex = "5cb85c"
+        
+        var hex: String
+        if(input.starts(with: ".")){
+            if let x = colorNameDictDefault[hexOrName.replacingOccurrences(of: ".", with: "")] {
+                hex = x
+            } else {
+                hex = "969696" // grey
+            }
+        }else{
+            hex = input.replacingOccurrences(of: "#", with: "")
         }
+        
+        if(darker){
+            if let darker = colorHexDictDark[hex] {
+                hex = darker
+            }
+        }
+        
         var int: UInt64 = 0
         Scanner(string: hex).scanHexInt64(&int)
         let r, g, b: UInt64

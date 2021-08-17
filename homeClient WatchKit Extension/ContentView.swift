@@ -21,9 +21,9 @@ struct ContentView: View {
                         Text(place.name).foregroundColor(.white).font(Font.headline)
                         ForEach(place.values) { entry in
                             HStack(spacing: 2){
-                                Text(entry.key).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff")).font(.footnote)
+                                Text(entry.key).foregroundColor(Color.init(hexOrName: entry.accent, defaultHexOrName: ".white")).font(.footnote)
                                 Spacer()
-                                Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff"))
+                                Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexOrName: entry.accent, defaultHexOrName: ".white"))
                             }
                         }
                     }
@@ -33,9 +33,9 @@ struct ContentView: View {
                             Text(place.name + " ⇨").foregroundColor(.white).font(Font.headline)
                             ForEach(place.values) { entry in
                                 HStack(spacing: 2){
-                                    Text(entry.key).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff")).font(.footnote)
+                                    Text(entry.key).foregroundColor(Color.init(hexOrName: entry.accent, defaultHexOrName: ".white")).font(.footnote)
                                     Spacer()
-                                    Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexString: entry.accent, defaultHexString: "ffffff"))
+                                    Text(entry.value + String.init(tendency:entry.tendency)).foregroundColor(Color.init(hexOrName: entry.accent, defaultHexOrName: ".white"))
                                 }
                             }
                         }

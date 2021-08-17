@@ -84,7 +84,7 @@ struct homeClientWidgetEntryView : View {
                                 .padding(.horizontal, 10)
             }
             Spacer()
-        }.background(colorScheme == .dark ? Color.init(hexString: "111111", defaultHexString: "") : Color.white)
+        }.background(colorScheme == .dark ? Color.init(hexOrName: ".black") : Color.white)
     }
 }
 
@@ -93,7 +93,7 @@ struct WidgetTitleView : View {
     var body: some View {
         ZStack{
             Rectangle()
-                .fill(Color.init(hexString: "5cb85c", defaultHexString: ""))
+                .fill(Color.init(hexOrName: ".green", darker: true))
                 .frame(height: 36)
             HStack{
                 Image("zuhause")
@@ -113,8 +113,8 @@ struct WidgetTitleView : View {
                             ForEach(place.values) { value in
                                 ZStack{
                                     Circle()
-                                        .strokeBorder(Color.init(hexString: "285028", defaultHexString: ""), lineWidth: 1.5)
-                                        .background(Circle().foregroundColor(Color.init(hexString: value.accent, defaultHexString: "", darker: true)))
+                                        .strokeBorder(Color.init(hexOrName: ".olive"), lineWidth: 1.5)
+                                        .background(Circle().foregroundColor(Color.init(hexOrName: value.accent, darker: true)))
                                         .frame(width: 24, height: 24)
                                     Image(systemName: value.symbol)
                                         .resizable()
@@ -152,7 +152,7 @@ struct WidgetPlaceView : View {
                         Text(value.value + String.init(tendency:value.tendency))
                             .padding(.horizontal, 0)
                             .font(.subheadline)
-                            .foregroundColor(Color.init(hexString: value.accent, defaultHexString: (colorScheme == .dark ? "ffffff" : "000000"), darker: colorScheme == .light))
+                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: (colorScheme == .dark ? ".white" : ".black"), darker: colorScheme == .light))
                     }
                 }
             }
@@ -205,7 +205,7 @@ struct homeClientWidget_Previews: PreviewProvider {
         
         let WIDGET_LABEL_ALL = [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE]
         
-        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", value: "24,0°C", accent: "ffb84d", tendency: "EQUAL", valueDirectives: [])
+        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", value: "24,0°C", accent: ".orange", tendency: "EQUAL", valueDirectives: [])
         let valA2 = HomeViewValueModel(id:"va2", key: "Feuchte", value: "65%rH", tendency: "↑", valueDirectives: [])
         
         let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", accent: "66ff66", tendency: "↓", valueDirectives: [])

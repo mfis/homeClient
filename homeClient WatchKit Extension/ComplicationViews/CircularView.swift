@@ -11,7 +11,7 @@ import ClockKit
 struct CircularView: View {
     var body: some View {
         ZStack{
-            Circle().fill(Color.init(hexString: "5cb85c", defaultHexString: ""))
+            Circle().fill(Color.init(hexOrName: ".green", darker: true))
             Image("zuhause").foregroundColor(.black)
         }
     }
