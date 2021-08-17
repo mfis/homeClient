@@ -48,6 +48,7 @@ fileprivate var colorNameDictDefault = [
 fileprivate var colorHexDictDark = [
     "66ff66" : "5cb85c", // green
     "111111" : "000000", // black
+    "ffb84d" : "c16b00", // orange
 ]
 
 extension Color {
