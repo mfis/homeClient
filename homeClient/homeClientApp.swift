@@ -28,6 +28,7 @@ struct homeClientApp: App {
             switch newPhase {
             case .active:
                 userData.isInBackground = false
+                break
             case .inactive:
                 break
             case .background:
@@ -35,6 +36,7 @@ struct homeClientApp: App {
                 userData.webViewTitle = ""
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 WidgetCenter.shared.reloadAllTimelines()
+                break
             @unknown default:
                 break
             }

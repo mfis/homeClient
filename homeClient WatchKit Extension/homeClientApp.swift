@@ -11,7 +11,7 @@ import SwiftUI
 struct homeClientApp: App {
     
     @Environment(\.scenePhase) private var phase
-    @StateObject private var userData = initHomeViewModel(deviceName:  WKInterfaceDevice.current().name)
+    @StateObject private var userData = initWatchModel(deviceName:  WKInterfaceDevice.current().name)
     
     var body: some Scene {
         WindowGroup {
@@ -19,18 +19,22 @@ struct homeClientApp: App {
                 ContentView().environmentObject(userData)
             }
         }.onChange(of: phase) { newPhase in
+            // #if DEBUG
+                NSLog("### watch App onChange: \(newPhase)")
+            // #endif
             switch newPhase {
             case .active:
                 userData.isInBackground = false
                 loadWatchModel(userData: userData, from : CONST_APP_ACTIVATED)
+                break
             case .inactive:
                 userData.isInBackground = true
-                userData.doTimer = false
+                saveTimerState(newState: false)
                 userData.watchModel = userData.clearwatchModel
                 break
             case .background:
                 userData.isInBackground = true
-                userData.doTimer = false
+                saveTimerState(newState: false)
                 userData.watchModel = userData.clearwatchModel
                 break
             @unknown default:

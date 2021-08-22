@@ -14,7 +14,7 @@ struct SettingsViewWatch: View {
     
     var body: some View {
         Form {
-            if(!userData.homeUserToken.isEmpty){
+            if(!loadUserToken().isEmpty){
                 Section() {
                     Button(action: {
                         logout(userData : userData)

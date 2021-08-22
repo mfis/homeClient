@@ -43,7 +43,7 @@ struct WebViewComponent : UIViewRepresentable {
             }
         }
         
-        if(!userData.homeUrl.isEmpty && userData.lastCalledUrl != userData.homeUrl){
+        if(!loadUrl().isEmpty && userData.lastCalledUrl != loadUrl()){
             loadWebView(webView)
             return
         }
@@ -55,17 +55,17 @@ struct WebViewComponent : UIViewRepresentable {
     
     func loadWebView(_ webView: WKWebView) {
         
-        if userData.homeUrl.isEmpty {
+        if loadUrl().isEmpty {
             let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
             webView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl.deletingLastPathComponent())
             userData.lastCalledUrl = fileUrl.absoluteString
         }else{
             saveRefreshState(newState: true)
-            var request = URLRequest.init(url: URL.init(string: userData.homeUrl)!)
+            var request = URLRequest.init(url: URL.init(string: loadUrl())!)
             request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
-            request.addValue(userData.homeUserToken, forHTTPHeaderField: "appAdditionalCookieHeader")
+            request.addValue(loadUserToken(), forHTTPHeaderField: "appAdditionalCookieHeader")
             webView.load(request)
-            userData.lastCalledUrl = userData.homeUrl
+            userData.lastCalledUrl = loadUrl()
         }
     }
     
@@ -77,8 +77,7 @@ struct WebViewComponent : UIViewRepresentable {
         store.httpCookieStore.getAllCookies { (cookies) in
             for cookie in cookies {
                 if(cookie.name == "HomeLoginCookie"){
-                    if(userData.homeUserToken != cookie.value){
-                        userData.homeUserToken = cookie.value
+                    if(loadUserToken() != cookie.value){
                         saveUserToken(newUserToken: cookie.value)
                         saveUserName(newUserName: cookie.value.components(separatedBy: "*")[0])
                     }

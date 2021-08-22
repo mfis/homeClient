@@ -31,7 +31,7 @@ class WebViewObserver : NSObject {
                                     }
                                 }
                             }
-                            if(!userData.homeUrl.isEmpty && userData.webViewPath == "/"){
+                            if(!loadUrl().isEmpty && userData.webViewPath == "/"){
                                 DispatchQueue.main.async {
                                     self.webView?.evaluateJavaScript("if(typeof setPushToken === 'function'){setPushToken('\(lookupPushToken(userData: self.userData))', '\(self.userData.device)');}") { (result, error) in
                                         if let error = error {

@@ -32,7 +32,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                if(!userData.homeUrl.isEmpty && userData.webViewPath == "/"){
+                if(!loadUrl().isEmpty && userData.webViewPath == "/"){
                     Section(){
                         Button(action: {
                             userData.doWebViewLogout = true

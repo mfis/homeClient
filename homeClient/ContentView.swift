@@ -29,7 +29,11 @@ struct ContentView: View {
 struct BackgroundView : View {
     
     var body: some View {
-        Image(systemName: "house.fill").imageScale(.medium)
+        ZStack{
+            Circle().fill(Color.init(hexOrName: ".green", darker: true)).frame(width: 70, height: 70, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            Image("zuhause").resizable().foregroundColor(.black)
+                .frame(width: 60.0, height: 60.0)
+        }
     }
     
 }

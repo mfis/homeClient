@@ -37,7 +37,6 @@ func validateClientInstallation(urlString : String, userData : UserData, doLogin
                 DispatchQueue.main.async() {
                     showLoginResult(state: true, userData : userData)
                     userData.settingsLoginMessage = "Verbindung erfolgreich."
-                    userData.homeUrl = cleanedUrlString
                     userData.settingsUrl = cleanedUrlString
                     userData.lastCalledUrl = ""
                     saveUrl(newUrl: cleanedUrlString)
@@ -67,23 +66,16 @@ func auth(_ urlString : String, userData : UserData){
             
             if(model.success){
                 DispatchQueue.main.async() {
-                    userData.homeUrl = urlString
                     userData.settingsUrl = urlString
                     userData.lastCalledUrl = ""
-                    saveUrl(newUrl: urlString)
-                    
-                    userData.homeUserName = userData.settingsUserName
-                    saveUserName(newUserName: userData.homeUserName)
-                    
-                    userData.homeUserToken = model.token
-                    saveUserToken(newUserToken: model.token)
-                    
                     showLoginResult(state: true, userData : userData)
                     userData.settingsLoginMessage = "Die Anmeldung war erfolgreich."
-                    
                     userData.settingsUserPassword = ""
-                    userData.doTimer = true
                 }
+                saveUrl(newUrl: urlString)
+                saveUserName(newUserName: userData.settingsUserName)
+                saveUserToken(newUserToken: model.token)
+                saveTimerState(newState: true)
             }else{
                 DispatchQueue.main.async() {
                     showLoginResult(state: false, userData : userData)
@@ -94,8 +86,8 @@ func auth(_ urlString : String, userData : UserData){
             
         }catch _{}
         
-        showLoginResult(state: false, userData : userData)
         DispatchQueue.main.async() {
+            showLoginResult(state: false, userData : userData)
             userData.settingsLoginMessage = "Bei der Anmeldung ist ein Fehler aufgetreten."
             userData.settingsUserPassword = ""
         }
@@ -117,9 +109,7 @@ func showLoginResult(state : Bool, userData : UserData){
 }
 
 func logout(userData : UserData) {
-    userData.homeUserName = ""
     userData.settingsUserName = ""
-    userData.homeUserToken = ""
     saveUserName(newUserName: "")
     saveUserToken(newUserToken: "")
 }

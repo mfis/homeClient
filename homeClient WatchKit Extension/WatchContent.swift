@@ -8,23 +8,31 @@
 
 import Foundation
 
+let CONST_APP_STARTED = "started"
 let CONST_APP_ACTIVATED = "activated"
 let CONST_APP_TIMER = "timer"
 let TIMER_INTERVAL_SECONDS : Double = 4.0
 
 fileprivate let dispatchQueueLoadModel = DispatchQueue(label: "DispatchQueueLoadModel", attributes: .concurrent)
 
-func loadWatchModel(userData : UserData, from : String) { 
+func initWatchModel(deviceName : String?) -> UserData {
+    let userData =  initHomeViewModel(deviceName:  deviceName)
+    userData.isInBackground = false
+    loadWatchModel(userData: userData, from : CONST_APP_STARTED)
+    return userData
+}
+
+func loadWatchModel(userData : UserData, from : String) {
     
     DispatchQueue.main.async() {
         userData.lastTimerTs = formattedTS()
     }
         
-    if((from == CONST_APP_TIMER && !userData.doTimer) || userData.isInBackground){
+    if((from == CONST_APP_TIMER && !loadTimerState()) || userData.isInBackground){
         return
     }
 
-    if(userData.homeUserToken.isEmpty){
+    if(loadUserToken().isEmpty){
         DispatchQueue.main.async() {
             userData.watchModel = newEmptyModel(state: "👉", msg: "Bitte anmelden")
         }
@@ -38,8 +46,9 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
     
     func onError(msg : String, rc : Int){
         
+        setTimerOn(userData: userData, rc : rc)
+        
         DispatchQueue.main.async() {
-            setTimerOn(userData: userData, rc : rc)
             userData.watchModel = userData.clearwatchModel
             userData.lastErrorMsg = "load_\(from):" + msg
             userData.lastErrorTs = formattedTS()
@@ -47,15 +56,10 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
     }
     
     func onSuccess(response : String, newToken : String?){
-        
-        DispatchQueue.main.async() {
-            userData.lastSuccessTs = formattedTS()
 
-            if let token = newToken{
-                userData.homeUserToken = token
-                saveUserToken(newUserToken: token)
-                setTimerOn(userData: userData, rc: 200)
-            }
+        if let token = newToken{
+            saveUserToken(newUserToken: token)
+            setTimerOn(userData: userData, rc: 200)
         }
         
         let decoder = JSONDecoder ()
@@ -81,6 +85,7 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
                 userData.modelTimestamp = newModel.timestamp
                 newModel.timestamp = "OK"
                 userData.watchModel = newModel
+                userData.lastSuccessTs = formattedTS()
             }
 
         } catch let jsonError as NSError {
@@ -92,18 +97,18 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
     }
     
     let timeout : Double = from == CONST_APP_TIMER ? TIMER_INTERVAL_SECONDS : TIMER_INTERVAL_SECONDS * 2.0;
-    let refreshToken : String = from == CONST_APP_ACTIVATED ? "true" : "false"
+    let refreshToken : String = from == CONST_APP_ACTIVATED || from == CONST_APP_STARTED ? "true" : "false"
     
-    let authDict = ["appUserName": userData.homeUserName, "appUserToken": userData.homeUserToken, "appDevice" : userData.device, "refreshToken" : refreshToken]
+    let authDict = ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : userData.device, "refreshToken" : refreshToken]
     
-    httpCall(urlString: userData.homeUrl + "getAppModel?viewTarget=" + target, pin: nil, timeoutSeconds: timeout, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
+    httpCall(urlString: loadUrl() + "getAppModel?viewTarget=" + target, pin: nil, timeoutSeconds: timeout, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
 }
 
 fileprivate func setTimerOn(userData : UserData, rc : Int) {
     if(userData.isInBackground || rc == 401){
-        userData.doTimer = false
+        saveTimerState(newState: false)
     }else{
-        userData.doTimer = true
+        saveTimerState(newState: true)
     }
 }
 

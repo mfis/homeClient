@@ -45,9 +45,9 @@ func httpCall(urlString : String, pin: String?, timeoutSeconds : Double, method 
         request.addValue(authHeaderFields["appUserName"]!, forHTTPHeaderField: "appUserName")
         request.addValue(authHeaderFields["appUserToken"]!, forHTTPHeaderField: "appUserToken")
         request.addValue(authHeaderFields["appDevice"]!, forHTTPHeaderField: "appDevice")
-        if let _ = authHeaderFields["refreshToken"]{
+        if let x = authHeaderFields["refreshToken"]{
             #if DEBUG
-                NSLog("### httpCall() requesting new token")
+                NSLog("### httpCall() requesting new token: " + x)
             #endif
             request.addValue(authHeaderFields["refreshToken"]!, forHTTPHeaderField: "refreshToken")
         }

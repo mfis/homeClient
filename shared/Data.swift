@@ -109,3 +109,15 @@ func loadRefreshState() -> Bool {
 func saveRefreshState(newState : Bool) {
     userDefaults.setValue(newState==true ? "true" : "false", forKey: "userDefaultRefreshState")
 }
+
+func loadTimerState() -> Bool {
+    if let x = userDefaults.string(forKey: "userDefaultTimerState") {
+        return x == "true" ? true : false
+    }else{
+        return true
+    }
+}
+
+func saveTimerState(newState : Bool) {
+    userDefaults.setValue(newState==true ? "true" : "false", forKey: "userDefaultTimerState")
+}

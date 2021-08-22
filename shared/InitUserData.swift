@@ -9,9 +9,13 @@ import Foundation
 
 func initHomeViewModel(deviceName : String?) -> UserData {
     
+    NSLog("### initHomeViewModel")
+    
     migrateUserDefaults()
     
     let userData = UserData()
+    
+    saveTimerState(newState: false)
     
     if let infoPath = Bundle.main.path(forResource: "Info.plist", ofType: nil),
        let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
@@ -29,11 +33,8 @@ func initHomeViewModel(deviceName : String?) -> UserData {
 }
 
 func lookupPushToken(userData : UserData) -> String {
-    if(userData.pushToken.isEmpty){
-        userData.pushToken = loadPushToken()
-        if(userData.pushToken.isEmpty){
-            userData.pushToken = "n/a"
-        }
+    if(loadPushToken().isEmpty){
+        return "n/a"
     }
-    return userData.pushToken
+    return loadPushToken()
 }

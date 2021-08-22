@@ -23,6 +23,6 @@ func doAction(_ urlString : String, pin : String?, userData : UserData, presenta
         }
     }
     
-    let authDict = ["appUserName": userData.homeUserName, "appUserToken": userData.homeUserToken, "appDevice" : userData.device]
-    httpCall(urlString: userData.homeUrl + urlString, pin : pin, timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
+    let authDict = ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : userData.device]
+    httpCall(urlString: loadUrl() + urlString, pin : pin, timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
 }
