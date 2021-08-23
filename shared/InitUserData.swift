@@ -16,6 +16,7 @@ func initHomeViewModel(deviceName : String?) -> UserData {
     let userData = UserData()
     
     saveTimerState(newState: false)
+    saveRefreshState(newState: false)
     
     if let infoPath = Bundle.main.path(forResource: "Info.plist", ofType: nil),
        let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
