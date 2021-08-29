@@ -48,7 +48,6 @@ struct WebViewComponent : UIViewRepresentable {
             return
         }
         
-        // Workaround for cookie refresh bug
         readLoginTokenCookie(webView.configuration.websiteDataStore)
         saveRefreshState(newState: false)
     }
@@ -63,7 +62,7 @@ struct WebViewComponent : UIViewRepresentable {
             saveRefreshState(newState: true)
             var request = URLRequest.init(url: URL.init(string: loadUrl())!)
             request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
-            request.addValue(loadUserToken(), forHTTPHeaderField: "appAdditionalCookieHeader")
+            // request.addValue(loadUserToken(), forHTTPHeaderField: "appAdditionalCookieHeader")
             webView.load(request)
             userData.lastCalledUrl = loadUrl()
         }

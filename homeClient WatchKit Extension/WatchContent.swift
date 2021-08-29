@@ -59,8 +59,8 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
 
         if let token = newToken{
             saveUserToken(newUserToken: token)
-            setTimerOn(userData: userData, rc: 200)
         }
+        setTimerOn(userData: userData, rc: 200)
         
         let decoder = JSONDecoder ()
         do{
