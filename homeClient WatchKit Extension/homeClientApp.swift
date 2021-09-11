@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct homeClientApp: App {
     
+    @WKExtensionDelegateAdaptor private var appDelegate: ExtensionDelegate
     @Environment(\.scenePhase) private var phase
     @StateObject private var userData = initWatchModel(deviceName:  WKInterfaceDevice.current().name)
     
@@ -36,6 +37,8 @@ struct homeClientApp: App {
                 userData.isInBackground = true
                 saveTimerState(newState: false)
                 userData.watchModel = userData.clearwatchModel
+                scheduleComplicationBackgroundRefresh()
+                loadComplicationData()
                 break
             @unknown default:
                 break
@@ -46,8 +49,3 @@ struct homeClientApp: App {
     }
 }
 
-struct homeClientApp_Previews: PreviewProvider {
-    static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
-    }
-}

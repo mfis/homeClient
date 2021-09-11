@@ -47,6 +47,8 @@
 		8CA396D126A47EE90074E26E /* homeClientWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8CA396C326A47EE80074E26E /* homeClientWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8CA396D626A498A10074E26E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
 		8CA396D726A4A2F40074E26E /* NetworkStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22225167E37001C5841 /* NetworkStructs.swift */; };
+		8CCBE42726E66510007BB182 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */; };
+		8CCBE42926E68076007BB182 /* ComplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCBE42826E68076007BB182 /* ComplicationData.swift */; };
 		8CE7863725290A510076715D /* ActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863625290A510076715D /* ActionView.swift */; };
 		8CE7863F252910AD0076715D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863E252910AD0076715D /* Action.swift */; };
 		8CEDAC9926A754B4003687C6 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21C25167E16001C5841 /* UserData.swift */; };
@@ -158,6 +160,8 @@
 		8CA396CC26A47EE90074E26E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8CA396CE26A47EE90074E26E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8CA7F3F325B2294A00645A54 /* homeClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = homeClient.entitlements; sourceTree = "<group>"; };
+		8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		8CCBE42826E68076007BB182 /* ComplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationData.swift; sourceTree = "<group>"; };
 		8CE7863625290A510076715D /* ActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionView.swift; sourceTree = "<group>"; };
 		8CE7863E252910AD0076715D /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		8CEDAC9E26A75670003687C6 /* InitUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitUserData.swift; sourceTree = "<group>"; };
@@ -268,6 +272,8 @@
 				8C63E24E25174918001C5841 /* SettingsViewWatch.swift */,
 				8C63E249251747D9001C5841 /* WatchContent.swift */,
 				8CF47382252BA99600CE1629 /* PinView.swift */,
+				8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */,
+				8CCBE42826E68076007BB182 /* ComplicationData.swift */,
 			);
 			path = "homeClient WatchKit Extension";
 			sourceTree = "<group>";
@@ -508,6 +514,7 @@
 				8C63E22425167E38001C5841 /* NetworkStructs.swift in Sources */,
 				8C63E21825167DE8001C5841 /* Data.swift in Sources */,
 				8C63E263251754A3001C5841 /* Utils.swift in Sources */,
+				8CCBE42926E68076007BB182 /* ComplicationData.swift in Sources */,
 				8CE7863F252910AD0076715D /* Action.swift in Sources */,
 				8CEDACA026A75670003687C6 /* InitUserData.swift in Sources */,
 				8C63E21E25167E16001C5841 /* UserData.swift in Sources */,
@@ -515,6 +522,7 @@
 				8C63E23025167E69001C5841 /* SignIn.swift in Sources */,
 				8C63E1DC25167ADE001C5841 /* ContentView.swift in Sources */,
 				8C63E22A25167E52001C5841 /* Network.swift in Sources */,
+				8CCBE42726E66510007BB182 /* ExtensionDelegate.swift in Sources */,
 				8C63E27125176FCE001C5841 /* WatchContent.swift in Sources */,
 				8C63E1E225167ADE001C5841 /* ComplicationController.swift in Sources */,
 				8C63E24F25174918001C5841 /* SettingsViewWatch.swift in Sources */,
@@ -675,7 +683,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -701,7 +709,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -731,7 +739,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
@@ -760,7 +768,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
@@ -789,7 +797,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -816,7 +824,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -843,7 +851,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
@@ -869,7 +877,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;

@@ -29,6 +29,7 @@ func initHomeViewModel(deviceName : String?) -> UserData {
     
     if let deviceName = deviceName{
         userData.device = deviceName.replacingOccurrences( of:"[^0-9A-Za-z]", with: "", options: .regularExpression)
+        saveDeviceName(newUrl: userData.device)
     }
     return userData
 }

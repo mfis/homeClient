@@ -121,3 +121,27 @@ func loadTimerState() -> Bool {
 func saveTimerState(newState : Bool) {
     userDefaults.setValue(newState==true ? "true" : "false", forKey: "userDefaultTimerState")
 }
+
+func loadDeviceName() -> String {
+    if let x = userDefaults.string(forKey: "userDefaultKeyDeviceName") {
+        return x
+    }else{
+        return ""
+    }
+}
+
+func saveDeviceName(newUrl : String) {
+    userDefaults.setValue(newUrl, forKey: "userDefaultKeyDeviceName")
+}
+
+func loadComplicationError() -> String {
+    if let x = userDefaults.string(forKey: "userDefaultKeyComplicationError") {
+        return x
+    }else{
+        return ""
+    }
+}
+
+func saveComplicationError(newString : String) {
+    userDefaults.setValue(newString, forKey: "userDefaultKeyComplicationError")
+}

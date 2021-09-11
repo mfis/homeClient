@@ -87,6 +87,9 @@ fileprivate func loadModelInternal(userData : UserData, from : String, target : 
                 userData.watchModel = newModel
                 userData.lastSuccessTs = formattedTS()
             }
+            if(from == CONST_APP_STARTED || from == CONST_APP_ACTIVATED){
+                refreshComplicationData(model: newModel)
+            }
 
         } catch let jsonError as NSError {
             onError(msg : "error parsing json document. \(jsonError.localizedDescription)", rc : -2)
@@ -112,8 +115,3 @@ fileprivate func setTimerOn(userData : UserData, rc : Int) {
     }
 }
 
-fileprivate func formattedTS() -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyyMMdd_HHmmss"
-    return formatter.string(from: Date())
-}

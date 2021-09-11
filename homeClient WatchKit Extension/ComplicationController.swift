@@ -10,54 +10,46 @@ import SwiftUI
 
 class ComplicationController: NSObject, CLKComplicationDataSource {
     
-    // MARK: - Complication Configuration
+    lazy var data = ComplicationData.shared
+    var didReloadFromController = false
 
     func getComplicationDescriptors(handler: @escaping ([CLKComplicationDescriptor]) -> Void) {
         let descriptors = [
             CLKComplicationDescriptor(identifier: "complication", displayName: "Zuhause", supportedFamilies: CLKComplicationFamily.allCases)
-            // Multiple complication support can be added here with more descriptors
         ]
         
-        // Call the handler with the currently supported complication descriptors
         handler(descriptors)
     }
     
     func handleSharedComplicationDescriptors(_ complicationDescriptors: [CLKComplicationDescriptor]) {
-        // Do any necessary work to support these newly shared complication descriptors
     }
 
-    // MARK: - Timeline Configuration
-    
     func getTimelineEndDate(for complication: CLKComplication, withHandler handler: @escaping (Date?) -> Void) {
-        // Call the handler with the last entry date you can currently provide or nil if you can't support future timelines
         handler(nil)
     }
     
     func getPrivacyBehavior(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationPrivacyBehavior) -> Void) {
-        // Call the handler with your desired behavior when the device is locked
         handler(.showOnLockScreen)
     }
 
-    // MARK: - Timeline Population
-    
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
-        // Call the handler with the current timeline entry
+        if(data.valueModel == nil && didReloadFromController == false){
+            didReloadFromController = true
+            loadComplicationData()
+            scheduleComplicationBackgroundRefresh()
+        }else{
+            didReloadFromController = false
+        }
         handler(createTimelineEntry(forComplication: complication, date: Date()))
     }
     
     func getTimelineEntries(for complication: CLKComplication, after date: Date, limit: Int, withHandler handler: @escaping ([CLKComplicationTimelineEntry]?) -> Void) {
-        // Call the handler with the timeline entries after the given date
-        handler([createTimelineEntry(forComplication: complication, date: Date())])
+        handler([])
     }
-
-    // MARK: - Sample Templates
     
     func getLocalizableSampleTemplate(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTemplate?) -> Void) {
-        // This method will be called once per supported complication, and the results will be cached
         handler(createTemplate(forComplication: complication))
     }
-    
-    // MARK: - Complication implementation
     
     private func createTimelineEntry(forComplication complication: CLKComplication, date: Date) -> CLKComplicationTimelineEntry {
         let template = createTemplate(forComplication: complication)
@@ -66,27 +58,28 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     
     private func createTemplate(forComplication complication: CLKComplication) -> CLKComplicationTemplate {
         
+        // NSLog("Complication: " + complication.family.rawValue.description)
         switch complication.family {
         case .modularSmall:
             return createModularSmallTemplate()
         case .modularLarge:
-            return createModularLargeTemplate()
+            return createModularLargeTemplate(complicationData : data)
         case .utilitarianSmall, .utilitarianSmallFlat:
-            return createUtilitarianSmallFlatTemplate()
+            return createUtilitarianSmallFlatTemplate(complicationData : data)
         case .utilitarianLarge:
-            return createUtilitarianLargeTemplate()
+            return createUtilitarianLargeTemplate(complicationData : data)
         case .circularSmall:
             return createCircularSmallTemplate()
         case .extraLarge:
             return createExtraLargeTemplate()
         case .graphicCorner:
-            return createGraphicCornerTemplate()
+            return createGraphicCornerTemplate(complicationData : data)
         case .graphicCircular:
-            return createGraphicCircleTemplate()
+            return CLKComplicationTemplateGraphicCircularView(CircularView(complicationData: data))
         case .graphicRectangular:
             return createGraphicRectangularTemplate()
         case .graphicBezel:
-            return createGraphicBezelTemplate()
+            return createGraphicBezelTemplate(complicationData : data)
         case .graphicExtraLarge:
             return createGraphicExtraLargeTemplate()
         @unknown default:
@@ -107,8 +100,17 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         return CLKComplicationTemplateGraphicCircularImage(imageProvider: imageProviderFullColor())
     }
     
-    private func textProvider() -> CLKTextProvider {
-        return CLKTextProvider(format: "Zuhause")
+    private func textProvider(complicationData: ComplicationData, short: Bool) -> CLKTextProvider {
+        if let cd = complicationData.valueModel{
+            if(short){
+                return CLKTextProvider(format: cd.value + String.init(tendency:cd.tendency))
+            }else{
+                return CLKTextProvider(format: cd.value + String.init(tendency:cd.tendency) + " Zuhause")
+            }
+        }else{
+            return CLKTextProvider(format: "Zuhause")
+        }
+        
     }
     
     private func textProviderLineTwo() -> CLKTextProvider {
@@ -119,16 +121,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         return CLKComplicationTemplateModularSmallSimpleImage(imageProvider: imageProvider())
     }
     
-    private func createModularLargeTemplate() -> CLKComplicationTemplate {
-        return CLKComplicationTemplateModularLargeStandardBody(headerTextProvider: textProvider(), body1TextProvider: textProvider())
+    fileprivate func createModularLargeTemplate(complicationData: ComplicationData) -> CLKComplicationTemplate {
+        return CLKComplicationTemplateModularLargeStandardBody(headerTextProvider: textProvider(complicationData: complicationData, short: false), body1TextProvider: textProvider(complicationData : complicationData, short: false))
     }
     
-    private func createUtilitarianSmallFlatTemplate() -> CLKComplicationTemplate {
-        return CLKComplicationTemplateUtilitarianSmallFlat(textProvider: textProvider())
+    private func createUtilitarianSmallFlatTemplate(complicationData: ComplicationData) -> CLKComplicationTemplate {
+        return CLKComplicationTemplateUtilitarianSmallFlat(textProvider: textProvider(complicationData: complicationData, short: true))
     }
     
-    private func createUtilitarianLargeTemplate() -> CLKComplicationTemplate {
-        return CLKComplicationTemplateUtilitarianLargeFlat(textProvider: textProvider())
+    private func createUtilitarianLargeTemplate(complicationData: ComplicationData) -> CLKComplicationTemplate {
+        return CLKComplicationTemplateUtilitarianLargeFlat(textProvider: textProvider(complicationData: complicationData, short: false))
     }
     
     private func createCircularSmallTemplate() -> CLKComplicationTemplate {
@@ -139,20 +141,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
         return CLKComplicationTemplateExtraLargeSimpleImage(imageProvider: imageProvider())
     }
     
-    private func createGraphicCornerTemplate() -> CLKComplicationTemplate {
-        return CLKComplicationTemplateGraphicCornerTextImage(textProvider: textProvider(), imageProvider: imageProviderFullColor())
-    }
-    
-    private func createGraphicCircleTemplate() -> CLKComplicationTemplate {
-        return CLKComplicationTemplateGraphicCircularView(CircularView())
+    private func createGraphicCornerTemplate(complicationData: ComplicationData) -> CLKComplicationTemplate {
+        return CLKComplicationTemplateGraphicCornerTextImage(textProvider: textProvider(complicationData: complicationData, short: false), imageProvider: imageProviderFullColor())
     }
     
     private func createGraphicRectangularTemplate() -> CLKComplicationTemplate {
         return CLKComplicationTemplateGraphicRectangularFullImage(imageProvider: imageProviderFullColor())
     }
     
-    private func createGraphicBezelTemplate() -> CLKComplicationTemplate {
-        return CLKComplicationTemplateGraphicBezelCircularText(circularTemplate: imageProviderCircular(), textProvider: textProvider())
+    private func createGraphicBezelTemplate(complicationData: ComplicationData) -> CLKComplicationTemplate {
+        return CLKComplicationTemplateGraphicBezelCircularText(circularTemplate: imageProviderCircular(), textProvider: textProvider(complicationData: complicationData, short: true))
     }
     
     private func createGraphicExtraLargeTemplate() -> CLKComplicationTemplate {
