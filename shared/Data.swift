@@ -70,9 +70,6 @@ func saveUserName(newUserName : String) {
 
 func loadUserToken() -> String {
     if let x = userDefaults.string(forKey: "userDefaultKeyUserToken") {
-        #if DEBUG
-            NSLog("### loadUserToken(): \(x.prefix(50))")
-        #endif
         return x
     }else{
         return ""

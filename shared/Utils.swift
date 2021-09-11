@@ -35,6 +35,18 @@ extension String {
     }
 }
 
+extension Bool {
+    init(isRisingTendency: String){
+        self.init(isRisingTendency.contains("RISE"))
+    }
+    init(isFallingTendency: String){
+        self.init(isFallingTendency.contains("FALL"))
+    }
+    init(isSlightlyTendency: String){
+        self.init(isSlightlyTendency.contains("SLIGHT"))
+    }
+}
+
 fileprivate var colorNameDictDefault = [
     "green" : "66ff66",
     "olive" : "285028",

@@ -21,14 +21,33 @@ struct CircularView: View {
             }
             ZStack{
                 if let data = complicationData.valueModel {
-                    VStack {
-                        Text(data.value.replacingOccurrences(of: "C", with: "") + String.init(tendency:data.tendency).trimmingCharacters(in: .whitespaces)).foregroundColor(.black).padding(.top, 2)
-                        Image("zuhause").resizable()
-                            .frame(width: 22.0, height: 22.0)
-                            .padding(.top, -8).foregroundColor(.black)
-                    }
+                        ZStack {
+                            if(Bool.init(isFallingTendency: data.tendency)){
+                                Circle()
+                                    .fill(Color.init(hexOrName: ".blue", darker: true))
+                                    .brightness(Bool.init(isSlightlyTendency: data.tendency) ? -0.2 : -0.5)
+                                    .frame(width: 6.0, height: 6.0)
+                                    .offset(x: -14, y: -5)
+                            }
+                            Image("zuhause").resizable()
+                                .frame(width: 22.0, height: 22.0)
+                                .offset(y: -8)
+                                .foregroundColor(.black)
+                            if(Bool.init(isRisingTendency: data.tendency)){
+                                Circle()
+                                    .fill(Color.init(hexOrName: ".red", darker: true))
+                                    .brightness(Bool.init(isSlightlyTendency: data.tendency) ? -0.2 : -0.5)
+                                    .frame(width: 6.0, height: 6.0)
+                                    .offset(x: 14, y: -5)
+                            }
+                            Text(data.value.replacingOccurrences(of: "C", with: ""))
+                                .font(.footnote)
+                                .foregroundColor(.black)
+                                .offset(y: 7)
+                        }
                 }else{
-                    Image("zuhause").resizable()
+                    Image("zuhause").resizable().resizable()
+                        .frame(width: 33.0, height: 33.0)
                 }
             }
         }
@@ -39,7 +58,7 @@ struct ProgressSample_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let value = HomeViewValueModel(id:"test", key: "Test", value: "-21,5°C", accent: ".blue", tendency: "RISE", valueDirectives: [])
+        let value = HomeViewValueModel(id:"test", key: "Test", value: "-22,5°C", accent: ".blue", tendency: "SLIGHT_RISE", valueDirectives: [])
         let data = ComplicationData(vm: value);
         let empty = ComplicationData(vm: nil);
         
