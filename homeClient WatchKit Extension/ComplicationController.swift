@@ -11,7 +11,6 @@ import SwiftUI
 class ComplicationController: NSObject, CLKComplicationDataSource {
     
     lazy var data = ComplicationData.shared
-    var didReloadFromController = false
 
     func getComplicationDescriptors(handler: @escaping ([CLKComplicationDescriptor]) -> Void) {
         let descriptors = [
@@ -33,12 +32,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
     }
 
     func getCurrentTimelineEntry(for complication: CLKComplication, withHandler handler: @escaping (CLKComplicationTimelineEntry?) -> Void) {
-        if(data.valueModel == nil && didReloadFromController == false){
-            didReloadFromController = true
+        // #if DEBUG
+            NSLog("getCurrentTimelineEntry")
+        // #endif
+        if(data.valueModel == nil && data.lastReloadDirectFromController.timeIntervalSinceNow.rounded() < (-60)){
+            data.lastReloadDirectFromController = Date()
             loadComplicationData()
             scheduleComplicationBackgroundRefresh()
-        }else{
-            didReloadFromController = false
         }
         handler(createTimelineEntry(forComplication: complication, date: Date()))
     }
