@@ -35,6 +35,25 @@ extension String {
     }
 }
 
+extension String {
+    init(shortTendency: String){
+        switch(shortTendency){
+        case "RISE":
+            self.init("↑")
+        case "RISE_SLIGHT":
+            self.init("↑")
+        case "EQUAL":
+            self.init("≈")
+        case "FALL_SLIGHT":
+            self.init("↓")
+        case "FALL":
+            self.init("↓")
+        default:
+            self.init("")
+        }
+    }
+}
+
 extension Bool {
     init(isRisingTendency: String){
         self.init(isRisingTendency.contains("RISE"))
@@ -55,6 +74,8 @@ fileprivate var colorNameDictDefault = [
     "blue" : "66b3ff",
     "black" : "111111",
     "white" : "ffffff",
+    "purple" : "f4beee",
+    "grey" : "969696",
 ]
 
 fileprivate var colorHexDictDark = [

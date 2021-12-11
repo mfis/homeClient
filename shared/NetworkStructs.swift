@@ -18,6 +18,7 @@ struct HomeViewValueModel:  Hashable, Codable, Identifiable  {
     var key : String
     var symbol: String = ""
     var value : String
+    var valueShort : String = ""
     var accent : String = ""
     var tendency : String
     var valueDirectives : [String]

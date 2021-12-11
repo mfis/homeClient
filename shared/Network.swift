@@ -32,8 +32,14 @@ func httpCall(urlString : String, pin: String?, timeoutSeconds : Double, method 
     let url = URL(string: urlString)
     guard let requestUrl = url else { fatalError() }
     let timeout : TimeInterval = timeoutSeconds
+    
     var request = URLRequest(url: requestUrl, timeoutInterval: timeout)
     request.httpMethod = method.rawValue
+    request.allowsConstrainedNetworkAccess = true
+    request.allowsCellularAccess = true
+    request.allowsExpensiveNetworkAccess = true
+    request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+    
     if let postParams = postParams {
         request.httpBody = buildQuery(postParams).data(using: .utf8)
     }
