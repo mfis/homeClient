@@ -17,10 +17,14 @@ class ComplicationData: ObservableObject {
     
     static let shared = ComplicationData(vm: nil)
     
+    var lastReloadDirectFromController = Date(timeIntervalSince1970: 0)
+    
     @Published var valueModel : HomeViewValueModel? = nil {
         
         didSet {
-            NSLog("We have new complication data!!")
+            // #if DEBUG
+                NSLog("We have new complication data!!")
+            // #endif
             DispatchQueue.main.async {
                 let server = CLKComplicationServer.sharedInstance()
                 for complication in server.activeComplications ?? [] {
@@ -41,10 +45,12 @@ func loadComplicationData(){
     }
     
     func onSuccess(response : String, newToken : String?){
-        NSLog("!!! loadComplicationData - onSuccess")
+        // #if DEBUG
+            NSLog("!!! loadComplicationData - onSuccess")
+        // #endif
         let decoder = JSONDecoder ()
         do{
-        let newModel = try decoder.decode(HomeViewModel.self, from: response.data(using: .utf8)!)
+          let newModel = try decoder.decode(HomeViewModel.self, from: response.data(using: .utf8)!)
             refreshComplicationData(model: newModel)
         } catch let jsonError as NSError {
             onError(msg : "error parsing json document. \(jsonError.localizedDescription)", rc : -2)
@@ -57,7 +63,7 @@ func loadComplicationData(){
     
     if(!loadUserToken().isEmpty && !loadRefreshState()){
         let authDict = ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : loadDeviceName()]
-        httpCall(urlString: loadUrl() + "getAppModel?viewTarget=watch", pin: nil, timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
+          httpCall(urlString: loadUrl() + "getAppModel?viewTarget=complication", pin: nil, timeoutSeconds: 8.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
     }
 }
 
