@@ -15,21 +15,21 @@ struct CircularView: View {
     var body: some View {
         ZStack{
             if let data = complicationData.valueModel {
-                Circle().fill(Color.init(hexOrName: data.accent, darker: true))
+                Circle().fill(Color.init(hexOrName: data.accent, darker: false))
             }else{
-                Circle().fill(Color.init(hexOrName: ".grey", darker: true))
+                Circle().fill(Color.init(hexOrName: ".grey", darker: false))
             }
             ZStack{
                 if let data = complicationData.valueModel {
                         ZStack {
                             Image("zuhause").resizable()
-                                .frame(width: 22.0, height: 22.0)
-                                .offset(y: -8)
+                                .frame(width: 18.0, height: 18.0)
+                                .offset(y: -11)
                                 .foregroundColor(.black)
                             Text(data.valueShort + String.init(shortTendency: data.tendency))
-                                .font(.footnote)
+                                .font(.subheadline.weight(.medium))
                                 .foregroundColor(.black)
-                                .offset(y: 7)
+                                .offset(y: 4)
                         }
                 }else{
                     Image("zuhause").resizable().resizable()
@@ -44,8 +44,9 @@ struct ProgressSample_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let value = HomeViewValueModel(id:"test", key: "Test", value: "-22,5°C", valueShort: "-23°", accent: ".purple", tendency: "RISE_SLIGHT", valueDirectives: [])
+        let value = HomeViewValueModel(id:"test", key: "Test", value: "-22,5°C", valueShort: "-13°", accent: ".purple", tendency: "FALL", valueDirectives: [])
         let data = ComplicationData(vm: value);
+        
         let empty = ComplicationData(vm: nil);
         
         Group{

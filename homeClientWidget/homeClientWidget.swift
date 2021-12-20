@@ -62,7 +62,6 @@ struct homeClientWidgetEntryView : View {
     
     var entry: Provider.Entry
     @Environment(\.widgetFamily) var family
-    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack() {
@@ -84,7 +83,7 @@ struct homeClientWidgetEntryView : View {
                                 .padding(.horizontal, 10)
             }
             Spacer()
-        }.background(colorScheme == .dark ? Color.init(hexOrName: ".black") : Color.white)
+        }.background(Color.init(hexOrName: ".black"))
     }
 }
 
@@ -112,17 +111,16 @@ struct WidgetTitleView : View {
                         if(showPlaceAsSymbol(placeDirectives: place.placeDirectives)){
                             ForEach(place.values) { value in
                                 ZStack{
-                                    Circle()
-                                        .strokeBorder(Color.init(hexOrName: ".olive"), lineWidth: 1.5)
-                                        .background(Circle().foregroundColor(Color.init(hexOrName: value.accent, darker: true)))
-                                        .frame(width: 24, height: 24)
                                     Image(systemName: value.symbol)
                                         .resizable()
-                                        .foregroundColor(.black)
-                                        .frame(height: 14)
+                                        .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white", darker: true))
+                                        .frame(width: 14, height: 16)
                                         .scaledToFit()
-                                }.padding(.trailing, 10)
+                                }.padding(.top, 1)
                             }
+                            Text("")
+                                .font(.caption)
+                                .padding(.leading, 6)
                         }
                     }
                 }
@@ -134,25 +132,24 @@ struct WidgetTitleView : View {
 struct WidgetPlaceView : View {
     var place : HomeViewPlaceModel
     @Environment(\.widgetFamily) var family
-    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         Text(place.name)
             .font(.caption)
-            .padding(.top, 1)
+            .padding(.top, 1).foregroundColor(Color.white)
         HStack() {
             ForEach(place.values) { value in
                 VStack{
                     if (family == .systemSmall) {
-                        Text(value.key).font(.caption)
+                        Text(value.key).font(.caption).foregroundColor(Color.white)
                     }
                     HStack {
                         if (family != .systemSmall) {
-                            Text(value.key).font(.caption)
+                            Text(value.key).font(.caption).foregroundColor(Color.white)
                         }
                         Text(value.value + String.init(tendency:value.tendency))
                             .padding(.horizontal, 0)
                             .font(.subheadline)
-                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: (colorScheme == .dark ? ".white" : ".black"), darker: colorScheme == .light))
+                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
                     }
                 }
             }
@@ -210,11 +207,12 @@ struct homeClientWidget_Previews: PreviewProvider {
         
         let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", accent: "66ff66", tendency: "↓", valueDirectives: [])
         
-        let valC1 = HomeViewValueModel(id:"vc1", key: "FensterUndTueren", symbol: "lock", value: "geschlossen", accent: "66ff66", tendency: "", valueDirectives: [])
+        let valC1 = HomeViewValueModel(id:"vc1", key: "FensterUndTueren", symbol: "lock.fill", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
+        let valC2 = HomeViewValueModel(id:"vc2", key: "Licht", symbol: "lightbulb.fill", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
         
         let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [], placeDirectives: WIDGET_LABEL_ALL)
         let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [], placeDirectives: WIDGET_LABEL_ALL)
-        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
+        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
         
         let model: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC])
         
