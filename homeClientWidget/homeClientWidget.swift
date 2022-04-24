@@ -110,13 +110,15 @@ struct WidgetTitleView : View {
                     ForEach(model.places) { place in
                         if(showPlaceAsSymbol(placeDirectives: place.placeDirectives)){
                             ForEach(place.values) { value in
-                                ZStack{
-                                    Image(systemName: value.symbol)
-                                        .resizable()
-                                        .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white", darker: true))
-                                        .frame(width: 14, height: 16)
-                                        .scaledToFit()
-                                }.padding(.top, 1)
+                                if(showSymbol(valueDirectives: value.valueDirectives) && !value.symbol.isEmpty){
+                                    ZStack{
+                                        Image(systemName: value.symbol)
+                                            .resizable()
+                                            .foregroundColor(Color.init(hexOrName: "", defaultHexOrName: ".black", darker: true))
+                                            .frame(width: 14, height: 16)
+                                            .scaledToFit()
+                                    }.padding(.top, 1)
+                                }
                             }
                             Text("")
                                 .font(.caption)
@@ -137,19 +139,21 @@ struct WidgetPlaceView : View {
             .font(.caption)
             .padding(.top, 1).foregroundColor(Color.white)
         HStack() {
-            ForEach(place.values) { value in
-                VStack{
-                    if (family == .systemSmall) {
-                        Text(value.key).font(.caption).foregroundColor(Color.white)
-                    }
-                    HStack {
-                        if (family != .systemSmall) {
+            ForEach(place.values) { value in 
+                if(showValueAsLabel(valueDirectives: value.valueDirectives)){
+                    VStack{
+                        if (family == .systemSmall) {
                             Text(value.key).font(.caption).foregroundColor(Color.white)
                         }
-                        Text(value.value + String.init(tendency:value.tendency))
-                            .padding(.horizontal, 0)
-                            .font(.subheadline)
-                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                        HStack {
+                            if (family != .systemSmall) {
+                                Text(value.key).font(.caption).foregroundColor(Color.white)
+                            }
+                            Text(value.value + String.init(tendency:value.tendency))
+                                .padding(.horizontal, 0)
+                                .font(.subheadline)
+                                .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                        }
                     }
                 }
             }
@@ -174,6 +178,11 @@ func showPlaceAsLabel(placeDirectives: [String], widgetFamily: WidgetFamily) -> 
 func showPlaceAsSymbol(placeDirectives: [String]) -> Bool {
     
     return placeDirectives.contains(CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL)
+}
+
+func showValueAsLabel(valueDirectives: [String]) -> Bool {
+     
+    return !valueDirectives.contains(CONST_VALUE_DIRECTIVE_WIDGET_SKIP)
 }
 
 func showSymbol(valueDirectives: [String]) -> Bool {
@@ -208,11 +217,12 @@ struct homeClientWidget_Previews: PreviewProvider {
         let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", accent: "66ff66", tendency: "↓", valueDirectives: [])
         
         let valC1 = HomeViewValueModel(id:"vc1", key: "FensterUndTueren", symbol: "lock.fill", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
-        let valC2 = HomeViewValueModel(id:"vc2", key: "Licht", symbol: "lightbulb.fill", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
+        let valC2 = HomeViewValueModel(id:"vc2", key: "Licht", symbol: "sun.max", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
+        let valC3 = HomeViewValueModel(id:"vc3", key: "Wolke", symbol: "cloud.fill", value: "wolke", accent: ".orange", tendency: "", valueDirectives: [])
         
         let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [], placeDirectives: WIDGET_LABEL_ALL)
         let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [], placeDirectives: WIDGET_LABEL_ALL)
-        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
+        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2, valC3], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
         
         let model: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC])
         
