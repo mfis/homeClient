@@ -114,15 +114,15 @@ struct WidgetTitleView : View {
                                     ZStack{
                                         Image(systemName: value.symbol)
                                             .resizable()
-                                            .foregroundColor(Color.init(hexOrName: "", defaultHexOrName: ".black", darker: true))
-                                            .frame(width: 14, height: 16)
                                             .scaledToFit()
-                                    }.padding(.top, 1)
+                                            .foregroundColor(Color.init(hexOrName: "", defaultHexOrName: ".black", darker: true))
+                                            .frame(width: 16, height: 16)
+                                    }.padding(.top, 2)
                                 }
                             }
                             Text("")
                                 .font(.caption)
-                                .padding(.leading, 6)
+                                .padding(.leading, 3)
                         }
                     }
                 }
