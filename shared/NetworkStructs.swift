@@ -48,3 +48,16 @@ func newEmptyModel(state: String, msg : String) -> HomeViewModel {
     return HomeViewModel(timestamp: state, defaultAccent: "ffffff", places: [HomeViewPlaceModel(id: "msg" , name: msg, values: [], actions: [], placeDirectives: [])])
 }
 
+struct PushSettingsModel: Codable {
+    var settings: [PushSettingModel]
+}
+
+struct PushSettingModel: Hashable, Codable, Identifiable, Equatable {
+    let id : String
+    var text : String
+    var value : Bool
+}
+
+func newEmptyPushSettings() -> PushSettingsModel {
+    return PushSettingsModel(settings: [])
+}

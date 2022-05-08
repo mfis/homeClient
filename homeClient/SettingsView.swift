@@ -16,38 +16,60 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 
-                Section(header: Text("Adresse der Client Anwendung"), footer: Text("Installation siehe: https://github.com/mfis/Home")){
+                Section(header: Text("Adresse der Anwendung"), footer: Text("Installation siehe: https://github.com/mfis/Home")){
                     TextField("URL", text: $userData.settingsUrl).keyboardType(.URL).disableAutocorrection(true).autocapitalization(.none)
                 }
                 
-                Section(footer: Text(self.userData.settingsLoginMessage)){
-                    HStack{
+                if(!loadUrl().isEmpty && !loadUserToken().isEmpty && userData.webViewPath == "/"){
+                    
+                    Section(header: Text("Angemeldet als " + loadUserName())){
                         Button(action: {
-                            validateClientInstallation(urlString: userData.settingsUrl, userData : userData, doLogin: false)
-                        }) {
-                            Text("Übernehmen")
-                        }
-                        Spacer()
-                        Image(systemName: self.userData.settingsStateName).imageScale(.medium)
-                    }
-                }
-                
-                if(!loadUrl().isEmpty && userData.webViewPath == "/"){
-                    Section(){
-                        Button(action: {
-                            userData.doWebViewLogout = true
+                            userData.prepareWebViewLogout()
+                            userData.resetPushSettingsModel()
                         }) {
                             Text("Abmelden")
                         }
                     }
+                    
+                    if(!userData.pushSettingsModel.settings.isEmpty){
+                        Section(header: Text("Push-Mitteilungen")){
+                            ForEach($userData.pushSettingsModel.settings) { (model: Binding<PushSettingModel>) in
+                                Toggle(isOn: model.value) {
+                                    Text("" + model.text.wrappedValue)
+                                }.onChange(of: model.wrappedValue) { model in
+                                    writePushSettings(id: model.id, value: model.value, userData: userData)
+                                }.disabled(userData.pushSettingsSaveInProgress)
+                            }
+                        }
+                    }
+                    
+                }else{
+                    Section(footer: Text(self.userData.settingsLoginMessage)){
+                        HStack{
+                            Button(action: {
+                                validateClientInstallation(urlString: userData.settingsUrl, userData : userData, doLogin: false)
+                            }) {
+                                Text("Übernehmen")
+                            }
+                            Spacer()
+                            if(!self.userData.settingsStateName.isEmpty){
+                                Image(systemName: self.userData.settingsStateName).imageScale(.medium)
+                            }
+                        }
+                    }
                 }
                 
-                Text("Version: \(userData.build)").foregroundColor(.gray)
+                Section(header: Text("Build: \(userData.build)").foregroundColor(.gray)){}
+                
                 
             }.navigationBarTitle(Text("Einstellungen"))
-        }            .onDisappear(){
-            self.userData.settingsStateName = "circle"
+        } .onDisappear(){
+            self.userData.settingsStateName = ""
             self.userData.settingsLoginMessage = ""
+        } .onAppear(){
+            userData.pushSettingsSaveInProgress = false
+            userData.resetPushSettingsModel()
+            readPushSettings(userData: userData)
         }
     }
 }
@@ -55,10 +77,18 @@ struct SettingsView: View {
 #if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     
-    @State static var userData = UserData()
-    
     static var previews: some View {
-        SettingsView().environmentObject(self.userData)
+        
+        Group {
+            SettingsView().environmentObject({ () -> UserData in
+                saveUserToken(newUserToken: "x")
+                saveUrl(newUrl: "x")
+                let userData = UserData()
+                userData.settingsUrl = "http://localhost:8080"
+                userData.pushSettingsModel = PushSettingsModel(settings: [PushSettingModel(id: "k1", text: "Name1", value: true), PushSettingModel(id: "k2", text: "Name2", value: false)])
+                return userData
+            }())
+        }
     }
 }
 #endif

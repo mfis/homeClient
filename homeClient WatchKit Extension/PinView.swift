@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PinView: View {
     
-    var length:  Int
     @Binding var pin:  String
     @Binding var showModal: Bool
     
@@ -17,7 +16,7 @@ struct PinView: View {
         GeometryReader { proxy in
             VStack{
                 HStack(spacing: 4) {
-                    ForEach(0 ..< length) { index in
+                    ForEach(0 ..< 6) { index in
                         Circle()
                             .fill(Color.primary.opacity(index < pin.count
                                                             ? 0.9
@@ -53,7 +52,7 @@ struct PinView: View {
     
     func press(_ number : String){
         pin = pin + number
-        if(pin.count==length){
+        if(pin.count==6){
             showModal = false
         }
     }
@@ -75,7 +74,7 @@ struct PinButton: ButtonStyle {
 
 struct PinView_Previews: PreviewProvider {
     static var previews: some View {
-        PinView(length: 6, pin: .constant(""), showModal: .constant(true)).toolbar(content: {
+        PinView(pin: .constant(""), showModal: .constant(true)).toolbar(content: {
             
         })
     }

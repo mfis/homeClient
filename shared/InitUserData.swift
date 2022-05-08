@@ -9,8 +9,6 @@ import Foundation
 
 func initHomeViewModel(deviceName : String?) -> UserData {
     
-    NSLog("### initHomeViewModel")
-    
     migrateUserDefaults()
     
     let userData = UserData()

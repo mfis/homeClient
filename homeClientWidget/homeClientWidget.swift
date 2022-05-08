@@ -46,7 +46,7 @@ struct Provider: TimelineProvider {
         }
         
         if(!loadUserToken().isEmpty && !loadRefreshState()){
-            let authDict = ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : "HomeClientAppWebView"]
+            let authDict = ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : CONST_WEBVIEW_USERAGENT]
             httpCall(urlString: loadUrl() + "getAppModel?viewTarget=widget", pin: nil, timeoutSeconds: 6.0, method: HttpMethod.GET, postParams: nil, authHeaderFields: authDict, errorHandler: onError, successHandler: onSuccess)
         }
     }

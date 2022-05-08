@@ -19,7 +19,7 @@ struct WebViewComponent : UIViewRepresentable {
         let webView = WKWebView()
         webView.isOpaque = false
         webView.backgroundColor = .clear
-        webView.customUserAgent = "HomeClientAppWebView"
+        webView.customUserAgent = CONST_WEBVIEW_USERAGENT
         webViewObserver.userData = userData
         webViewObserver.webView = webView
         webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
@@ -32,14 +32,22 @@ struct WebViewComponent : UIViewRepresentable {
     
     func updateUIView(_ webView: WKWebView, context: Context) {
         
+        var readCookie = true
         if(userData.doWebViewLogout){
             userData.doWebViewLogout = false
+            readCookie = false
             DispatchQueue.main.async {
                 webView.evaluateJavaScript("window.location.href = '/logoff';") { (result, error) in
                     if let error = error {
                         print("logout JS error: \(error)")
                     }
+                    if let _ = result {
+                        saveUserToken(newUserToken: "")
+                        saveUserName(newUserName: "")
+                    }
                 }
+                saveUserToken(newUserToken: "")
+                saveUserName(newUserName: "")
             }
         }
         
@@ -48,7 +56,10 @@ struct WebViewComponent : UIViewRepresentable {
             return
         }
         
-        readLoginTokenCookie(webView.configuration.websiteDataStore)
+        if(readCookie && userData.webViewPath == "/"){
+            readLoginTokenCookie(webView.configuration.websiteDataStore, userData: userData)
+        }
+        
         saveRefreshState(newState: false)
     }
     
@@ -62,7 +73,6 @@ struct WebViewComponent : UIViewRepresentable {
             saveRefreshState(newState: true)
             var request = URLRequest.init(url: URL.init(string: loadUrl())!)
             request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
-            // request.addValue(loadUserToken(), forHTTPHeaderField: "appAdditionalCookieHeader")
             webView.load(request)
             userData.lastCalledUrl = loadUrl()
         }
@@ -72,10 +82,10 @@ struct WebViewComponent : UIViewRepresentable {
         uiView.removeObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title))
     }
     
-    func readLoginTokenCookie(_ store : WKWebsiteDataStore) {
+    func readLoginTokenCookie(_ store : WKWebsiteDataStore, userData : UserData) {
         store.httpCookieStore.getAllCookies { (cookies) in
             for cookie in cookies {
-                if(cookie.name == "HomeLoginCookie"){
+                if(cookie.name == CONST_WEBVIEW_COOKIENAME){
                     if(loadUserToken() != cookie.value){
                         saveUserToken(newUserToken: cookie.value)
                         saveUserName(newUserName: cookie.value.components(separatedBy: "*")[0])

@@ -30,6 +30,7 @@ struct homeClientApp: App {
                 userData.isInBackground = false
                 break
             case .inactive:
+                userData.isInBackground = true
                 break
             case .background:
                 userData.isInBackground = true

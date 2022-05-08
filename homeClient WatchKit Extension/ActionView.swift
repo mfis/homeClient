@@ -74,7 +74,7 @@ struct SecureActionButton : View {
             }
             pin = ""
         }) {
-            PinView(length : pinLength, pin: $pin, showModal: self.$showModal)
+            PinView(pin: $pin, showModal: self.$showModal)
         }.alert(isPresented: $userData.showAlert) {
             Alert(title: Text("Fehler"), message: Text("Aktion konnte nicht ausgeführt werden"),
                   dismissButton: .default (Text("Na gut")) {

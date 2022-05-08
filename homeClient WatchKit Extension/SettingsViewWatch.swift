@@ -27,23 +27,26 @@ struct SettingsViewWatch: View {
                 }
             }
             
-            TextField("URL", text: $userData.settingsUrl)
-            TextField("Anmeldename", text: $userData.settingsUserName)
-            SecureField("Passwort", text: $userData.settingsUserPassword)
+            TextField("URL", text: $userData.settingsUrl).disableAutocorrection(true).disabled(!loadUserToken().isEmpty)
+            TextField("Anmeldename", text: $userData.settingsUserName).disableAutocorrection(true).disabled(!loadUserToken().isEmpty)
             
-            HStack{
-                Button(action: {
-                    signIn(userData : self.userData)
-                }) {
-                    Text("Anmelden")
+            if(loadUserToken().isEmpty){
+                SecureField("Passwort", text: $userData.settingsUserPassword).disableAutocorrection(true)
+                
+                HStack{
+                    Button(action: {
+                        signIn(userData : self.userData)
+                    }) {
+                        Text("Anmelden")
+                    }
+                    Spacer()
+                    Image(systemName: self.userData.settingsStateName).imageScale(.medium)
                 }
-                Spacer()
-                Image(systemName: self.userData.settingsStateName).imageScale(.medium)
             }
             
             Section() {
                 VStack {
-                    Text("Version:\n\(userData.build) \nModel:\n\(userData.modelTimestamp)\nBG:\n\(userData.isInBackground.description)\nTimerState:\n\(loadTimerState().description)\nTimerTS:\n\(userData.lastTimerTs)\nSuccessTS:\n\(userData.lastSuccessTs)\nErrorTS:\n\(userData.lastErrorTs)\nErrorMsg:\n\(userData.lastErrorMsg)\nComplicationMsg:\n\(loadComplicationError())").foregroundColor(.gray)
+                    Text("Build:\n\(userData.build) \nModel:\n\(userData.modelTimestamp)\nBG:\n\(userData.isInBackground.description)\nTimerState:\n\(loadTimerState().description)\nTimerTS:\n\(userData.lastTimerTs)\nSuccessTS:\n\(userData.lastSuccessTs)\nErrorTS:\n\(userData.lastErrorTs)\nErrorMsg:\n\(userData.lastErrorMsg)\nComplicationMsg:\n\(loadComplicationError())").foregroundColor(.gray)
                 }
             }
             

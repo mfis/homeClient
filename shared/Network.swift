@@ -10,6 +10,7 @@ import Foundation
 
 func cleanupUrl(forUrl: String) -> String {
     var url = forUrl.lowercased()
+    url = url.replacingOccurrences( of:" ", with: "", options: .literal)
     if(!url.starts(with: "http://") && !url.starts(with: "https://")){
         url = "https://" + url
     }
@@ -45,17 +46,8 @@ func httpCall(urlString : String, pin: String?, timeoutSeconds : Double, method 
     }
     request.addValue("true", forHTTPHeaderField: "CSRF")
     if let authHeaderFields = authHeaderFields {
-        #if DEBUG
-            NSLog("### httpCall() token used: \(authHeaderFields["appUserToken"]!.prefix(50)) for url=\(urlString)")
-        #endif
-        request.addValue(authHeaderFields["appUserName"]!, forHTTPHeaderField: "appUserName")
-        request.addValue(authHeaderFields["appUserToken"]!, forHTTPHeaderField: "appUserToken")
-        request.addValue(authHeaderFields["appDevice"]!, forHTTPHeaderField: "appDevice")
-        if let x = authHeaderFields["refreshToken"]{
-            #if DEBUG
-                NSLog("### httpCall() requesting new token: " + x)
-            #endif
-            request.addValue(authHeaderFields["refreshToken"]!, forHTTPHeaderField: "refreshToken")
+        for field in authHeaderFields {
+            request.addValue(field.value, forHTTPHeaderField: field.key)
         }
     }
     

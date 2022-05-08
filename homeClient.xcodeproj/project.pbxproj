@@ -49,6 +49,9 @@
 		8CA396D726A4A2F40074E26E /* NetworkStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22225167E37001C5841 /* NetworkStructs.swift */; };
 		8CCBE42726E66510007BB182 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */; };
 		8CCBE42926E68076007BB182 /* ComplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCBE42826E68076007BB182 /* ComplicationData.swift */; };
+		8CCF161B2827C9470099592F /* PushSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF161A2827C9470099592F /* PushSettings.swift */; };
+		8CCF161D2827CAB80099592F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF161C2827CAB80099592F /* Constants.swift */; };
+		8CCF161E2827E14B0099592F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF161C2827CAB80099592F /* Constants.swift */; };
 		8CE7863725290A510076715D /* ActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863625290A510076715D /* ActionView.swift */; };
 		8CE7863F252910AD0076715D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863E252910AD0076715D /* Action.swift */; };
 		8CEDAC9926A754B4003687C6 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21C25167E16001C5841 /* UserData.swift */; };
@@ -162,6 +165,8 @@
 		8CA7F3F325B2294A00645A54 /* homeClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = homeClient.entitlements; sourceTree = "<group>"; };
 		8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		8CCBE42826E68076007BB182 /* ComplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationData.swift; sourceTree = "<group>"; };
+		8CCF161A2827C9470099592F /* PushSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushSettings.swift; path = homeClient/PushSettings.swift; sourceTree = SOURCE_ROOT; };
+		8CCF161C2827CAB80099592F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		8CE7863625290A510076715D /* ActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionView.swift; sourceTree = "<group>"; };
 		8CE7863E252910AD0076715D /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		8CEDAC9E26A75670003687C6 /* InitUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitUserData.swift; sourceTree = "<group>"; };
@@ -228,6 +233,7 @@
 				8C63E1BE25167ADB001C5841 /* ContentView.swift */,
 				8C63E1C025167ADD001C5841 /* Assets.xcassets */,
 				8C63E1C525167ADD001C5841 /* Info.plist */,
+				8CCF161A2827C9470099592F /* PushSettings.swift */,
 				8C63E1C225167ADD001C5841 /* Preview Content */,
 				8C63E23425167EC1001C5841 /* signInFirst.html */,
 				8C63E23925169EFA001C5841 /* SettingsView.swift */,
@@ -289,6 +295,7 @@
 		8C63E1FD25167C4A001C5841 /* shared */ = {
 			isa = PBXGroup;
 			children = (
+				8CCF161C2827CAB80099592F /* Constants.swift */,
 				8C63E262251754A3001C5841 /* Utils.swift */,
 				8C63E21625167DE8001C5841 /* Data.swift */,
 				8C63E21C25167E16001C5841 /* UserData.swift */,
@@ -500,6 +507,8 @@
 				8C63E22F25167E69001C5841 /* SignIn.swift in Sources */,
 				8C63E21D25167E16001C5841 /* UserData.swift in Sources */,
 				8C63E1BD25167ADB001C5841 /* homeClientApp.swift in Sources */,
+				8CCF161B2827C9470099592F /* PushSettings.swift in Sources */,
+				8CCF161D2827CAB80099592F /* Constants.swift in Sources */,
 				8C6F2F742615F2CE00C5BFB7 /* WebViewComponent.swift in Sources */,
 				8C8337C926D224ED000DEF18 /* Utils.swift in Sources */,
 			);
@@ -540,6 +549,7 @@
 				8CEDAC9A26A75562003687C6 /* Data.swift in Sources */,
 				8CEDAC9B26A75585003687C6 /* Network.swift in Sources */,
 				8CA396CB26A47EE80074E26E /* homeClientWidget.swift in Sources */,
+				8CCF161E2827E14B0099592F /* Constants.swift in Sources */,
 				8CEDAC9926A754B4003687C6 /* UserData.swift in Sources */,
 				8CA396D626A498A10074E26E /* Utils.swift in Sources */,
 			);
