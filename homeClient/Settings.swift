@@ -54,6 +54,26 @@ func writePushSettings(id: String, value: Bool, userData : UserData) {
     httpCall(urlString: loadUrl() + "setPushSetting", pin: nil, timeoutSeconds: 5.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: onSuccess)
 }
 
+func writePresenceState(presenceState: String) {
+    
+    func onError(msg : String, rc : Int){
+        NSLog("Error writing presence state: " + rc.description + " - " + msg)
+        // TODO: save error flag, so we can write again while next app activation
+    }
+    
+    func onSuccess(response : String, newToken : String?){
+        // noop
+    }
+    
+    if(loadUserToken().isEmpty){
+        return
+    }
+    
+    let postParams = ["value": presenceState]
+    
+    httpCall(urlString: loadUrl() + "setPresence", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: onSuccess)
+}
+
 fileprivate func parseResponse(userData : UserData, response: String) {
     
     do{
@@ -61,6 +81,15 @@ fileprivate func parseResponse(userData : UserData, response: String) {
         DispatchQueue.main.async() {
             userData.pushSettingsModel = model
             userData.pushSettingsSaveInProgress = false
+        }
+        if let lat = model.attributes.first(where: {$0.id == "LAT"})?.value, let d = Double(lat){
+            saveGeofencingLat(newVal: d)
+        }
+        if let lon = model.attributes.first(where: {$0.id == "LON"})?.value, let d = Double(lon){
+            saveGeofencingLon(newVal: d)
+        }
+        if let radius = model.attributes.first(where: {$0.id == "RADIUS"})?.value, let d = Double(radius){
+            saveGeofencingRadius(newVal: d)
         }
     } catch let jsonError as NSError {
         DispatchQueue.main.async() {

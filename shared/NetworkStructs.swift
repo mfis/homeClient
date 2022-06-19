@@ -50,6 +50,7 @@ func newEmptyModel(state: String, msg : String) -> HomeViewModel {
 
 struct PushSettingsModel: Codable {
     var settings: [PushSettingModel]
+    var attributes: [AppAttributeModel]
 }
 
 struct PushSettingModel: Hashable, Codable, Identifiable, Equatable {
@@ -58,6 +59,11 @@ struct PushSettingModel: Hashable, Codable, Identifiable, Equatable {
     var value : Bool
 }
 
+struct AppAttributeModel: Hashable, Codable, Identifiable, Equatable {
+    let id : String
+    var value : String
+}
+
 func newEmptyPushSettings() -> PushSettingsModel {
-    return PushSettingsModel(settings: [])
+    return PushSettingsModel(settings: [], attributes: [])
 }

@@ -142,3 +142,51 @@ func loadComplicationError() -> String {
 func saveComplicationError(newString : String) {
     userDefaults.setValue(newString, forKey: "userDefaultKeyComplicationError")
 }
+
+func loadIsGeofencingOn() -> Bool {
+    if let x = userDefaults.string(forKey: "isGeofencingOn") {
+        return x == "true" ? true : false
+    }else{
+        return false // default
+    }
+}
+
+func saveIsGeofencingOn(newValue : Bool) {
+    userDefaults.setValue(newValue==true ? "true" : "false", forKey: "isGeofencingOn")
+}
+
+func loadGeofencingRadius() -> Double? {
+    if let x = userDefaults.string(forKey: "userDefaultKeyGeofencingRadius") {
+        return Double(x)
+    }else{
+        return nil
+    }
+}
+
+func saveGeofencingRadius(newVal : Double) {
+    userDefaults.setValue(newVal, forKey: "userDefaultKeyGeofencingRadius")
+}
+
+func loadGeofencingLon() -> Double? {
+    if let x = userDefaults.string(forKey: "userDefaultKeyGeofencingLon") {
+        return Double(x)
+    }else{
+        return nil
+    }
+}
+
+func saveGeofencingLon(newVal : Double) {
+    userDefaults.setValue(newVal, forKey: "userDefaultKeyGeofencingLon")
+}
+
+func loadGeofencingLat() -> Double? {
+    if let x = userDefaults.string(forKey: "userDefaultKeyGeofencingLat") {
+        return Double(x)
+    }else{
+        return nil
+    }
+}
+
+func saveGeofencingLat(newVal : Double) {
+    userDefaults.setValue(newVal, forKey: "userDefaultKeyGeofencingLat")
+}

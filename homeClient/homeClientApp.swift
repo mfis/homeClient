@@ -17,6 +17,7 @@ struct homeClientApp: App {
     @Environment(\.scenePhase) private var phase
     @StateObject private var userData = initHomeViewModel(deviceName: UIDevice.current.name)
     @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    @StateObject var location = Location.shared
     
     var body: some Scene {
         WindowGroup {

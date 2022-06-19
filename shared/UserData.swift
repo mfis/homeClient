@@ -18,8 +18,9 @@ final class UserData: ObservableObject {
     @Published var settingsUrl = loadUrl()
     @Published var settingsUserName = loadUserName()
     @Published var settingsUserPassword = ""
-    @Published var settingsStateName = ""
+    @Published var settingsStateName = "" 
     @Published var settingsLoginMessage = ""
+    @Published var settingsIsGeofencingOn = loadIsGeofencingOn();
     
     @Published var lastCalledUrl = ""
 
