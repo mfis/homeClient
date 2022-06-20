@@ -105,7 +105,7 @@ struct LocationView: View {
     let location = Location.shared
     
     var body: some View {
-        Section(header: Text("Anwesenheit")){
+        Section(header: Text("Anwesenheit"), footer: Text("Entfernung: " + formatDistance(location.getDistanceFromHome()))){
             
             if(location.authorizationStatus == .restricted || location.authorizationStatus == .denied){
                 Text("Lokalisierung wurde abgelehnt. Zur Nutzung bitte in den Systemeinstellungen der Zuhause-App erlauben.")
@@ -134,7 +134,6 @@ struct LocationView: View {
                 .alert("Leider ist ein Fehler aufgetreten.", isPresented: $showGeofencingNotTurnedOffAlert) {
                     Button("Schade :-(") { userData.settingsIsGeofencingOn = true }
                 }
-                Text("Debug Entfernung (m): " + (location.getDistanceFromHome()?.description ?? "n/a"))
             }
         }
     }

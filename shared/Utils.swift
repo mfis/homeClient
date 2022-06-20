@@ -128,6 +128,18 @@ extension Color {
     }
 }
 
+func formatDistance(_ d: Double?) -> String {
+    if let d = d {
+        if d.isLessThanOrEqualTo(1000.0){
+            return "\(String(format:"%.0f", d)) m"
+        }else{
+            return "\(String(format:"%.0f", (d / 1000))) km"
+        }
+    }else{
+        return "Unbekannt"
+    }
+}
+
 func formattedTS() -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyyMMdd_HHmmss"

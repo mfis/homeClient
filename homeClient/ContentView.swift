@@ -60,7 +60,11 @@ struct NavIconLeft : View {
     
     var body: some View {
         HStack{
-            Image(systemName: "arrow.clockwise.circle").foregroundColor(Color.gray)
+            Image(systemName: "arrow.clockwise.circle")
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(Color.gray)
+                .frame(width: 15, height: 15)
             Text(userData.webViewTitle).frame(width: 70, alignment: .leading).foregroundColor(Color.gray).font(.caption)
         }
     }
