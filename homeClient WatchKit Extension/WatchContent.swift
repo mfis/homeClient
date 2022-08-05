@@ -18,6 +18,13 @@ fileprivate let dispatchQueueLoadModel = DispatchQueue(label: "DispatchQueueLoad
 func initWatchModel(deviceName : String?) -> UserData {
     let userData =  initHomeViewModel(deviceName:  deviceName)
     userData.isInBackground = false
+    
+    if(userData.isDebugMode()){
+        userData.settingsUrl = "http://192.168.2.111:8099"
+        userData.settingsUserName = "test"
+        userData.settingsUserPassword = "abc"
+    }
+    
     loadWatchModel(userData: userData, from : CONST_APP_STARTED)
     return userData
 }

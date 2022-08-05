@@ -46,7 +46,7 @@ struct SettingsViewWatch: View {
             
             Section() {
                 VStack {
-                    Text("Build:\n\(userData.build) \nModel:\n\(userData.modelTimestamp)\nBG:\n\(userData.isInBackground.description)\nTimerState:\n\(loadTimerState().description)\nTimerTS:\n\(userData.lastTimerTs)\nSuccessTS:\n\(userData.lastSuccessTs)\nErrorTS:\n\(userData.lastErrorTs)\nErrorMsg:\n\(userData.lastErrorMsg)\nComplicationMsg:\n\(loadComplicationError())").foregroundColor(.gray)
+                    Text("Build:\n\(userData.build)\nDebugMode:\(userData.isDebugMode().description) \nModel:\n\(userData.modelTimestamp)\nBG:\n\(userData.isInBackground.description)\nTimerState:\n\(loadTimerState().description)\nTimerTS:\n\(userData.lastTimerTs)\nSuccessTS:\n\(userData.lastSuccessTs)\nErrorTS:\n\(userData.lastErrorTs)\nErrorMsg:\n\(userData.lastErrorMsg)\nComplicationMsg:\n\(loadComplicationError())").foregroundColor(.gray)
                 }
             }
             

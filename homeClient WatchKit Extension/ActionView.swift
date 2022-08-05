@@ -31,7 +31,13 @@ struct ActionListEntry : View {
     var action : HomeViewActionModel
     
     var body: some View {
-        if(action.link == "#"){
+        if(action.link.isEmpty){
+            HStack{
+                Spacer()
+                Text(action.name).foregroundColor(.white).font(Font.headline).padding()
+                Spacer()
+            }
+        }else if(action.link == "#"){
             Text(action.name).foregroundColor(.black)
         }else{
             if(action.link.contains("needsPin")){

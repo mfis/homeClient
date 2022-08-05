@@ -57,4 +57,13 @@ final class UserData: ObservableObject {
     @Published var lastSuccessTs : String = "n/a"
     @Published var lastErrorTs : String = "n/a"
     @Published var lastErrorMsg : String = "n/a"
+    
+    func isDebugMode() -> Bool{
+        #if DEBUG
+        if("" == ""){
+            return true
+        }
+        #endif
+        return false
+    }
 }
