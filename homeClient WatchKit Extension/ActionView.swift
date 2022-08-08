@@ -58,6 +58,15 @@ struct DefaultActionButton : View {
     var body: some View {
         Button(action.name) {
             doAction(action.link, pin: nil, userData: self.userData, presentation: presentation)
+        }.alert(isPresented: $userData.showAlert) {
+            Alert(title: Text("Fehler"), message: Text("Aktion konnte nicht ausgeführt werden"),
+                  dismissButton: .default (Text("Na gut")) {
+                    self.userData.showAlert = false // Test #1
+                    DispatchQueue.main.async {
+                        userData.showAlert = false // Test #2
+                    }
+                  }
+              )
         }
     }
 }

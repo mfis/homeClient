@@ -20,6 +20,15 @@ func cleanupUrl(forUrl: String) -> String {
     return url
 }
 
+func hostAndPathToURL(host: String, path: String) -> String {
+    let hostCleaned = cleanupUrl(forUrl: host);
+    var pathCleaned = path
+    if(path.starts(with: "/")){
+        pathCleaned.remove(at: path.firstIndex(of: "/")!)
+    }
+    return hostCleaned + pathCleaned
+}
+
 enum HttpMethod : String{
     case GET = "GET"
     case POST = "POST"
