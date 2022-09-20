@@ -50,7 +50,9 @@ class WebViewObserver : NSObject {
                 for (key,value) in dict {
                     if(key.rawValue == "new"){
                         if let url = value as? NSURL {
-                            self.userData.webViewPath = url.path ?? ""
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.userData.webViewPath = url.path ?? ""
+                            }
                         }
                     }
                 }

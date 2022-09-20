@@ -74,7 +74,9 @@ struct WebViewComponent : UIViewRepresentable {
             var request = URLRequest.init(url: URL.init(string: loadUrl())!)
             request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
             webView.load(request)
-            userData.lastCalledUrl = loadUrl()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                userData.lastCalledUrl = loadUrl()
+            }
         }
     }
     
