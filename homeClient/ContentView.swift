@@ -75,7 +75,7 @@ struct NavIconRight : View {
     @EnvironmentObject private var userData : UserData
     
     var body: some View {
-        NavigationLink(destination: SettingsView().environmentObject(userData)) {
+        NavigationLink(destination: SettingsView().environmentObject(userData).preferredColorScheme(.dark)) {
             Image(systemName: "slider.horizontal.3")
         }.buttonStyle(PlainButtonStyle())
     }

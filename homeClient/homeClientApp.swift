@@ -21,7 +21,7 @@ struct homeClientApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(userData)
+            ContentView().environmentObject(userData).preferredColorScheme(.dark)
         }.onChange(of: phase) { newPhase in
             // #if DEBUG
                 NSLog("### iOS App onChange: \(newPhase)")
