@@ -37,7 +37,7 @@ struct SettingsView: View {
             userData.pushSettingsSaveInProgress = false
             userData.resetPushSettingsModel()
             readPushSettings(userData: userData)
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

@@ -21,7 +21,7 @@ struct ContentView: View {
             }else{
                 Content()
             }
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
     
 }
