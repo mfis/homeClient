@@ -71,8 +71,8 @@ struct WebViewComponent : UIViewRepresentable {
             userData.lastCalledUrl = fileUrl.absoluteString
         }else{
             saveRefreshState(newState: true)
-            var request = URLRequest.init(url: URL.init(string: loadUrl())!)
-            request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
+            let request = URLRequest.init(url: URL.init(string: loadUrl())!)
+            // request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
             webView.load(request)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 userData.lastCalledUrl = loadUrl()
