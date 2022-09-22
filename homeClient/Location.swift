@@ -24,11 +24,13 @@ final class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         authorizationStatus = locationManager.authorizationStatus
         super.init()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.startUpdatingLocation()
-        if(loadIsGeofencingOn()){
-            _ = geofencingForHome()
+        DispatchQueue.global().async {
+            self.locationManager.delegate = self
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            self.locationManager.startUpdatingLocation()
+            if(loadIsGeofencingOn()){
+                _ = self.geofencingForHome()
+            }
         }
     }
     
@@ -39,7 +41,7 @@ final class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func requestPermission() {
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
