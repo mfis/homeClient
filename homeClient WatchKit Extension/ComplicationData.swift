@@ -22,7 +22,7 @@ class ComplicationData: ObservableObject {
     @Published var valueModel : HomeViewValueModel? = nil {
         
         didSet {
-            DispatchQueue.main.async {
+            DispatchQueue.global().async {
                 let server = CLKComplicationServer.sharedInstance()
                 for complication in server.activeComplications ?? [] {
                     server.reloadTimeline(for: complication)
