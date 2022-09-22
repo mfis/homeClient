@@ -24,14 +24,14 @@ struct homeClientApp: App {
             ContentView().environmentObject(userData).preferredColorScheme(.dark)
         }.onChange(of: phase) { newPhase in
             // #if DEBUG
-                NSLog("### iOS App onChange: \(newPhase)")
+                // NSLog("### iOS App onChange: \(newPhase)")
             // #endif
             switch newPhase {
             case .active:
                 userData.isInBackground = false
                 break
             case .inactive:
-                userData.isInBackground = true
+                userData.isInBackground = false
                 break
             case .background:
                 userData.isInBackground = true
