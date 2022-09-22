@@ -201,7 +201,7 @@ struct homeClientWidget: Widget {
         }
         .configurationDisplayName("Zuhause")
         .description("Zuhause")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .accessoryCircular])
     }
 }
 
@@ -233,6 +233,8 @@ struct homeClientWidget_Previews: PreviewProvider {
                 .previewContext(WidgetPreviewContext(family: .systemMedium)).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
             homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: nil))
                     .previewContext(WidgetPreviewContext(family: .systemMedium))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: nil))
+                    .previewContext(WidgetPreviewContext(family: .accessoryCircular))
         }
     }
 }
