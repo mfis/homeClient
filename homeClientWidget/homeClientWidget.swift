@@ -62,9 +62,22 @@ struct homeClientWidgetEntryView : View {
     
     var entry: Provider.Entry
     @Environment(\.widgetFamily) var family
-
-    var body: some View {
-        VStack() {
+    
+    fileprivate func getLockscreenCircularValue(model : HomeViewModel) -> HomeViewValueModel?{
+        for place in model.places{
+            if(place.placeDirectives.contains(CONST_PLACE_DIRECTIVE_WIDGET_LOCKSCREEN_CIRCULAR)){
+                for value in place.values{
+                    if(!value.valueDirectives.contains(CONST_VALUE_DIRECTIVE_LOCKSCREEN_SKIP)){
+                        return value
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
+    fileprivate func HomeScreenWidget() -> some View {
+        return VStack() {
             WidgetTitleView(model: entry.model)
             if let model = entry.model{
                 ForEach(model.places) { place in
@@ -74,16 +87,41 @@ struct homeClientWidgetEntryView : View {
                 }
             } else{
                 RoundedRectangle(cornerRadius: 5, style: .continuous)
-                                .fill(Color.gray)
-                                .frame(height: 18)
-                                .padding(.horizontal, 30)
+                    .fill(Color.gray)
+                    .frame(height: 18)
+                    .padding(.horizontal, 30)
                 RoundedRectangle(cornerRadius: 5, style: .continuous)
-                                .fill(Color.gray)
-                                .frame(height: 18)
-                                .padding(.horizontal, 10)
+                    .fill(Color.gray)
+                    .frame(height: 18)
+                    .padding(.horizontal, 10)
             }
             Spacer()
         }.background(Color.init(hexOrName: ".black"))
+    }
+    
+    fileprivate func LockScreenWidget() -> some View {
+        return ZStack{
+            Color.black
+            if let model = entry.model, let data = getLockscreenCircularValue(model: model) {
+                Image("zuhause").resizable()
+                    .frame(width: 20.0, height: 20.0)
+                    .offset(y: -15).brightness(1)
+                Text(data.valueShort + String.init(shortTendency: data.tendency))
+                    .font(.subheadline.weight(.medium))
+                    .offset(y: 4)
+            }else{
+                Image("zuhause").resizable()
+                    .frame(width: 28.0, height: 28.0).brightness(1)
+            }
+        }
+    }
+    
+    var body: some View {
+        if(family == .accessoryCircular){
+            LockScreenWidget()
+        }else{
+            HomeScreenWidget()
+        }
     }
 }
 
@@ -211,18 +249,17 @@ struct homeClientWidget_Previews: PreviewProvider {
         
         let WIDGET_LABEL_ALL = [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE]
         
-        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", value: "24,0°C", accent: ".orange", tendency: "EQUAL", valueDirectives: [])
+        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", value: "24,0°C", valueShort: "24,0°", accent: ".orange", tendency: "EQUAL", valueDirectives: [])
         let valA2 = HomeViewValueModel(id:"va2", key: "Feuchte", value: "65%rH", tendency: "↑", valueDirectives: [])
         
         let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", accent: "66ff66", tendency: "↓", valueDirectives: [])
         
         let valC1 = HomeViewValueModel(id:"vc1", key: "FensterUndTueren", symbol: "lock.fill", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
         let valC2 = HomeViewValueModel(id:"vc2", key: "Licht", symbol: "sun.max", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
-        let valC3 = HomeViewValueModel(id:"vc3", key: "Wolke", symbol: "cloud.fill", value: "wolke", accent: ".orange", tendency: "", valueDirectives: [])
         
-        let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [], placeDirectives: WIDGET_LABEL_ALL)
+        let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE, CONST_PLACE_DIRECTIVE_WIDGET_LOCKSCREEN_CIRCULAR])
         let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [], placeDirectives: WIDGET_LABEL_ALL)
-        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2, valC3], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
+        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
         
         let model: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC])
         
@@ -233,7 +270,7 @@ struct homeClientWidget_Previews: PreviewProvider {
                 .previewContext(WidgetPreviewContext(family: .systemMedium)).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
             homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: nil))
                     .previewContext(WidgetPreviewContext(family: .systemMedium))
-            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: nil))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
                     .previewContext(WidgetPreviewContext(family: .accessoryCircular))
         }
     }
