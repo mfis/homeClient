@@ -105,10 +105,10 @@ struct homeClientWidgetEntryView : View {
             if let model = entry.model, let data = getLockscreenCircularValue(model: model) {
                 Image("zuhause").resizable()
                     .frame(width: 20.0, height: 20.0)
-                    .offset(y: -15).brightness(1)
+                    .offset(y: -12).brightness(1)
                 Text(data.valueShort + String.init(shortTendency: data.tendency))
                     .font(.subheadline.weight(.medium))
-                    .offset(y: 4)
+                    .offset(y: 8)
             }else{
                 Image("zuhause").resizable()
                     .frame(width: 28.0, height: 28.0).brightness(1)
@@ -261,16 +261,23 @@ struct homeClientWidget_Previews: PreviewProvider {
         let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [], placeDirectives: WIDGET_LABEL_ALL)
         let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
         
-        let model: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC])
+        let modelA: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC])
+
+        let valD1 = HomeViewValueModel(id:"vd1", key: "Wärme", value: "4°", valueShort: "4°", accent: ".blue", tendency: "RISE", valueDirectives: [])
+        let placeD = HomeViewPlaceModel(id: "d", name: "Draußen", values: [valD1], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE, CONST_PLACE_DIRECTIVE_WIDGET_LOCKSCREEN_CIRCULAR])
+        
+        let modelB: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeD])
         
         Group {
-            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: modelA))
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
-            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: modelA))
                 .previewContext(WidgetPreviewContext(family: .systemMedium)).preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
             homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: nil))
                     .previewContext(WidgetPreviewContext(family: .systemMedium))
-            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: model))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: modelA))
+                    .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+            homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: modelB))
                     .previewContext(WidgetPreviewContext(family: .accessoryCircular))
         }
     }
