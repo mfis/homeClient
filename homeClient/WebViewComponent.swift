@@ -68,7 +68,9 @@ struct WebViewComponent : UIViewRepresentable {
         if loadUrl().isEmpty {
             let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
             webView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl.deletingLastPathComponent())
-            userData.lastCalledUrl = fileUrl.absoluteString
+            DispatchQueue.main.async {
+                userData.lastCalledUrl = fileUrl.absoluteString
+            }
         }else{
             saveRefreshState(newState: true)
             let request = URLRequest.init(url: URL.init(string: loadUrl())!)
