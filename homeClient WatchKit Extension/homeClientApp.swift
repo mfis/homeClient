@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct homeClientApp: App {
     
-    @WKExtensionDelegateAdaptor private var appDelegate: ExtensionDelegate
+    @WKApplicationDelegateAdaptor private var appDelegate: ExtensionDelegate
     @Environment(\.scenePhase) private var phase
     @StateObject private var userData = initWatchModel(deviceName:  WKInterfaceDevice.current().name)
     
