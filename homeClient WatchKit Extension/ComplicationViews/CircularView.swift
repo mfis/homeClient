@@ -26,10 +26,26 @@ struct CircularView: View {
                                 .frame(width: 18.0, height: 18.0)
                                 .offset(y: -11)
                                 .foregroundColor(.black)
-                            Text(data.valueShort + String.init(shortTendency: data.tendency))
-                                .font(.subheadline.weight(.medium))
-                                .foregroundColor(.black)
-                                .offset(y: 4)
+                            HStack(spacing: 1){
+                                Text(data.valueShort)
+                                    .font(.subheadline.weight(.medium))
+                                    .foregroundColor(.black)
+                                    .offset(y: 4)
+                                if(data.symbol.isEmpty){
+                                    Text(String.init(shortTendency: data.tendency))
+                                        .font(.subheadline.weight(.medium))
+                                        .foregroundColor(.black)
+                                        .offset(y: 4)
+                                } else {
+                                    Image(systemName: data.symbol)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .offset(y: 4)
+                                        .foregroundColor(.black)
+                                        .frame(width: 14, height: 14)
+                                        .padding(0)
+                                }
+                            }
                         }
                 }else{
                     Image("zuhause").resizable().resizable()
@@ -44,7 +60,7 @@ struct ProgressSample_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let value = HomeViewValueModel(id:"test", key: "Test", value: "-22,5°C", valueShort: "-13°", accent: ".purple", tendency: "FALL", valueDirectives: [])
+        let value = HomeViewValueModel(id:"test", key: "Test", symbol: "arrow.forward.circle", value: "-22,5°C", valueShort: "-13°", accent: ".purple", tendency: "RISE", valueDirectives: [])
         let data = ComplicationData(vm: value);
         
         let empty = ComplicationData(vm: nil);

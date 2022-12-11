@@ -77,12 +77,22 @@ struct homeClientWidgetEntryView : View {
     }
     
     fileprivate func HomeScreenWidget() -> some View {
-        return VStack() {
+        
+        var columns = [
+            GridItem(.flexible())
+        ]
+        if(family != .systemSmall){
+            columns.append(GridItem(.flexible()))
+        }
+        
+        return VStack(spacing: 0) {
             WidgetTitleView(model: entry.model)
             if let model = entry.model{
-                ForEach(model.places) { place in
-                    if(showPlaceAsLabel(placeDirectives: place.placeDirectives, widgetFamily: family)){
-                        WidgetPlaceView(place: place)
+                LazyVGrid(columns: columns, spacing: 0) {
+                    ForEach(model.places) { place in
+                        if(showPlaceAsLabel(placeDirectives: place.placeDirectives, widgetFamily: family)){
+                            WidgetPlaceView(place: place)
+                        }
                     }
                 }
             } else{
@@ -106,9 +116,25 @@ struct homeClientWidgetEntryView : View {
                 Image("zuhause").resizable()
                     .frame(width: 20.0, height: 20.0)
                     .offset(y: -12).brightness(1)
-                Text(data.valueShort + String.init(shortTendency: data.tendency))
-                    .font(.subheadline.weight(.medium))
-                    .offset(y: 8)
+                HStack(spacing: 2){
+                    Text(data.valueShort)
+                        .font(.subheadline.weight(.medium))
+                        .offset(y: 8)
+                        .dynamicTypeSize(.medium)
+                    if(data.symbol.isEmpty){
+                        Text(String.init(shortTendency: data.tendency))
+                            .font(.subheadline.weight(.medium))
+                            .offset(y: 8)
+                            .dynamicTypeSize(.medium)
+                    } else {
+                        Image(systemName: data.symbol)
+                            .resizable()
+                            .scaledToFit()
+                            .offset(y: 8)
+                            .frame(width: 14, height: 14)
+                            .padding(0)
+                    }
+                }
             }else{
                 Image("zuhause").resizable()
                     .frame(width: 28.0, height: 28.0).brightness(1)
@@ -117,7 +143,7 @@ struct homeClientWidgetEntryView : View {
     }
     
     var body: some View {
-        if(family == .accessoryCircular){
+        if(family == .accessoryCircular || family == .accessoryInline || family == .accessoryRectangular){
             LockScreenWidget()
         }else{
             HomeScreenWidget()
@@ -131,17 +157,18 @@ struct WidgetTitleView : View {
         ZStack{
             Rectangle()
                 .fill(Color.init(hexOrName: ".green", darker: true))
-                .frame(height: 36)
+                .frame(height: 28)
             HStack{
                 Image("zuhause")
                     .resizable()
-                    .frame(width: 28.0, height: 28.0)
-                    .padding(.leading, 10)
+                    .frame(width: 22.0, height: 22.0)
+                    .padding(.leading, 10).padding(.trailing, 0)
                 Text(model?.timestamp ?? "")
                     .fontWeight(.light)
                     .font(.caption)
-                    .padding(.top, 5)
+                    .padding(.top, 5).padding(.leading, 0)
                     .foregroundColor(Color.black)
+                    .dynamicTypeSize(.medium)
                 Spacer()
                 
                 if let model = model{
@@ -154,13 +181,14 @@ struct WidgetTitleView : View {
                                             .resizable()
                                             .scaledToFit()
                                             .foregroundColor(Color.init(hexOrName: "", defaultHexOrName: ".black", darker: true))
-                                            .frame(width: 16, height: 16)
+                                            .frame(width: 14, height: 14)
                                     }.padding(.top, 2)
                                 }
                             }
                             Text("")
                                 .font(.caption)
-                                .padding(.leading, 3)
+                                .padding(.leading, 5)
+                                .dynamicTypeSize(.medium)
                         }
                     }
                 }
@@ -173,28 +201,44 @@ struct WidgetPlaceView : View {
     var place : HomeViewPlaceModel
     @Environment(\.widgetFamily) var family
     var body: some View {
-        Text(place.name)
-            .font(.caption)
-            .padding(.top, 1).foregroundColor(Color.white)
-        HStack() {
-            ForEach(place.values) { value in 
-                if(showValueAsLabel(valueDirectives: value.valueDirectives)){
-                    VStack{
-                        if (family == .systemSmall) {
-                            Text(value.key).font(.caption).foregroundColor(Color.white)
-                        }
-                        HStack {
-                            if (family != .systemSmall) {
+        Link(destination: URL(string: "homeclient://linkX_" + place.id)!) {
+            VStack(spacing: 0) {
+                Text(place.name)
+                    .font(.subheadline)
+                    .padding(.top, 5).padding(.bottom, 0)
+                    .foregroundColor(Color.white)
+                    .dynamicTypeSize(.medium)
+                HStack() {
+                    ForEach(place.values) { value in
+                        if(showValueAsLabel(valueDirectives: value.valueDirectives)){
+                            VStack(spacing: 0){
                                 Text(value.key).font(.caption).foregroundColor(Color.white)
-                            }
-                            Text(value.value + String.init(tendency:value.tendency))
-                                .padding(.horizontal, 0)
-                                .font(.subheadline)
-                                .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                                    .padding(0)
+                                    .dynamicTypeSize(.medium)
+                                HStack(spacing: 4){
+                                    Text(value.value)
+                                        .font(.subheadline)
+                                        .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                                        .dynamicTypeSize(.medium)
+                                    if(value.symbol.isEmpty){
+                                        Text(String.init(tendency:value.tendency))
+                                            .font(.subheadline)
+                                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                                            .dynamicTypeSize(.medium)
+                                    } else {
+                                        Image(systemName: value.symbol)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                                            .frame(width: 14, height: 14)
+                                            .padding(0)
+                                    }
+                                }.padding(0)
+                            }.padding(.top, 0).padding(.bottom, 5).padding(.leading, 5).padding(.trailing, 5) //.background(Color.purple)
                         }
                     }
                 }
-            }
+            }.padding(0)
         }
     }
 }
@@ -239,7 +283,7 @@ struct homeClientWidget: Widget {
         }
         .configurationDisplayName("Zuhause")
         .description("Zuhause")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .accessoryCircular])
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular])
     }
 }
 
@@ -249,21 +293,23 @@ struct homeClientWidget_Previews: PreviewProvider {
         
         let WIDGET_LABEL_ALL = [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE]
         
-        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", value: "24,0°C", valueShort: "24,0°", accent: ".orange", tendency: "EQUAL", valueDirectives: [])
-        let valA2 = HomeViewValueModel(id:"va2", key: "Feuchte", value: "65%rH", tendency: "↑", valueDirectives: [])
-        
-        let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", accent: "66ff66", tendency: "↓", valueDirectives: [])
+        let valA1 = HomeViewValueModel(id:"va1", key: "Wärme", symbol: "arrow.forward.circle", value: "24°C", valueShort: "24,5°", accent: ".orange", tendency: "RISE", valueDirectives: [])
+        let valA2 = HomeViewValueModel(id:"va2", key: "2-Tage", symbol: "cloud.rain", value: "3-6....°C", valueDirectives: [])
+         
+        let valB1 = HomeViewValueModel(id:"vb1", key: "Wärme", value: "20,0-21,5°C", valueShort: "20,0-21,5°C", accent: "66ff66", tendency: "↓", valueDirectives: [])
         
         let valC1 = HomeViewValueModel(id:"vc1", key: "FensterUndTueren", symbol: "lock.fill", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
         let valC2 = HomeViewValueModel(id:"vc2", key: "Licht", symbol: "sun.max", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
+        let valE1 = HomeViewValueModel(id:"ve1", key: "XYZ", value: "123", accent: "66ff66", tendency: "↓", valueDirectives: [])
         
         let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE, CONST_PLACE_DIRECTIVE_WIDGET_LOCKSCREEN_CIRCULAR])
         let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [], placeDirectives: WIDGET_LABEL_ALL)
         let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
+        let placeE = HomeViewPlaceModel(id: "e", name: "Sonstwas", values: [valE1], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE])
         
-        let modelA: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC])
+        let modelA: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC, placeE])
 
-        let valD1 = HomeViewValueModel(id:"vd1", key: "Wärme", value: "4°", valueShort: "4°", accent: ".blue", tendency: "RISE", valueDirectives: [])
+        let valD1 = HomeViewValueModel(id:"vd1", key: "Wärme", symbol: "arrow.forward.circle", value: "5°", valueShort: "-15°", accent: ".blue", tendency: "RISE", valueDirectives: [])
         let placeD = HomeViewPlaceModel(id: "d", name: "Draußen", values: [valD1], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE, CONST_PLACE_DIRECTIVE_WIDGET_LOCKSCREEN_CIRCULAR])
         
         let modelB: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeD])
