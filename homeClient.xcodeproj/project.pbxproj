@@ -145,6 +145,7 @@
 		8CA396CC26A47EE90074E26E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8CA396CE26A47EE90074E26E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8CA7F3F325B2294A00645A54 /* homeClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = homeClient.entitlements; sourceTree = "<group>"; };
+		8CADD0942947C187001BD83A /* homeClient WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "homeClient WatchKit App.entitlements"; sourceTree = "<group>"; };
 		8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		8CCBE42826E68076007BB182 /* ComplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationData.swift; sourceTree = "<group>"; };
 		8CCF161A2827C9470099592F /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = homeClient/Settings.swift; sourceTree = SOURCE_ROOT; };
@@ -236,6 +237,7 @@
 		8C63E1CC25167ADD001C5841 /* homeClient WatchKit App */ = {
 			isa = PBXGroup;
 			children = (
+				8CADD0942947C187001BD83A /* homeClient WatchKit App.entitlements */,
 				8C63E1CD25167ADE001C5841 /* Assets.xcassets */,
 				8C63E1CF25167ADE001C5841 /* Info.plist */,
 			);
@@ -649,8 +651,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "homeClient WatchKit App/homeClient WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10.1.0.B;
+				CURRENT_PROJECT_VERSION = 10.1.0.C;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -680,8 +683,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "homeClient WatchKit App/homeClient WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10.1.0.B;
+				CURRENT_PROJECT_VERSION = 10.1.0.C;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -710,7 +714,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10.1.0.B;
+				CURRENT_PROJECT_VERSION = 10.1.0.C;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -742,7 +746,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10.1.0.B;
+				CURRENT_PROJECT_VERSION = 10.1.0.C;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -774,7 +778,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10.1.0.B;
+				CURRENT_PROJECT_VERSION = 10.1.0.C;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -800,7 +804,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10.1.0.B;
+				CURRENT_PROJECT_VERSION = 10.1.0.C;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

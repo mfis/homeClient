@@ -31,20 +31,10 @@ struct CircularView: View {
                                     .font(.subheadline.weight(.medium))
                                     .foregroundColor(.black)
                                     .offset(y: 4)
-                                if(data.symbol.isEmpty){
-                                    Text(String.init(shortTendency: data.tendency))
-                                        .font(.subheadline.weight(.medium))
-                                        .foregroundColor(.black)
-                                        .offset(y: 4)
-                                } else {
-                                    Image(systemName: data.symbol)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .offset(y: 4)
-                                        .foregroundColor(.black)
-                                        .frame(width: 14, height: 14)
-                                        .padding(0)
-                                }
+                                Text(String.init(shortTendency: data.tendency))
+                                    .font(.subheadline.weight(.medium))
+                                    .foregroundColor(.black)
+                                    .offset(y: 4)
                             }
                         }
                 }else{

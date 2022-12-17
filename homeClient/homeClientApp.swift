@@ -21,7 +21,10 @@ struct homeClientApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(userData).preferredColorScheme(.dark)
+            ContentView().environmentObject(userData).preferredColorScheme(.dark).onOpenURL { url in
+                //guard url.scheme == "homeclient" else { return }
+                NSLog("Received deep link a: \(url)")
+            }
         }.onChange(of: phase) { newPhase in
             // #if DEBUG
                 // NSLog("### iOS App onChange: \(newPhase)")
@@ -47,7 +50,7 @@ struct homeClientApp: App {
 }
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         registerForPushNotifications()
         // check if launched from notification
