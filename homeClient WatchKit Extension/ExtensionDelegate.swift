@@ -9,7 +9,7 @@ import Foundation
 import WatchKit
 import os
 
-class ExtensionDelegate: NSObject, WKApplicationDelegate {
+class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func handle(_ backgroundTasks: Set<WKRefreshBackgroundTask>) {
         
@@ -39,7 +39,7 @@ class ExtensionDelegate: NSObject, WKApplicationDelegate {
 func scheduleComplicationBackgroundRefresh() {
     
     let targetDate = Date().addingTimeInterval(16.0 * 60.0)
-    WKApplication.shared().scheduleBackgroundRefresh(withPreferredDate: targetDate, userInfo: nil) { (error) in
+    WKExtension.shared().scheduleBackgroundRefresh(withPreferredDate: targetDate, userInfo: nil) { (error) in
         
         if let error = error {
             NSLog("error creating background task: \(error.localizedDescription)")
