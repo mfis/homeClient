@@ -234,7 +234,7 @@ struct WidgetPlaceView : View {
                                             .padding(0)
                                     }
                                 }.padding(0)
-                            }.padding(.top, 0).padding(.bottom, 5).padding(.leading, 5).padding(.trailing, 5) //.background(Color.purple)
+                            }.padding(.top, 0).padding(.bottom, 5).padding(.leading, 4).padding(.trailing, 4) //.background(Color.purple)
                         }
                     }
                 }
