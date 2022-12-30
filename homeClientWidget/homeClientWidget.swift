@@ -24,7 +24,14 @@ struct Provider: TimelineProvider {
         
         var entries: [SimpleEntry] = []
         let now = Date()
-        let reloadDate = Calendar.current.date(byAdding: .minute, value: 30, to: now)!
+        var addingMinutes : Int
+        if(Calendar.current.component(.hour, from: now) < 6){
+            addingMinutes = 30
+        }else{
+            addingMinutes = 20
+        }
+        
+        let reloadDate = Calendar.current.date(byAdding: .minute, value: addingMinutes, to: now)!
         
         func onError(msg : String, rc : Int){
             NSLog("getTimeline - onError: \(rc) - \(msg)")
