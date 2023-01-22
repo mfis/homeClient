@@ -29,6 +29,13 @@ class WebViewObserver : NSObject {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                         self.userData.webViewTitle = String(newTitleValue[range.upperBound...])
                                     }
+                                    if(!self.userData.webViewFastLink.isEmpty){
+                                        DispatchQueue.main.async {
+                                            NSLog("fastLinkTo('\(self.userData.webViewFastLink)')")
+                                            self.webView?.evaluateJavaScript("fastLinkTo('\(self.userData.webViewFastLink)')")
+                                            self.userData.webViewFastLink = ""
+                                        }
+                                    }
                                 }
                             }
                             if(!loadUrl().isEmpty && userData.webViewPath == "/"){

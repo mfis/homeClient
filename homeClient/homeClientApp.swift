@@ -22,13 +22,13 @@ struct homeClientApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().environmentObject(userData).preferredColorScheme(.dark).onOpenURL { url in
-                //guard url.scheme == "homeclient" else { return }
-                NSLog("Received deep link a: \(url)")
+                if let idRange = url.absoluteString.range(of: "?id=") { // FIXME
+                    let id = url.absoluteString.suffix(from: idRange.upperBound)
+                    // NSLog("Received deep link ID: \(id.description)")
+                    userData.webViewFastLink = id.description
+                }
             }
         }.onChange(of: phase) { newPhase in
-            // #if DEBUG
-                // NSLog("### iOS App onChange: \(newPhase)")
-            // #endif
             switch newPhase {
             case .active:
                 userData.isInBackground = false
@@ -39,6 +39,7 @@ struct homeClientApp: App {
             case .background:
                 userData.isInBackground = true
                 userData.webViewTitle = ""
+                userData.prepareBackground()
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 WidgetCenter.shared.reloadAllTimelines()
                 break

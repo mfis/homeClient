@@ -39,6 +39,7 @@ struct homeClientApp: App {
                 userData.watchModel = userData.clearwatchModel
                 scheduleComplicationBackgroundRefresh()
                 loadComplicationData()
+                userData.prepareBackground()
                 break
             @unknown default:
                 break
