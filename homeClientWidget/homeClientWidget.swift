@@ -208,47 +208,56 @@ struct WidgetPlaceView : View {
     var place : HomeViewPlaceModel
     @Environment(\.widgetFamily) var family
     var body: some View {
-        Link(destination: URL(string: "homeclient://linkX_" + place.id)!) {
-            VStack(spacing: 0) {
-                Text(place.name)
-                    .font(.subheadline)
-                    .padding(.top, 5).padding(.bottom, 0)
-                    .foregroundColor(Color.white)
-                    .dynamicTypeSize(.medium)
-                HStack() {
-                    ForEach(place.values) { value in
-                        if(showValueAsLabel(valueDirectives: value.valueDirectives)){
-                            VStack(spacing: 0){
-                                Text(value.key).font(.caption).foregroundColor(Color.white)
-                                    .padding(0)
-                                    .dynamicTypeSize(.medium)
-                                HStack(spacing: 4){
-                                    Text(value.value)
-                                        .font(.subheadline)
-                                        .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
-                                        .dynamicTypeSize(.medium)
-                                    if(value.symbol.isEmpty){
-                                        Text(String.init(tendency:value.tendency))
-                                            .font(.subheadline)
-                                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
-                                            .dynamicTypeSize(.medium)
-                                    } else {
-                                        Image(systemName: value.symbol)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
-                                            .frame(width: 14, height: 14)
-                                            .padding(0)
-                                    }
-                                }.padding(0)
-                            }.padding(.top, 0).padding(.bottom, 5).padding(.leading, 4).padding(.trailing, 4) //.background(Color.purple)
-                        }
+        VStack(spacing: 0) {
+            Text(place.name)
+                .font(.subheadline)
+                .padding(.top, 5).padding(.bottom, 0)
+                .foregroundColor(Color.white)
+                .dynamicTypeSize(.medium)
+            HStack() {
+                ForEach(place.values) { value in
+                    if(showValueAsLabel(valueDirectives: value.valueDirectives)){
+                        WidgetValueView(value: value)
                     }
                 }
-            }.padding(0)
+            }
+        }.padding(0)
+    }
+}
+
+struct WidgetValueView : View {
+    var value : HomeViewValueModel
+    @Environment(\.widgetFamily) var family
+    var body: some View {
+        Link(destination: URL(string: "homeclient://fastLink?id=\(value.id)")!) {
+            VStack(spacing: 0){
+                Text(value.key).font(.caption).foregroundColor(Color.white)
+                    .padding(0)
+                    .dynamicTypeSize(.medium)
+                HStack(spacing: 4){
+                    Text(value.value)
+                        .font(.subheadline)
+                        .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                        .dynamicTypeSize(.medium)
+                    if(value.symbol.isEmpty){
+                        Text(String.init(tendency:value.tendency))
+                            .font(.subheadline)
+                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                            .dynamicTypeSize(.medium)
+                    } else {
+                        Image(systemName: value.symbol)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(Color.init(hexOrName: value.accent, defaultHexOrName: ".white"))
+                            .frame(width: 14, height: 14)
+                            .padding(0)
+                    }
+                }.padding(0)
+            }.padding(.top, 0).padding(.bottom, 5).padding(.leading, 4).padding(.trailing, 4)
         }
     }
 }
+    
 
 func showPlaceAsLabel(placeDirectives: [String], widgetFamily: WidgetFamily) -> Bool {
     
