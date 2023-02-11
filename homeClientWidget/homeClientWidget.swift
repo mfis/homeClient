@@ -184,11 +184,19 @@ struct WidgetTitleView : View {
                             ForEach(place.values) { value in
                                 if(showSymbol(valueDirectives: value.valueDirectives) && !value.symbol.isEmpty){
                                     ZStack{
-                                        Image(systemName: value.symbol)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .foregroundColor(Color.init(hexOrName: "", defaultHexOrName: ".black", darker: true))
-                                            .frame(width: 14, height: 14)
+                                        if(value.symbol.starts(with: "asset-")){
+                                            Image(value.symbol)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .foregroundColor(Color.init(hexOrName: "", defaultHexOrName: ".black", darker: true))
+                                                .frame(width: 14, height: 14)
+                                        }else{
+                                            Image(systemName: value.symbol)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .foregroundColor(Color.init(hexOrName: "", defaultHexOrName: ".black", darker: true))
+                                                .frame(width: 14, height: 14)
+                                        }
                                     }.padding(.top, 2)
                                 }
                             }
@@ -316,12 +324,13 @@ struct homeClientWidget_Previews: PreviewProvider {
         
         let valC1 = HomeViewValueModel(id:"vc1", key: "FensterUndTueren", symbol: "lock.fill", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
         let valC2 = HomeViewValueModel(id:"vc2", key: "Licht", symbol: "sun.max", value: "geschlossen", accent: ".orange", tendency: "", valueDirectives: [])
+        let valC3 = HomeViewValueModel(id:"vc3", key: "AC", symbol: "asset-aircon", value: "acon", accent: "", tendency: "", valueDirectives: [])
         let valE1 = HomeViewValueModel(id:"ve1", key: "Netz", value: "12 kW/h", accent: "66ff66", tendency: "", valueDirectives: [])
         let valE2 = HomeViewValueModel(id:"ve2", key: "Last", value: "3 kW", accent: "66ff66", tendency: "", valueDirectives: [])
         
         let placeA = HomeViewPlaceModel(id: "a", name: "Draußen", values: [valA1, valA2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE, CONST_PLACE_DIRECTIVE_WIDGET_LOCKSCREEN_CIRCULAR])
         let placeB = HomeViewPlaceModel(id: "b", name: "Obergeschoß", values: [valB1], actions: [], placeDirectives: WIDGET_LABEL_ALL)
-        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
+        let placeC = HomeViewPlaceModel(id: "c", name: "Fenster und Türen", values: [valC1, valC2, valC3], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_SYMBOL])
         let placeE = HomeViewPlaceModel(id: "e", name: "Strom", values: [valE1, valE2], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE])
         
         let modelA: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeA, placeB, placeC, placeE])
