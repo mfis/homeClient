@@ -67,3 +67,15 @@ struct AppAttributeModel: Hashable, Codable, Identifiable, Equatable {
 func newEmptyPushSettings() -> PushSettingsModel {
     return PushSettingsModel(settings: [], attributes: [])
 }
+
+struct PushMessagesModel: Codable {
+    var list : PushMessageModel
+}
+
+struct PushMessageModel: Hashable, Codable, Identifiable, Equatable {
+    var id : String
+    var timestamp : String
+    var title : String
+    var message : String;
+}
+
