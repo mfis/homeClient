@@ -101,7 +101,3 @@ fileprivate func parseResponse(userData : UserData, response: String) {
         #endif
     }
 }
-
-fileprivate func getAuth() -> [String: String]? {
-    return ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : CONST_WEBVIEW_USERAGENT]
-}

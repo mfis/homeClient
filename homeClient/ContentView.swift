@@ -59,14 +59,9 @@ struct NavIconLeft : View {
     @EnvironmentObject private var userData : UserData
     
     var body: some View {
-        HStack{
-            Image(systemName: "arrow.clockwise.circle")
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(Color.gray)
-                .frame(width: 15, height: 15)
-            Text(userData.webViewTitle).frame(width: 70, alignment: .leading).foregroundColor(Color.gray).font(.caption)
-        }
+        NavigationLink(destination: PushMessageHistoryView().environmentObject(userData).preferredColorScheme(.dark)) {
+            Image(systemName: "envelope.badge")
+        }.buttonStyle(PlainButtonStyle())
     }
 } 
 
@@ -76,7 +71,7 @@ struct NavIconRight : View {
     
     var body: some View {
         NavigationLink(destination: SettingsView().environmentObject(userData).preferredColorScheme(.dark)) {
-            Image(systemName: "slider.horizontal.3")
+            Image(systemName: "gearshape")
         }.buttonStyle(PlainButtonStyle())
     }
 }

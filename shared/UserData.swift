@@ -54,13 +54,17 @@ final class UserData: ObservableObject {
     @Published var modelTimestamp = "n/a"
     
     @Published var pushSettingsModel = newEmptyPushSettings()
-    
     func resetPushSettingsModel(){
         pushSettingsModel = newEmptyPushSettings()
         pushSettingsSaveInProgress = false
     }
     
     @Published var pushSettingsSaveInProgress = false
+
+    @Published var pushHistoryListModel = newEmptyPushMessageHistoryModel()
+    func resetPushHistoryListModel(){
+        pushHistoryListModel = newEmptyPushMessageHistoryModel()
+    }
     
     @Published var build : String = "n/a"
     

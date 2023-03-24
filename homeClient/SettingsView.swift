@@ -28,7 +28,7 @@ struct SettingsView: View {
                     LoginView()
                 }
                 
-                Section(header: Text("Build: \(userData.build)").foregroundColor(.gray)){}
+                Section(header: Text("Build: \(userData.build) Model: \(userData.webViewTitle)").foregroundColor(.gray)){}
             }.navigationBarTitle(Text("Einstellungen"))
         } .onDisappear(){
             self.userData.settingsStateName = ""

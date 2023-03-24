@@ -8,6 +8,10 @@
 
 import Foundation
 
+func getAuth() -> [String: String]? {
+    return ["appUserName": loadUserName(), "appUserToken": loadUserToken(), "appDevice" : CONST_WEBVIEW_USERAGENT]
+}
+
 func cleanupUrl(forUrl: String) -> String {
     var url = forUrl.lowercased()
     url = url.replacingOccurrences( of:" ", with: "", options: .literal)

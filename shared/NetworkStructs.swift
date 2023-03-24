@@ -68,14 +68,17 @@ func newEmptyPushSettings() -> PushSettingsModel {
     return PushSettingsModel(settings: [], attributes: [])
 }
 
-struct PushMessagesModel: Codable {
-    var list : PushMessageModel
+struct PushMessageHistoryListModel: Codable {
+    var list : [PushMessageHistoryModel]
 }
 
-struct PushMessageModel: Hashable, Codable, Identifiable, Equatable {
+struct PushMessageHistoryModel: Hashable, Codable, Identifiable, Equatable {
     var id : String
     var timestamp : String
     var title : String
     var message : String;
 }
 
+func newEmptyPushMessageHistoryModel() -> PushMessageHistoryListModel {
+    return PushMessageHistoryListModel(list: [])
+}
