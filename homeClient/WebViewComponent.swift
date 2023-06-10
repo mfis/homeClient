@@ -13,6 +13,7 @@ struct WebViewComponent : UIViewRepresentable {
     @EnvironmentObject private var userData : UserData
     
     var webViewObserver = WebViewObserver();
+    var webViewMessageHandler = WebViewMessageHandler();
     
     func makeUIView(context: Context) -> WKWebView  {
         
@@ -24,6 +25,7 @@ struct WebViewComponent : UIViewRepresentable {
         webViewObserver.webView = webView
         webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
         webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
+        webView.configuration.userContentController.add(webViewMessageHandler, name: "homeMessageHandler")
         
         loadWebView(webView)
         

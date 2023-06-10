@@ -69,3 +69,33 @@ class WebViewObserver : NSObject {
         }
     }
 }
+
+class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
+    
+    var selectionGenerator : UISelectionFeedbackGenerator
+    override init() {
+        selectionGenerator = UISelectionFeedbackGenerator()
+    }
+    
+    public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        switch message.name {
+        case "homeMessageHandler":
+            switch message.body as! String {
+            case "startTransition":
+                    selectionGenerator.selectionChanged()
+            case "endTransition":
+                    selectionGenerator.selectionChanged()
+            case "startButtonPress":
+                    selectionGenerator.selectionChanged()
+            case "endButtonPress":
+                    selectionGenerator.selectionChanged()
+            case "changeSelection":
+                    selectionGenerator.selectionChanged()
+            default:
+                print("WKWEBVIEW Message received: \(message.name) with body: \(message.body)")
+            }
+        default:
+            print("WKWEBVIEW Message received: \(message.name) with body: \(message.body)")
+        }
+    }
+}
