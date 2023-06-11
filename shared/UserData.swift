@@ -27,7 +27,6 @@ final class UserData: ObservableObject {
     @Published var loginState = ""
     
     @Published var webViewTitle = ""
-    @Published var webViewPath = ""
     @Published var webViewUserName = ""
     
     @Published var webViewFastLink = ""

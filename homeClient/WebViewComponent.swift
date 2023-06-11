@@ -12,19 +12,14 @@ struct WebViewComponent : UIViewRepresentable {
     
     @EnvironmentObject private var userData : UserData
     
-    var webViewObserver = WebViewObserver();
-    var webViewMessageHandler = WebViewMessageHandler();
-    
     func makeUIView(context: Context) -> WKWebView  {
         
         let webView = WKWebView()
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.customUserAgent = CONST_WEBVIEW_USERAGENT
-        webViewObserver.userData = userData
-        webViewObserver.webView = webView
-        webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
-        webView.addObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.url), options: .new, context: nil)
+
+        let webViewMessageHandler = WebViewMessageHandler(ud: userData, ww: webView);
         webView.configuration.userContentController.add(webViewMessageHandler, name: "homeMessageHandler")
         
         loadWebView(webView)
@@ -36,7 +31,9 @@ struct WebViewComponent : UIViewRepresentable {
         
         var readCookie = true
         if(userData.doWebViewLogout){
-            userData.doWebViewLogout = false
+            DispatchQueue.main.async {
+                userData.doWebViewLogout = false
+            }
             readCookie = false
             DispatchQueue.main.async {
                 webView.evaluateJavaScript("window.location.href = '/logoff';") { (result, error) in
@@ -58,7 +55,7 @@ struct WebViewComponent : UIViewRepresentable {
             return
         }
         
-        if(readCookie && userData.webViewPath == "/"){
+        if(readCookie && (webView.url?.path(percentEncoded: true) ?? "???") == "/"){
             readLoginTokenCookie(webView.configuration.websiteDataStore, userData: userData)
         }
         
@@ -85,7 +82,7 @@ struct WebViewComponent : UIViewRepresentable {
     }
     
     func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator){
-        uiView.removeObserver(webViewObserver, forKeyPath: #keyPath(WKWebView.title))
+        // nothing to do here
     }
     
     func readLoginTokenCookie(_ store : WKWebsiteDataStore, userData : UserData) {

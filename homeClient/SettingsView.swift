@@ -20,7 +20,7 @@ struct SettingsView: View {
                     TextField("URL", text: $userData.settingsUrl).keyboardType(.URL).disableAutocorrection(true).autocapitalization(.none)
                 }
                 
-                if(!loadUrl().isEmpty && !loadUserToken().isEmpty && userData.webViewPath == "/"){
+                if(!loadUserToken().isEmpty){
                     LogoutView()
                     LocationView()
                     PushView()

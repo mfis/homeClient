@@ -37,7 +37,7 @@
 		8C63E23025167E69001C5841 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22E25167E69001C5841 /* SignIn.swift */; };
 		8C63E23525167EC1001C5841 /* signInFirst.html in Resources */ = {isa = PBXBuildFile; fileRef = 8C63E23425167EC1001C5841 /* signInFirst.html */; };
 		8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E23925169EFA001C5841 /* SettingsView.swift */; };
-		8C63E2422516A1E0001C5841 /* WebViewObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E2412516A1E0001C5841 /* WebViewObserver.swift */; };
+		8C63E2422516A1E0001C5841 /* WebViewMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E2412516A1E0001C5841 /* WebViewMessageHandler.swift */; };
 		8C63E24F25174918001C5841 /* SettingsViewWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E24E25174918001C5841 /* SettingsViewWatch.swift */; };
 		8C63E25825174ECA001C5841 /* CircularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E25725174ECA001C5841 /* CircularView.swift */; };
 		8C63E263251754A3001C5841 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
@@ -156,7 +156,7 @@
 		8C63E22E25167E69001C5841 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		8C63E23425167EC1001C5841 /* signInFirst.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = signInFirst.html; sourceTree = "<group>"; };
 		8C63E23925169EFA001C5841 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		8C63E2412516A1E0001C5841 /* WebViewObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewObserver.swift; sourceTree = "<group>"; };
+		8C63E2412516A1E0001C5841 /* WebViewMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewMessageHandler.swift; sourceTree = "<group>"; };
 		8C63E249251747D9001C5841 /* WatchContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchContent.swift; sourceTree = "<group>"; };
 		8C63E24E25174918001C5841 /* SettingsViewWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewWatch.swift; sourceTree = "<group>"; };
 		8C63E25725174ECA001C5841 /* CircularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularView.swift; sourceTree = "<group>"; };
@@ -245,7 +245,7 @@
 				8C63E1C225167ADD001C5841 /* Preview Content */,
 				8C63E23425167EC1001C5841 /* signInFirst.html */,
 				8C63E23925169EFA001C5841 /* SettingsView.swift */,
-				8C63E2412516A1E0001C5841 /* WebViewObserver.swift */,
+				8C63E2412516A1E0001C5841 /* WebViewMessageHandler.swift */,
 				8C6F2F732615F2CE00C5BFB7 /* WebViewComponent.swift */,
 				8C5A9FBD285284D000418418 /* Location.swift */,
 				8C55221A29C797F300E12F7A /* PushMessageHistoryView.swift */,
@@ -509,7 +509,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C63E2422516A1E0001C5841 /* WebViewObserver.swift in Sources */,
+				8C63E2422516A1E0001C5841 /* WebViewMessageHandler.swift in Sources */,
 				8C63E22325167E38001C5841 /* NetworkStructs.swift in Sources */,
 				8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */,
 				8C63E1BF25167ADB001C5841 /* ContentView.swift in Sources */,
