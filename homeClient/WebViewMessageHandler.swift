@@ -73,6 +73,8 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
                     }
                 }
             }
+        case "log":
+                NSLog("WebView log message: \(value ?? "")")
         default:
             print("WKWEBVIEW Message received: \(message.name) with body: \(message.body)")
         }
