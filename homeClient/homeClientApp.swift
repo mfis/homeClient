@@ -32,6 +32,7 @@ struct homeClientApp: App {
             switch newPhase {
             case .active:
                 userData.isInBackground = false
+                HomeWebView.shared.webView.reload()
                 break
             case .inactive:
                 userData.isInBackground = false
@@ -42,6 +43,8 @@ struct homeClientApp: App {
                 userData.prepareBackground()
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 WidgetCenter.shared.reloadAllTimelines()
+                userData.webViewRefreshPending = true
+                HomeWebView.shared.executeScript(script: "setAppInForegroundMarker(false)")
                 break
             @unknown default:
                 break

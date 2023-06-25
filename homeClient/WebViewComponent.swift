@@ -8,19 +8,55 @@
 import SwiftUI
 import WebKit
 
-struct WebViewComponent : UIViewRepresentable {
+class HomeWebView {
     
-    @EnvironmentObject private var userData : UserData
+    static let shared = HomeWebView()
     
-    func makeUIView(context: Context) -> WKWebView  {
-        
-        let webView = WKWebView()
+    let webView : WKWebView
+    let webViewMessageHandler : WebViewMessageHandler
+    
+    init(){
+        webView = WKWebView()
         webView.isOpaque = false
         webView.backgroundColor = .clear
         webView.customUserAgent = CONST_WEBVIEW_USERAGENT
-
-        let webViewMessageHandler = WebViewMessageHandler(ud: userData, ww: webView);
+        webViewMessageHandler = WebViewMessageHandler();
         webView.configuration.userContentController.add(webViewMessageHandler, name: "homeMessageHandler")
+    }
+    
+    func setNavigationDelegate(navigationDelegate : WKNavigationDelegate){
+        webView.navigationDelegate = navigationDelegate
+    }
+    
+    func setUserData(userData : UserData){
+        webViewMessageHandler.userData = userData
+    }
+    
+    func executeScript(script : String){
+        DispatchQueue.main.async {
+            self.webView.evaluateJavaScript(script){ (result, error) in
+                if let error = error {
+                    NSLog("Script error: \(error) executing: \(script)")
+                }
+            }
+        }
+    }
+}
+
+struct WebViewComponent : UIViewRepresentable {
+    
+    @EnvironmentObject private var userData : UserData
+    @ObservedObject var viewModel: WebViewModel
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self.viewModel)
+    }
+    
+    func makeUIView(context: Context) -> WKWebView  {
+        
+        let webView = HomeWebView.shared.webView
+        HomeWebView.shared.setNavigationDelegate(navigationDelegate: context.coordinator)
+        HomeWebView.shared.setUserData(userData: userData)
         
         loadWebView(webView)
         
@@ -73,7 +109,6 @@ struct WebViewComponent : UIViewRepresentable {
         }else{
             saveRefreshState(newState: true)
             let request = URLRequest.init(url: URL.init(string: loadUrl())!)
-            // request.addValue("no-cache", forHTTPHeaderField: "Cache-Control")
             webView.load(request)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 userData.lastCalledUrl = loadUrl()

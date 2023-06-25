@@ -16,24 +16,8 @@ struct ContentView: View {
     @ViewBuilder
     var body: some View {
         NavigationView{
-            if(userData.isInBackground==true){
-                BackgroundView()
-            }else{
-                Content()
-            }
+            Content()
         }.navigationViewStyle(StackNavigationViewStyle())
-    }
-    
-}
-
-struct BackgroundView : View {
-    
-    var body: some View {
-        ZStack{
-            Circle().fill(Color.init(hexOrName: ".green", darker: true)).frame(width: 70, height: 70, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            Image("zuhause").resizable().foregroundColor(.black)
-                .frame(width: 60.0, height: 60.0)
-        }
     }
     
 }
@@ -44,8 +28,13 @@ struct Content : View {
         UINavigationBar.appearance().titleTextAttributes = [.font : UIFont.systemFont(ofSize: 20.0, weight: .light)]
     }
     
+    @StateObject var model = WebViewModel()
+    
     var body: some View {
-        WebViewComponent()
+        
+        LoadingView(isShowing: self.$model.isLoading) {
+            WebViewComponent(viewModel: self.model)
+        }
             .navigationBarTitle(Text("Zuhause"), displayMode: .inline)
             .navigationBarItems(
                 leading:  NavIconLeft(),
@@ -59,9 +48,14 @@ struct NavIconLeft : View {
     @EnvironmentObject private var userData : UserData
     
     var body: some View {
-        NavigationLink(destination: PushMessageHistoryView().environmentObject(userData).preferredColorScheme(.dark)) {
-            Image(systemName: "envelope.badge")
-        }.buttonStyle(PlainButtonStyle())
+        HStack(){
+            NavigationLink(destination: PushMessageHistoryView().environmentObject(userData).preferredColorScheme(.dark)) {
+                Image(systemName: "envelope.badge")
+            }.buttonStyle(PlainButtonStyle())
+            if(userData.webViewRefreshPending){
+                Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange).padding(.leading, 25)
+            }
+        }
     }
 } 
 

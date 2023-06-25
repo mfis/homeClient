@@ -11,14 +11,11 @@ import WebKit
 
 class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
     
-    let userData : UserData
-    let webView : WKWebView?
+    var userData : UserData?
     
     var selectionGenerator : UISelectionFeedbackGenerator
-    init(ud : UserData, ww : WKWebView) {
+    override init() {
         selectionGenerator = UISelectionFeedbackGenerator()
-        userData = ud
-        webView = ww
         super.init()
     }
     
@@ -40,7 +37,7 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
         }
         
         #if DEBUG
-            NSLog("homeMessageHandler key: \(key)")
+            NSLog("homeMessageHandler key: \(key) value: \(String(describing: value))")
         #endif
         
         switch key {
@@ -56,27 +53,25 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
                 selectionGenerator.selectionChanged()
         case "modelTimestamp":
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.userData.webViewTitle = value ?? ""
+                self.userData?.webViewTitle = value ?? ""
             }
         case "loadedView":
-            if(!self.userData.webViewFastLink.isEmpty){
+            if let userData = self.userData {
                 DispatchQueue.main.async {
-                    NSLog("fastLinkTo('\(self.userData.webViewFastLink)')")
-                    self.webView?.evaluateJavaScript("fastLinkTo('\(self.userData.webViewFastLink)')")
-                    self.userData.webViewFastLink = ""
+                    userData.webViewRefreshPending = false
                 }
-            }
-            DispatchQueue.main.async {
-                self.webView?.evaluateJavaScript("if(typeof setPushToken === 'function'){setPushToken('\(lookupPushToken(userData: self.userData))', '\(self.userData.device)');}") { (result, error) in
-                    if let error = error {
-                        NSLog("setPushToken JS error: \(error)")
+                HomeWebView.shared.executeScript(script: "if(typeof setPushToken === 'function'){setPushToken('\(lookupPushToken(userData: userData))', '\(userData.device)');}")
+                if(!userData.webViewFastLink.isEmpty) {
+                    HomeWebView.shared.executeScript(script: "fastLinkTo('\(userData.webViewFastLink)')")
+                    DispatchQueue.main.async {
+                        userData.webViewFastLink = ""
                     }
                 }
             }
         case "log":
                 NSLog("WebView log message: \(value ?? "")")
         default:
-            print("WKWEBVIEW Message received: \(message.name) with body: \(message.body)")
+            return
         }
     }
 }

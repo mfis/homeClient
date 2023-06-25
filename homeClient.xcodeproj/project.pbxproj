@@ -44,6 +44,7 @@
 		8C63E27125176FCE001C5841 /* WatchContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E249251747D9001C5841 /* WatchContent.swift */; };
 		8C6F2F742615F2CE00C5BFB7 /* WebViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6F2F732615F2CE00C5BFB7 /* WebViewComponent.swift */; };
 		8C8337C926D224ED000DEF18 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
+		8CA268072A483CEF00DA87D2 /* WebViewLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA268062A483CEF00DA87D2 /* WebViewLoadingIndicator.swift */; };
 		8CA396C626A47EE80074E26E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA396C526A47EE80074E26E /* WidgetKit.framework */; };
 		8CA396C826A47EE80074E26E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA396C726A47EE80074E26E /* SwiftUI.framework */; };
 		8CA396CB26A47EE80074E26E /* homeClientWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA396CA26A47EE80074E26E /* homeClientWidget.swift */; };
@@ -163,6 +164,7 @@
 		8C63E262251754A3001C5841 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		8C6F2F732615F2CE00C5BFB7 /* WebViewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewComponent.swift; sourceTree = "<group>"; };
 		8C9639FD26A9F5D50070BAC8 /* homeClientWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = homeClientWidgetExtension.entitlements; sourceTree = "<group>"; };
+		8CA268062A483CEF00DA87D2 /* WebViewLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewLoadingIndicator.swift; sourceTree = "<group>"; };
 		8CA396C326A47EE80074E26E /* homeClientWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = homeClientWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CA396C526A47EE80074E26E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		8CA396C726A47EE80074E26E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -250,6 +252,7 @@
 				8C5A9FBD285284D000418418 /* Location.swift */,
 				8C55221A29C797F300E12F7A /* PushMessageHistoryView.swift */,
 				8C55221C29C79C5A00E12F7A /* PushMessageHistory.swift */,
+				8CA268062A483CEF00DA87D2 /* WebViewLoadingIndicator.swift */,
 			);
 			path = homeClient;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 			files = (
 				8C63E2422516A1E0001C5841 /* WebViewMessageHandler.swift in Sources */,
 				8C63E22325167E38001C5841 /* NetworkStructs.swift in Sources */,
+				8CA268072A483CEF00DA87D2 /* WebViewLoadingIndicator.swift in Sources */,
 				8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */,
 				8C63E1BF25167ADB001C5841 /* ContentView.swift in Sources */,
 				8C63E22925167E52001C5841 /* Network.swift in Sources */,
