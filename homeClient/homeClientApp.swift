@@ -32,7 +32,11 @@ struct homeClientApp: App {
             switch newPhase {
             case .active:
                 userData.isInBackground = false
-                HomeWebView.shared.webView.reload()
+                HomeWebView.shared.webView.reload(); #error("if last pageload failed, hee is no url to reload")
+                #warning("1. if site is loaded, try js refresh")
+                #warning("2. if js refresh fails, do 3.")
+                #warning("3. if site is loaded, do webview.reload()")
+                #warning("4. if not, call site '/'")
                 break
             case .inactive:
                 userData.isInBackground = false
@@ -44,7 +48,7 @@ struct homeClientApp: App {
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 WidgetCenter.shared.reloadAllTimelines()
                 userData.webViewRefreshPending = true
-                HomeWebView.shared.executeScript(script: "setAppInForegroundMarker(false)")
+                HomeWebView.shared.executeScript(script: "setAppInForegroundMarker(false)"); #error("do only if page is loaded")
                 break
             @unknown default:
                 break

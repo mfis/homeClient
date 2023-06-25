@@ -46,6 +46,7 @@ struct Content : View {
 struct NavIconLeft : View {
     
     @EnvironmentObject private var userData : UserData
+    @State var showRefreshPendingPopover = false
     
     var body: some View {
         HStack(){
@@ -53,11 +54,17 @@ struct NavIconLeft : View {
                 Image(systemName: "envelope.badge")
             }.buttonStyle(PlainButtonStyle())
             if(userData.webViewRefreshPending){
-                Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange).padding(.leading, 25)
+                Button(action: { self.showRefreshPendingPopover.toggle() }) {
+                    Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange).padding(.leading, 25)
+                }.popover(isPresented: $showRefreshPendingPopover, arrowEdge: .top) {
+                    Text("Das Laden der aktuellen Daten ist fehlgeschlagen.")
+                        .font(.headline)
+                        .padding()
+                }
             }
         }
     }
-} 
+}
 
 struct NavIconRight : View {
     
