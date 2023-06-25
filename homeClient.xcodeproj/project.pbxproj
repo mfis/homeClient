@@ -249,10 +249,10 @@
 				8C63E23925169EFA001C5841 /* SettingsView.swift */,
 				8C63E2412516A1E0001C5841 /* WebViewMessageHandler.swift */,
 				8C6F2F732615F2CE00C5BFB7 /* WebViewComponent.swift */,
+				8CA268062A483CEF00DA87D2 /* WebViewLoadingIndicator.swift */,
 				8C5A9FBD285284D000418418 /* Location.swift */,
 				8C55221A29C797F300E12F7A /* PushMessageHistoryView.swift */,
 				8C55221C29C79C5A00E12F7A /* PushMessageHistory.swift */,
-				8CA268062A483CEF00DA87D2 /* WebViewLoadingIndicator.swift */,
 			);
 			path = homeClient;
 			sourceTree = "<group>";

@@ -68,6 +68,10 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
                     }
                 }
             }
+        case "confirmForegroundMarker":
+            DispatchQueue.main.async {
+                self.userData?.webViewRefreshPending = false
+            }
         case "log":
                 NSLog("WebView log message: \(value ?? "")")
         default:
