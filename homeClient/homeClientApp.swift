@@ -24,7 +24,6 @@ struct homeClientApp: App {
             ContentView().environmentObject(userData).preferredColorScheme(.dark).onOpenURL { url in
                 if let idRange = url.absoluteString.range(of: "?id=") { // FIXME
                     let id = url.absoluteString.suffix(from: idRange.upperBound)
-                    // NSLog("Received deep link ID: \(id.description)")
                     userData.webViewFastLink = id.description
                 }
             }
@@ -32,13 +31,7 @@ struct homeClientApp: App {
             switch newPhase {
             case .active:
                 userData.isInBackground = false
-                // HomeWebView.shared.webView.reload();
-                HomeWebView.shared.executeScript(script: "setAppInForegroundMarker(true)");
-                #warning("if last pageload failed, there is no url to reload or to run js")
-                #warning("1. if site is loaded, try js setAppInForegroundMarker")
-                #warning("2. if js refresh fails, do 3.")
-                #warning("3. if site is loaded, do webview.reload()")
-                #warning("4. if not, call site '/'")
+                HomeWebView.shared.handleAppInForeground()
                 break
             case .inactive:
                 userData.isInBackground = false
@@ -50,7 +43,7 @@ struct homeClientApp: App {
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 WidgetCenter.shared.reloadAllTimelines()
                 userData.webViewRefreshPending = true
-                HomeWebView.shared.executeScript(script: "setAppInForegroundMarker(false)"); #warning("do only if page is loaded")
+                HomeWebView.shared.handleAppInBackround()
                 break
             @unknown default:
                 break

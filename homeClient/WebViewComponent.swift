@@ -24,6 +24,24 @@ class HomeWebView {
         webView.configuration.userContentController.add(webViewMessageHandler, name: "homeMessageHandler")
     }
     
+    fileprivate func loadWebView() {
+        
+        if loadUrl().isEmpty {
+            let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
+            webView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl.deletingLastPathComponent())
+            DispatchQueue.main.async {
+                self.webViewMessageHandler.userData!.lastCalledUrl = fileUrl.absoluteString
+            }
+        }else{
+            saveRefreshState(newState: true)
+            let request = URLRequest.init(url: URL.init(string: loadUrl())!)
+            webView.load(request)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.webViewMessageHandler.userData!.lastCalledUrl = loadUrl()
+            }
+        }
+    }
+    
     func setNavigationDelegate(navigationDelegate : WKNavigationDelegate){
         webView.navigationDelegate = navigationDelegate
     }
@@ -32,11 +50,57 @@ class HomeWebView {
         webViewMessageHandler.userData = userData
     }
     
+    func handleAppInForeground(){
+        
+        func settingForgroundMarkerFailed(){
+            webView.reload()
+        }
+        
+        func settingForegroundMarcerSucceded(result: Any?) {
+            handleFastLink()
+        }
+        
+        if(isHomePageLoaded()){
+            HomeWebView.shared.executeScript(script: "setAppInForegroundMarker(true)", errorHandler: settingForgroundMarkerFailed, successHandler: settingForegroundMarcerSucceded);
+        }else{
+            loadWebView()
+        }
+    }
+
+    func handleAppInBackround(){
+        if(isHomePageLoaded()){
+            executeScript(script: "setAppInForegroundMarker(false)");
+        }
+    }
+    
+    func handleFastLink(){
+        if(!self.webViewMessageHandler.userData!.webViewFastLink.isEmpty) {
+            HomeWebView.shared.executeScript(script: "fastLinkTo('\(self.webViewMessageHandler.userData!.webViewFastLink)')")
+            DispatchQueue.main.async {
+                self.webViewMessageHandler.userData!.webViewFastLink = ""
+            }
+        }
+    }
+    
+    fileprivate func isHomePageLoaded() -> Bool {
+        return webView.url?.absoluteURL.absoluteString == loadUrl()
+    }
+    
+    typealias ScriptErrorHandler = () -> Void
+    typealias ScriptSuccessHandler = (_ result : Any?) -> Void
+    
     func executeScript(script : String){
+        executeScript(script: script, errorHandler: {}, successHandler: {result in })
+    }
+    
+    func executeScript(script : String, errorHandler : @escaping ScriptErrorHandler, successHandler : @escaping ScriptSuccessHandler){
         DispatchQueue.main.async {
             self.webView.evaluateJavaScript(script){ (result, error) in
                 if let error = error {
                     NSLog("Script error: \(error) executing: \(script)")
+                    errorHandler()
+                } else {
+                    successHandler(result)
                 }
             }
         }
@@ -57,9 +121,7 @@ struct WebViewComponent : UIViewRepresentable {
         let webView = HomeWebView.shared.webView
         HomeWebView.shared.setNavigationDelegate(navigationDelegate: context.coordinator)
         HomeWebView.shared.setUserData(userData: userData)
-        
-        loadWebView(webView)
-        
+        HomeWebView.shared.loadWebView()
         return webView
     }
     
@@ -72,22 +134,17 @@ struct WebViewComponent : UIViewRepresentable {
             }
             readCookie = false
             DispatchQueue.main.async {
-                webView.evaluateJavaScript("window.location.href = '/logoff';") { (result, error) in
-                    if let error = error {
-                        print("logout JS error: \(error)")
-                    }
-                    if let _ = result {
-                        saveUserToken(newUserToken: "")
-                        saveUserName(newUserName: "")
-                    }
-                }
+                HomeWebView.shared.executeScript(script: "window.location.href = '/logoff';", errorHandler: {}, successHandler: {result in
+                    saveUserToken(newUserToken: "")
+                    saveUserName(newUserName: "")
+                })
                 saveUserToken(newUserToken: "")
                 saveUserName(newUserName: "")
             }
         }
         
         if(!loadUrl().isEmpty && userData.lastCalledUrl != loadUrl()){
-            loadWebView(webView)
+            HomeWebView.shared.loadWebView()
             return
         }
         
@@ -96,24 +153,6 @@ struct WebViewComponent : UIViewRepresentable {
         }
         
         saveRefreshState(newState: false)
-    }
-    
-    func loadWebView(_ webView: WKWebView) {
-        
-        if loadUrl().isEmpty {
-            let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
-            webView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl.deletingLastPathComponent())
-            DispatchQueue.main.async {
-                userData.lastCalledUrl = fileUrl.absoluteString
-            }
-        }else{
-            saveRefreshState(newState: true)
-            let request = URLRequest.init(url: URL.init(string: loadUrl())!)
-            webView.load(request)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                userData.lastCalledUrl = loadUrl()
-            }
-        }
     }
     
     func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator){

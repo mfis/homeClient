@@ -57,15 +57,10 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
             }
         case "loadedView":
             if let userData = self.userData {
+                HomeWebView.shared.handleFastLink()
+                HomeWebView.shared.executeScript(script: "if(typeof setPushToken === 'function'){setPushToken('\(lookupPushToken(userData: userData))', '\(userData.device)');}")
                 DispatchQueue.main.async {
                     userData.webViewRefreshPending = false
-                }
-                HomeWebView.shared.executeScript(script: "if(typeof setPushToken === 'function'){setPushToken('\(lookupPushToken(userData: userData))', '\(userData.device)');}")
-                if(!userData.webViewFastLink.isEmpty) {
-                    HomeWebView.shared.executeScript(script: "fastLinkTo('\(userData.webViewFastLink)')")
-                    DispatchQueue.main.async {
-                        userData.webViewFastLink = ""
-                    }
                 }
             }
         case "confirmForegroundMarker":
