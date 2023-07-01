@@ -35,11 +35,21 @@ struct Content : View {
         LoadingView(isShowing: self.$model.isLoading) {
             WebViewComponent(viewModel: self.model)
         }
-            .navigationBarTitle(Text("Zuhause"), displayMode: .inline)
-            .navigationBarItems(
-                leading:  NavIconLeft(),
-                trailing: NavIconRight()
-            ).edgesIgnoringSafeArea(.bottom)
+        .toolbar{
+            ToolbarItem(placement: .principal) {
+                Button(action: {
+                    HomeWebView.shared.loadWebView()
+                }) {
+                    Image("zuhause")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.init(hexOrName: ".green", darker: true))
+                }
+            }
+        }
+        .navigationBarItems(
+            leading:  NavIconLeft(),
+            trailing: NavIconRight()
+        ).edgesIgnoringSafeArea(.bottom)
     }
 }
 

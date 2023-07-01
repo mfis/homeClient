@@ -24,7 +24,7 @@ class HomeWebView {
         webView.configuration.userContentController.add(webViewMessageHandler, name: "homeMessageHandler")
     }
     
-    fileprivate func loadWebView() {
+    func loadWebView() {
         
         if loadUrl().isEmpty {
             let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
