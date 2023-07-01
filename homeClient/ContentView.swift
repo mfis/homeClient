@@ -35,17 +35,7 @@ struct Content : View {
         LoadingView(isShowing: self.$model.isLoading) {
             WebViewComponent(viewModel: self.model)
         }
-        .toolbar{
-            ToolbarItem(placement: .principal) {
-                Button(action: {
-                    HomeWebView.shared.loadWebView()
-                }) {
-                    Image("zuhause")
-                        .renderingMode(.template)
-                        .foregroundColor(Color.init(hexOrName: ".green", darker: true))
-                }
-            }
-        }
+        .navigationBarTitle(Text("Zuhause"), displayMode: .inline)
         .navigationBarItems(
             leading:  NavIconLeft(),
             trailing: NavIconRight()
@@ -81,9 +71,20 @@ struct NavIconRight : View {
     @EnvironmentObject private var userData : UserData
     
     var body: some View {
-        NavigationLink(destination: SettingsView().environmentObject(userData).preferredColorScheme(.dark)) {
-            Image(systemName: "gearshape")
-        }.buttonStyle(PlainButtonStyle())
+        HStack{
+            Button(action: {
+                HomeWebView.shared.loadWebView()
+            }) {
+                Image(systemName: "backward.frame")
+                    .renderingMode(.template)
+                    .foregroundColor(Color.init(hexOrName: ".white", darker: true))
+            }.padding()
+            Spacer()
+            NavigationLink(destination: SettingsView().environmentObject(userData).preferredColorScheme(.dark)) {
+                Image(systemName: "gearshape")
+            }.buttonStyle(PlainButtonStyle())
+        }
+
     }
 }
 

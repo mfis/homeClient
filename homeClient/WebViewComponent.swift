@@ -22,6 +22,7 @@ class HomeWebView {
         webView.customUserAgent = CONST_WEBVIEW_USERAGENT
         webViewMessageHandler = WebViewMessageHandler();
         webView.configuration.userContentController.add(webViewMessageHandler, name: "homeMessageHandler")
+        webView.scrollView.showsVerticalScrollIndicator = false
     }
     
     func loadWebView() {
