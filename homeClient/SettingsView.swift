@@ -30,6 +30,7 @@ struct SettingsView: View {
                 
                 Section(header: Text("Build: \(userData.build) Model: \(userData.webViewTitle)").foregroundColor(.gray)){}
             }.navigationBarTitle(Text("Einstellungen"))
+                .persistentSystemOverlays(.hidden)
         } .onDisappear(){
             self.userData.settingsStateName = ""
             self.userData.settingsLoginMessage = ""

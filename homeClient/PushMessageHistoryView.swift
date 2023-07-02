@@ -23,6 +23,7 @@ struct PushMessageHistoryView: View {
             self.userData.resetPushHistoryListModel()
             readPushMessageHistory(userData: userData)
         }.navigationViewStyle(StackNavigationViewStyle())
+            .persistentSystemOverlays(.hidden)
     }
 }
 

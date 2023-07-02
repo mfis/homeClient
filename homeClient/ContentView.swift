@@ -18,6 +18,7 @@ struct ContentView: View {
         NavigationView{
             Content()
         }.navigationViewStyle(StackNavigationViewStyle())
+            .persistentSystemOverlays(.hidden)
     }
     
 }
@@ -75,7 +76,7 @@ struct NavIconRight : View {
             Button(action: {
                 HomeWebView.shared.loadWebView()
             }) {
-                Image(systemName: "backward.frame")
+                Image(systemName: "backward.end")
                     .renderingMode(.template)
                     .foregroundColor(Color.init(hexOrName: ".white", darker: true))
             }.padding()
