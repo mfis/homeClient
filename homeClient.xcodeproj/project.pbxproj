@@ -44,6 +44,12 @@
 		8C63E27125176FCE001C5841 /* WatchContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E249251747D9001C5841 /* WatchContent.swift */; };
 		8C6F2F742615F2CE00C5BFB7 /* WebViewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6F2F732615F2CE00C5BFB7 /* WebViewComponent.swift */; };
 		8C8337C926D224ED000DEF18 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
+		8C8389DC2A598F5D003793FD /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA396C526A47EE80074E26E /* WidgetKit.framework */; };
+		8C8389DD2A598F5D003793FD /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA396C726A47EE80074E26E /* SwiftUI.framework */; };
+		8C8389E72A598F5D003793FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C8389E62A598F5D003793FD /* Assets.xcassets */; };
+		8C8389E92A598F5D003793FD /* homeClient_Live_Activities.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8C8389E52A598F5D003793FD /* homeClient_Live_Activities.intentdefinition */; };
+		8C8389EA2A598F5D003793FD /* homeClient_Live_Activities.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 8C8389E52A598F5D003793FD /* homeClient_Live_Activities.intentdefinition */; };
+		8C8389ED2A598F5D003793FD /* homeClient Live ActivitiesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8C8389DB2A598F5C003793FD /* homeClient Live ActivitiesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8CA268072A483CEF00DA87D2 /* WebViewLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA268062A483CEF00DA87D2 /* WebViewLoadingIndicator.swift */; };
 		8CA396C626A47EE80074E26E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA396C526A47EE80074E26E /* WidgetKit.framework */; };
 		8CA396C826A47EE80074E26E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CA396C726A47EE80074E26E /* SwiftUI.framework */; };
@@ -52,6 +58,11 @@
 		8CA396D126A47EE90074E26E /* homeClientWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8CA396C326A47EE80074E26E /* homeClientWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8CA396D626A498A10074E26E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
 		8CA396D726A4A2F40074E26E /* NetworkStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22225167E37001C5841 /* NetworkStructs.swift */; };
+		8CC1B4A92A5ACDF300421337 /* LiveActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */; };
+		8CC1B4AA2A5ACDF300421337 /* LiveActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */; };
+		8CC1B4AC2A5ACE4100421337 /* HomeLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4AB2A5ACE4100421337 /* HomeLiveActivityAttributes.swift */; };
+		8CC1B4AD2A5ACE4100421337 /* HomeLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4AB2A5ACE4100421337 /* HomeLiveActivityAttributes.swift */; };
+		8CC1B4B02A5AD7A500421337 /* HomeLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4AE2A5AD7A500421337 /* HomeLiveActivity.swift */; };
 		8CCBE42726E66510007BB182 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */; };
 		8CCBE42926E68076007BB182 /* ComplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCBE42826E68076007BB182 /* ComplicationData.swift */; };
 		8CCF161B2827C9470099592F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF161A2827C9470099592F /* Settings.swift */; };
@@ -59,6 +70,7 @@
 		8CCF161E2827E14B0099592F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF161C2827CAB80099592F /* Constants.swift */; };
 		8CE7863725290A510076715D /* ActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863625290A510076715D /* ActionView.swift */; };
 		8CE7863F252910AD0076715D /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE7863E252910AD0076715D /* Action.swift */; };
+		8CEC3EAD2A5C94D6000AB6D7 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
 		8CEDAC9926A754B4003687C6 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21C25167E16001C5841 /* UserData.swift */; };
 		8CEDAC9A26A75562003687C6 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21625167DE8001C5841 /* Data.swift */; };
 		8CEDAC9B26A75585003687C6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22825167E52001C5841 /* Network.swift */; };
@@ -81,6 +93,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8C63E1D325167ADE001C5841;
 			remoteInfo = "homeClient WatchKit Extension";
+		};
+		8C8389EB2A598F5D003793FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C63E1B125167ADB001C5841 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C8389DA2A598F5C003793FD;
+			remoteInfo = "homeClient Live ActivitiesExtension";
 		};
 		8CA396CF26A47EE90074E26E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -121,6 +140,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				8CA396D126A47EE90074E26E /* homeClientWidgetExtension.appex in Embed App Extensions */,
+				8C8389ED2A598F5D003793FD /* homeClient Live ActivitiesExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,6 +183,10 @@
 		8C63E25725174ECA001C5841 /* CircularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularView.swift; sourceTree = "<group>"; };
 		8C63E262251754A3001C5841 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		8C6F2F732615F2CE00C5BFB7 /* WebViewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewComponent.swift; sourceTree = "<group>"; };
+		8C8389DB2A598F5C003793FD /* homeClient Live ActivitiesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "homeClient Live ActivitiesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C8389E52A598F5D003793FD /* homeClient_Live_Activities.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = homeClient_Live_Activities.intentdefinition; sourceTree = "<group>"; };
+		8C8389E62A598F5D003793FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8C8389E82A598F5D003793FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C9639FD26A9F5D50070BAC8 /* homeClientWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = homeClientWidgetExtension.entitlements; sourceTree = "<group>"; };
 		8CA268062A483CEF00DA87D2 /* WebViewLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewLoadingIndicator.swift; sourceTree = "<group>"; };
 		8CA396C326A47EE80074E26E /* homeClientWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = homeClientWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,6 +197,9 @@
 		8CA396CE26A47EE90074E26E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8CA7F3F325B2294A00645A54 /* homeClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = homeClient.entitlements; sourceTree = "<group>"; };
 		8CADD0942947C187001BD83A /* homeClient WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "homeClient WatchKit App.entitlements"; sourceTree = "<group>"; };
+		8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityViewModel.swift; sourceTree = "<group>"; };
+		8CC1B4AB2A5ACE4100421337 /* HomeLiveActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLiveActivityAttributes.swift; sourceTree = "<group>"; };
+		8CC1B4AE2A5AD7A500421337 /* HomeLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLiveActivity.swift; sourceTree = "<group>"; };
 		8CCBE42626E66510007BB182 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		8CCBE42826E68076007BB182 /* ComplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationData.swift; sourceTree = "<group>"; };
 		8CCF161A2827C9470099592F /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = homeClient/Settings.swift; sourceTree = SOURCE_ROOT; };
@@ -198,6 +225,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C8389D82A598F5C003793FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C8389DD2A598F5D003793FD /* SwiftUI.framework in Frameworks */,
+				8C8389DC2A598F5D003793FD /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8CA396C026A47EE80074E26E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -219,6 +255,7 @@
 				8C63E1CC25167ADD001C5841 /* homeClient WatchKit App */,
 				8C63E1D825167ADE001C5841 /* homeClient WatchKit Extension */,
 				8CA396C926A47EE80074E26E /* homeClientWidget */,
+				8C8389DE2A598F5D003793FD /* homeClient Live Activities */,
 				8CA396C426A47EE80074E26E /* Frameworks */,
 				8C63E1BA25167ADB001C5841 /* Products */,
 			);
@@ -231,6 +268,7 @@
 				8C63E1C825167ADD001C5841 /* homeClient WatchKit App.app */,
 				8C63E1D425167ADE001C5841 /* homeClient WatchKit Extension.appex */,
 				8CA396C326A47EE80074E26E /* homeClientWidgetExtension.appex */,
+				8C8389DB2A598F5C003793FD /* homeClient Live ActivitiesExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -253,6 +291,7 @@
 				8C5A9FBD285284D000418418 /* Location.swift */,
 				8C55221A29C797F300E12F7A /* PushMessageHistoryView.swift */,
 				8C55221C29C79C5A00E12F7A /* PushMessageHistory.swift */,
+				8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */,
 			);
 			path = homeClient;
 			sourceTree = "<group>";
@@ -330,6 +369,18 @@
 			path = ComplicationViews;
 			sourceTree = "<group>";
 		};
+		8C8389DE2A598F5D003793FD /* homeClient Live Activities */ = {
+			isa = PBXGroup;
+			children = (
+				8C8389E52A598F5D003793FD /* homeClient_Live_Activities.intentdefinition */,
+				8C8389E62A598F5D003793FD /* Assets.xcassets */,
+				8C8389E82A598F5D003793FD /* Info.plist */,
+				8CC1B4AB2A5ACE4100421337 /* HomeLiveActivityAttributes.swift */,
+				8CC1B4AE2A5AD7A500421337 /* HomeLiveActivity.swift */,
+			);
+			path = "homeClient Live Activities";
+			sourceTree = "<group>";
+		};
 		8CA396C426A47EE80074E26E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +418,7 @@
 			dependencies = (
 				8C63E1CB25167ADD001C5841 /* PBXTargetDependency */,
 				8CA396D026A47EE90074E26E /* PBXTargetDependency */,
+				8C8389EC2A598F5D003793FD /* PBXTargetDependency */,
 			);
 			name = homeClient;
 			productName = homeClient;
@@ -407,6 +459,23 @@
 			productReference = 8C63E1D425167ADE001C5841 /* homeClient WatchKit Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
+		8C8389DA2A598F5C003793FD /* homeClient Live ActivitiesExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C8389F02A598F5D003793FD /* Build configuration list for PBXNativeTarget "homeClient Live ActivitiesExtension" */;
+			buildPhases = (
+				8C8389D72A598F5C003793FD /* Sources */,
+				8C8389D82A598F5C003793FD /* Frameworks */,
+				8C8389D92A598F5C003793FD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "homeClient Live ActivitiesExtension";
+			productName = "homeClient Live ActivitiesExtension";
+			productReference = 8C8389DB2A598F5C003793FD /* homeClient Live ActivitiesExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		8CA396C226A47EE80074E26E /* homeClientWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8CA396D526A47EE90074E26E /* Build configuration list for PBXNativeTarget "homeClientWidgetExtension" */;
@@ -430,7 +499,7 @@
 		8C63E1B125167ADB001C5841 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					8C63E1B825167ADB001C5841 = {
@@ -442,6 +511,9 @@
 					};
 					8C63E1D325167ADE001C5841 = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					8C8389DA2A598F5C003793FD = {
+						CreatedOnToolsVersion = 14.3.1;
 					};
 					8CA396C226A47EE80074E26E = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -465,6 +537,7 @@
 				8C63E1C725167ADD001C5841 /* homeClient WatchKit App */,
 				8C63E1D325167ADE001C5841 /* homeClient WatchKit Extension */,
 				8CA396C226A47EE80074E26E /* homeClientWidgetExtension */,
+				8C8389DA2A598F5C003793FD /* homeClient Live ActivitiesExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -497,6 +570,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C8389D92A598F5C003793FD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C8389E72A598F5D003793FD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8CA396C126A47EE80074E26E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -517,6 +598,7 @@
 				8CA268072A483CEF00DA87D2 /* WebViewLoadingIndicator.swift in Sources */,
 				8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */,
 				8C63E1BF25167ADB001C5841 /* ContentView.swift in Sources */,
+				8C8389EA2A598F5D003793FD /* homeClient_Live_Activities.intentdefinition in Sources */,
 				8C63E22925167E52001C5841 /* Network.swift in Sources */,
 				8CEDAC9F26A75670003687C6 /* InitUserData.swift in Sources */,
 				8C63E21725167DE8001C5841 /* Data.swift in Sources */,
@@ -526,10 +608,12 @@
 				8CCF161B2827C9470099592F /* Settings.swift in Sources */,
 				8CCF161D2827CAB80099592F /* Constants.swift in Sources */,
 				8C6F2F742615F2CE00C5BFB7 /* WebViewComponent.swift in Sources */,
+				8CC1B4A92A5ACDF300421337 /* LiveActivityViewModel.swift in Sources */,
 				8C55221B29C797F300E12F7A /* PushMessageHistoryView.swift in Sources */,
 				8C5A9FBE285284D000418418 /* Location.swift in Sources */,
 				8C55221D29C79C5A00E12F7A /* PushMessageHistory.swift in Sources */,
 				8C8337C926D224ED000DEF18 /* Utils.swift in Sources */,
+				8CC1B4AC2A5ACE4100421337 /* HomeLiveActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +645,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C8389D72A598F5C003793FD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CEC3EAD2A5C94D6000AB6D7 /* Utils.swift in Sources */,
+				8CC1B4AA2A5ACDF300421337 /* LiveActivityViewModel.swift in Sources */,
+				8C8389E92A598F5D003793FD /* homeClient_Live_Activities.intentdefinition in Sources */,
+				8CC1B4AD2A5ACE4100421337 /* HomeLiveActivityAttributes.swift in Sources */,
+				8CC1B4B02A5AD7A500421337 /* HomeLiveActivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8CA396BF26A47EE80074E26E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -587,6 +683,11 @@
 			isa = PBXTargetDependency;
 			target = 8C63E1D325167ADE001C5841 /* homeClient WatchKit Extension */;
 			targetProxy = 8C63E1D625167ADE001C5841 /* PBXContainerItemProxy */;
+		};
+		8C8389EC2A598F5D003793FD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C8389DA2A598F5C003793FD /* homeClient Live ActivitiesExtension */;
+			targetProxy = 8C8389EB2A598F5D003793FD /* PBXContainerItemProxy */;
 		};
 		8CA396D026A47EE90074E26E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -713,7 +814,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -723,7 +824,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				"OTHER_CODE_SIGN_FLAGS[sdk=*]" = "--generate-entitlement-der";
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp.watchkitextension;
@@ -732,7 +833,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
 			};
 			name = Debug;
 		};
@@ -741,7 +842,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -751,7 +852,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				"OTHER_CODE_SIGN_FLAGS[sdk=*]" = "--generate-entitlement-der";
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp.watchkitextension;
@@ -761,7 +862,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
 			};
 			name = Release;
 		};
@@ -775,7 +876,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "homeClient WatchKit App/homeClient WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
@@ -784,7 +885,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				"OTHER_CODE_SIGN_FLAGS[sdk=*]" = "--generate-entitlement-der";
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp;
@@ -794,7 +895,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
 			};
 			name = Debug;
 		};
@@ -808,7 +909,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "homeClient WatchKit App/homeClient WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
@@ -817,7 +918,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				"OTHER_CODE_SIGN_FLAGS[sdk=*]" = "--generate-entitlement-der";
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.watchkitapp;
@@ -827,7 +928,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
 			};
 			name = Release;
 		};
@@ -839,19 +940,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = homeClient/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Zuhause;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -871,25 +972,86 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = homeClient/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Zuhause;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8C8389EE2A598F5D003793FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
+				DEVELOPMENT_TEAM = L88X8YULLQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "homeClient Live Activities/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "homeClient Live Activities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 11.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.fimatas.homeClient.homeClient-Live-Activities";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8C8389EF2A598F5D003793FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
+				DEVELOPMENT_TEAM = L88X8YULLQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "homeClient Live Activities/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "homeClient Live Activities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 11.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.fimatas.homeClient.homeClient-Live-Activities";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -903,16 +1065,16 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.homeClientWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -929,16 +1091,16 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "10.4.0-E";
+				CURRENT_PROJECT_VERSION = "11.0.0-A";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 10.4.0;
+				MARKETING_VERSION = 11.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.fimatas.homeClient.homeClientWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -984,6 +1146,15 @@
 			buildConfigurations = (
 				8C63E1F525167ADF001C5841 /* Debug */,
 				8C63E1F625167ADF001C5841 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C8389F02A598F5D003793FD /* Build configuration list for PBXNativeTarget "homeClient Live ActivitiesExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C8389EE2A598F5D003793FD /* Debug */,
+				8C8389EF2A598F5D003793FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
