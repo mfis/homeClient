@@ -30,6 +30,7 @@ struct Content : View {
     }
     
     @StateObject var model = WebViewModel()
+    @StateObject var liveActivityViewModel = LiveActivityViewModel()
     
     var body: some View {
         
@@ -38,7 +39,7 @@ struct Content : View {
         }
         .navigationBarTitle(Text("Zuhause"), displayMode: .inline)
         .navigationBarItems(
-            leading:  NavIconLeft(),
+            leading:  NavIconLeft(liveActivityViewModel: liveActivityViewModel),
             trailing: NavIconRight()
         ).edgesIgnoringSafeArea(.bottom)
     }
@@ -47,20 +48,22 @@ struct Content : View {
 struct NavIconLeft : View {
     
     @EnvironmentObject private var userData : UserData
-    @State var showRefreshPendingPopover = false
+    @State var showLiveActivityPopover = false
+    @StateObject var liveActivityViewModel : LiveActivityViewModel
     
     var body: some View {
         HStack(){
+            
             NavigationLink(destination: PushMessageHistoryView().environmentObject(userData).preferredColorScheme(.dark)) {
-                Image(systemName: "envelope.badge")
+                Image(systemName: "envelope")
             }.buttonStyle(PlainButtonStyle())
-            if(userData.webViewRefreshPending){
-                Button(action: { self.showRefreshPendingPopover.toggle() }) {
-                    Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.orange).padding(.leading, 25)
-                }.popover(isPresented: $showRefreshPendingPopover, arrowEdge: .top) {
-                    Text("Das Laden der aktuellen Daten ist fehlgeschlagen.")
-                        .font(.headline)
-                        .padding()
+            
+            if(userData.settingsUserName=="test" || userData.settingsUserName=="Matthias"){
+                Button(action: { self.showLiveActivityPopover.toggle() }) {
+                    Image(systemName: "clock").padding(.leading, 20)
+                        .foregroundColor(Color.init(hexOrName: ".white", darker: true))
+                }.popover(isPresented: $showLiveActivityPopover, arrowEdge: .top) {
+                    LiveActivitySettingsContentView(liveActivityViewModel: liveActivityViewModel)
                 }
             }
         }
@@ -70,9 +73,18 @@ struct NavIconLeft : View {
 struct NavIconRight : View {
     
     @EnvironmentObject private var userData : UserData
+    @State var showRefreshPendingPopover = false
     
     var body: some View {
         HStack{
+            Button(action: { self.showRefreshPendingPopover.toggle() }) {
+                Image(systemName: "exclamationmark.triangle.fill").foregroundColor(userData.webViewRefreshPending ? .orange : .black).padding(.leading, 25)
+            }.popover(isPresented: $showRefreshPendingPopover, arrowEdge: .top) {
+                Text("Das Laden der aktuellen Daten ist fehlgeschlagen.")
+                    .font(.headline)
+                    .padding()
+            }.disabled(!userData.webViewRefreshPending)
+            
             Button(action: {
                 HomeWebView.shared.loadWebView()
             }) {
@@ -80,12 +92,37 @@ struct NavIconRight : View {
                     .renderingMode(.template)
                     .foregroundColor(Color.init(hexOrName: ".white", darker: true))
             }.padding()
-            Spacer()
+            
             NavigationLink(destination: SettingsView().environmentObject(userData).preferredColorScheme(.dark)) {
                 Image(systemName: "gearshape")
             }.buttonStyle(PlainButtonStyle())
         }
 
+    }
+}
+
+struct LiveActivitySettingsContentView: View {
+    
+    @StateObject var liveActivityViewModel : LiveActivityViewModel
+
+    var body: some View {
+        VStack(spacing: 30) {
+            Section("-- CONTROL --") {
+                Button("Start") {
+                    liveActivityViewModel.start()
+                }.background(Color.green)
+                Button("Stop") {
+                    Task {
+                        await liveActivityViewModel.end()
+                    }
+                }.background(Color.red)
+            }
+            #if DEBUG
+                Section("-- DEBUG / DEVELOPMENT --") {
+                    Text("ContentState: \(liveActivityViewModel.contentState.debugDescription)")
+                }
+            #endif
+        }
     }
 }
 
