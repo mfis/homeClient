@@ -17,10 +17,10 @@ struct HomeLiveActivity: Widget {
             HomeLiveActivityView(model: HomeLiveActivityModel(
                 valueLeading: context.state.valueLeading,
                 valueTrailing: context.state.valueTrailing,
-                labelLeading: context.state.colorLeading,
-                labelTrailing: context.state.colorTrailing,
-                colorLeading: context.attributes.labelLeading,
-                colorTrailing: context.attributes.labelTrailing,
+                labelLeading: context.attributes.labelLeading,
+                labelTrailing: context.attributes.labelTrailing,
+                colorLeading: context.state.colorLeading,
+                colorTrailing: context.state.colorTrailing,
                 symbolLeading: context.attributes.symbolLeading,
                 symbolTrailing: context.attributes.symbolTrailing
             ))
@@ -67,22 +67,26 @@ struct HomeLiveActivityModel {
 struct HomeLiveActivityView: View {
     let model: HomeLiveActivityModel
     var body: some View {
-        HStack(spacing: 0) {
-            if(!model.labelLeading.isEmpty){
-                VStack {
-                    Image(systemName: model.symbolLeading)
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                    Text("\(model.labelLeading)")
-                    Text(model.valueLeading).foregroundColor(Color(hexOrName: model.colorLeading)).padding(.top, 5).font(.title)
+        ZStack{
+            Color.black
+            HStack(spacing: 0) {
+                if(!model.labelLeading.isEmpty){
+                    VStack {
+                        Image(systemName: model.symbolLeading)
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.white)
+                        Text("\(model.labelLeading)").foregroundColor(.white)
+                        Text(model.valueLeading)
+                            .foregroundColor(Color.init(hexOrName: model.colorLeading, darker: false))
+                            .padding(.top, 5).font(.title)
+                    }
                 }
-            }
-            if(!model.labelTrailing.isEmpty){
-                VStack {
-                    Text("\(model.labelTrailing)")
-                    Text(model.valueTrailing)
+                if(!model.labelTrailing.isEmpty){
+                    // TODO
                 }
-            }
+            }.activitySystemActionForegroundColor(.yellow)
+                .activityBackgroundTint(.black)
         }
     }
 }

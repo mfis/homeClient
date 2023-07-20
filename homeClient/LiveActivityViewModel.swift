@@ -24,8 +24,8 @@ class LiveActivityViewModel: ObservableObject {
             return
         }
         
-        let attr = HomeLiveActivityAttributes(labelLeading: "Photovoltaik", labelTrailing: "", symbolLeading: "window.ceiling", symbolTrailing: "")
-        let state = HomeLiveActivityAttributes.ContentState(valueLeading: "4200 W", valueTrailing: "", colorLeading: "green", colorTrailing: "")
+        let attr = HomeLiveActivityAttributes(labelLeading: "Test", labelTrailing: "", symbolLeading: "plus.app", symbolTrailing: "")
+        let state = HomeLiveActivityAttributes.ContentState(valueLeading: "init", valueTrailing: "", colorLeading: ".green", colorTrailing: "")
         let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .hour, value: 4, to: Date())!)
         
         do {
@@ -50,6 +50,9 @@ class LiveActivityViewModel: ObservableObject {
                 #if targetEnvironment(simulator)
                     UIPasteboard.general.string = token
                 #endif
+                if let token = self.token {
+                    sendStartToServer(token)
+                }
             }
         }
         Task {
@@ -65,6 +68,48 @@ class LiveActivityViewModel: ObservableObject {
         let state = HomeLiveActivityAttributes.ContentState(valueLeading: "--", valueTrailing: "", colorLeading: "green", colorTrailing: "")
         let content = ActivityContent(state: state, staleDate: .now)
         await homeLiveActivity?.end(content, dismissalPolicy: .immediate)
+        
+        if let token = self.token {
+            sendEndToServer(token)
+        }
     }
     
+    fileprivate func sendStartToServer(_ token: String) {
+        
+        func onError(msg : String, rc : Int){
+            NSLog("sendStartToServer ERROR: \(rc) - ˜(msg)")
+        }
+        
+        func onSuccess(response : String, newToken : String?){
+            NSLog("sendStartToServer OK - \(token)")
+        }
+        
+        if(loadUserToken().isEmpty){
+            return
+        }
+        
+        let postParams = ["token": token]
+        
+        httpCall(urlString: loadUrl() + "liveActivityStart", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: onSuccess)
+    }
+    
+    #warning("handling end from lock screen")
+    fileprivate func sendEndToServer(_ token: String) {
+        
+        func onError(msg : String, rc : Int){
+            NSLog("sendEndToServer ERROR: \(rc) - ˜(msg)")
+        }
+        
+        func onSuccess(response : String, newToken : String?){
+            NSLog("sendEndToServer OK - \(token)")
+        }
+        
+        if(loadUserToken().isEmpty){
+            return
+        }
+        
+        let postParams = ["token": token]
+        
+        httpCall(urlString: loadUrl() + "liveActivityEnd", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: onSuccess)
+    }
 }

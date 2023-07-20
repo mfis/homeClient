@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
             willPresent notification: UNNotification,
             withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-            let userInfo = notification.request.content.userInfo
+            // let userInfo = notification.request.content.userInfo
             // NSLog("userInfo = \(userInfo)")
             completionHandler([UNNotificationPresentationOptions.banner])
             WidgetCenter.shared.reloadAllTimelines()
