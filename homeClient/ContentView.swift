@@ -58,14 +58,14 @@ struct NavIconLeft : View {
                 Image(systemName: "envelope")
             }.buttonStyle(PlainButtonStyle())
             
-            if(userData.settingsUserName=="test" || userData.settingsUserName=="Matthias"){
+            //if(userData.settingsUserName=="test" || userData.settingsUserName=="Matthias"){
                 Button(action: { self.showLiveActivityPopover.toggle() }) {
-                    Image(systemName: "clock").padding(.leading, 20)
+                    Image(systemName: "clock")
                         .foregroundColor(Color.init(hexOrName: ".white", darker: true))
                 }.popover(isPresented: $showLiveActivityPopover, arrowEdge: .top) {
                     LiveActivitySettingsContentView(liveActivityViewModel: liveActivityViewModel)
                 }
-            }
+            //}
         }
     }
 }
@@ -77,13 +77,15 @@ struct NavIconRight : View {
     
     var body: some View {
         HStack{
-            Button(action: { self.showRefreshPendingPopover.toggle() }) {
-                Image(systemName: "exclamationmark.triangle.fill").foregroundColor(userData.webViewRefreshPending ? .orange : .black).padding(.leading, 25)
-            }.popover(isPresented: $showRefreshPendingPopover, arrowEdge: .top) {
-                Text("Das Laden der aktuellen Daten ist fehlgeschlagen.")
-                    .font(.headline)
-                    .padding()
-            }.disabled(!userData.webViewRefreshPending)
+            if(userData.webViewRefreshPending){
+                Button(action: { self.showRefreshPendingPopover.toggle() }) {
+                    Image(systemName: "exclamationmark.triangle.fill").foregroundColor(userData.webViewRefreshPending ? .orange : .black).padding(.leading, 25)
+                }.popover(isPresented: $showRefreshPendingPopover, arrowEdge: .top) {
+                    Text("Das Laden der aktuellen Daten ist fehlgeschlagen.")
+                        .font(.headline)
+                        .padding()
+                }.disabled(!userData.webViewRefreshPending)
+            }
             
             Button(action: {
                 HomeWebView.shared.loadWebView()
