@@ -57,7 +57,32 @@ class LiveActivityViewModel: ObservableObject {
         }
         Task {
             for await contentUpdate in activity.contentUpdates {
+                NSLog("UPDATE Live Activity \(contentUpdate.state.valueLeading) \(contentUpdate.staleDate)")
                 self.contentState = contentUpdate.state
+                await homeLiveActivity?.update(contentUpdate)
+                #warning("manually set stale date !!")
+            }
+        }
+        Task {
+            for await stateUpdate in activity.activityStateUpdates {
+                if stateUpdate == .active {
+                    NSLog("activityStateUpdates: ACTIVE")
+                }
+                if stateUpdate == .stale {
+                    NSLog("activityStateUpdates: STALE")
+                    let state = HomeLiveActivityAttributes.ContentState(valueLeading: "STALE", valueTrailing: "", colorLeading: ".green", colorTrailing: "")
+                    self.contentState = state
+                    let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 10, to: Date())!)
+                    await homeLiveActivity?.update(content)
+                    // await activity?.update(using: content)
+                }
+                if stateUpdate == .dismissed {
+                    NSLog("activityStateUpdates: DISMISSED")
+                    await end()
+                }
+                if stateUpdate == .ended {
+                    NSLog("activityStateUpdates: ENDED")
+                }
             }
         }
     }
