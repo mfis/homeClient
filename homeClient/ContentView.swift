@@ -58,14 +58,14 @@ struct NavIconLeft : View {
                 Image(systemName: "envelope")
             }.buttonStyle(PlainButtonStyle())
             
-            //if(userData.settingsUserName=="test" || userData.settingsUserName=="Matthias"){
+            if(userData.settingsUserName=="test" || userData.settingsUserName=="Matthias"){
                 Button(action: { self.showLiveActivityPopover.toggle() }) {
                     Image(systemName: "clock")
-                        .foregroundColor(Color.init(hexOrName: ".white", darker: true))
+                        .foregroundColor(Color.init(hexOrName: ".white", darker: true)).padding(.leading, 20)
                 }.popover(isPresented: $showLiveActivityPopover, arrowEdge: .top) {
                     LiveActivitySettingsContentView(liveActivityViewModel: liveActivityViewModel)
                 }
-            //}
+            }
         }
     }
 }
@@ -100,31 +100,6 @@ struct NavIconRight : View {
             }.buttonStyle(PlainButtonStyle())
         }
 
-    }
-}
-
-struct LiveActivitySettingsContentView: View {
-    
-    @StateObject var liveActivityViewModel : LiveActivityViewModel
-
-    var body: some View {
-        VStack(spacing: 30) {
-            Section("-- CONTROL --") {
-                Button("Start") {
-                    liveActivityViewModel.start()
-                }.background(Color.green)
-                Button("Stop") {
-                    Task {
-                        await liveActivityViewModel.end()
-                    }
-                }.background(Color.red)
-            }
-            #if DEBUG
-                Section("-- DEBUG / DEVELOPMENT --") {
-                    Text("ContentState: \(liveActivityViewModel.contentState.debugDescription)")
-                }
-            #endif
-        }
     }
 }
 

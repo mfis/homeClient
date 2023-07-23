@@ -10,6 +10,7 @@
 		8C0741722A69BFEA008F7425 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22825167E52001C5841 /* Network.swift */; };
 		8C0741732A69BFFD008F7425 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E21625167DE8001C5841 /* Data.swift */; };
 		8C0741742A69C022008F7425 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF161C2827CAB80099592F /* Constants.swift */; };
+		8C493B5F2A6C6BEA006A7305 /* LiveActivitySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C493B5E2A6C6BEA006A7305 /* LiveActivitySettingsView.swift */; };
 		8C55221B29C797F300E12F7A /* PushMessageHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C55221A29C797F300E12F7A /* PushMessageHistoryView.swift */; };
 		8C55221D29C79C5A00E12F7A /* PushMessageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C55221C29C79C5A00E12F7A /* PushMessageHistory.swift */; };
 		8C55221E29C79DD300E12F7A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCF161C2827CAB80099592F /* Constants.swift */; };
@@ -151,6 +152,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8C493B5E2A6C6BEA006A7305 /* LiveActivitySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivitySettingsView.swift; sourceTree = "<group>"; };
 		8C55221A29C797F300E12F7A /* PushMessageHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushMessageHistoryView.swift; sourceTree = "<group>"; };
 		8C55221C29C79C5A00E12F7A /* PushMessageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushMessageHistory.swift; sourceTree = "<group>"; };
 		8C5A9FBD285284D000418418 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				8C5A9FBD285284D000418418 /* Location.swift */,
 				8C55221A29C797F300E12F7A /* PushMessageHistoryView.swift */,
 				8C55221C29C79C5A00E12F7A /* PushMessageHistory.swift */,
+				8C493B5E2A6C6BEA006A7305 /* LiveActivitySettingsView.swift */,
 				8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */,
 			);
 			path = homeClient;
@@ -602,6 +605,7 @@
 				8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */,
 				8C63E1BF25167ADB001C5841 /* ContentView.swift in Sources */,
 				8C8389EA2A598F5D003793FD /* homeClient_Live_Activities.intentdefinition in Sources */,
+				8C493B5F2A6C6BEA006A7305 /* LiveActivitySettingsView.swift in Sources */,
 				8C63E22925167E52001C5841 /* Network.swift in Sources */,
 				8CEDAC9F26A75670003687C6 /* InitUserData.swift in Sources */,
 				8C63E21725167DE8001C5841 /* Data.swift in Sources */,
