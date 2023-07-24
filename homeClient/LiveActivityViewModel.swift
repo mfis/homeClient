@@ -11,8 +11,11 @@ import SwiftUI
 @MainActor
 class LiveActivityViewModel: ObservableObject {
     
+    static let shared = LiveActivityViewModel()
+    
     @Published private var token: String?
     @Published private(set) var contentState: HomeLiveActivityAttributes.ContentState?
+    @Published var isActive = false
     
     private let activityInfo = ActivityAuthorizationInfo()
     private var homeLiveActivity: Activity<HomeLiveActivityAttributes>?
@@ -26,7 +29,7 @@ class LiveActivityViewModel: ObservableObject {
         
         let attr = HomeLiveActivityAttributes(labelLeading: "Test", labelTrailing: "", symbolLeading: "plus.app", symbolTrailing: "")
         let state = HomeLiveActivityAttributes.ContentState(valueLeading: "init", valueTrailing: "", colorLeading: ".green", colorTrailing: "")
-        let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .hour, value: 4, to: Date())!)
+        let content = ActivityContent(state: state, staleDate: nil)
         
         do {
             let activity = try Activity<HomeLiveActivityAttributes>.request(
@@ -35,6 +38,7 @@ class LiveActivityViewModel: ObservableObject {
                 pushType: .token
             )
             homeLiveActivity = activity
+            isActive = true
             aquirePushTokenUpdates(activity: activity)
         } catch {
             NSLog("LiveActivity could not be started: \(error)")
@@ -43,6 +47,7 @@ class LiveActivityViewModel: ObservableObject {
     
     func aquirePushTokenUpdates(activity: Activity<HomeLiveActivityAttributes>) {
         
+        // MARK: Token
         Task {
             for await data in activity.pushTokenUpdates {
                 let token = data.map { String(format: "%02x", $0) }.joined()
@@ -55,14 +60,19 @@ class LiveActivityViewModel: ObservableObject {
                 }
             }
         }
+        
+        // MARK: Update
         Task {
             for await contentUpdate in activity.contentUpdates {
-                NSLog("UPDATE Live Activity \(contentUpdate.state.valueLeading) \(contentUpdate.staleDate)")
-                self.contentState = contentUpdate.state
-                await homeLiveActivity?.update(contentUpdate)
-                #warning("manually set stale date !!")
+                NSLog("UPDATE Live Activity \(contentUpdate.state.valueLeading) \(String(describing: contentUpdate.staleDate))")
+                let stale = contentUpdate.staleDate == nil ? Calendar.current.date(byAdding: .minute, value: 10, to: Date())! : contentUpdate.staleDate
+                let content = ActivityContent(state: contentUpdate.state, staleDate: stale)
+                self.contentState = content.state
+                await homeLiveActivity?.update(content)
             }
         }
+        
+        // MARK: State
         Task {
             for await stateUpdate in activity.activityStateUpdates {
                 if stateUpdate == .active {
@@ -71,10 +81,8 @@ class LiveActivityViewModel: ObservableObject {
                 if stateUpdate == .stale {
                     NSLog("activityStateUpdates: STALE")
                     let state = HomeLiveActivityAttributes.ContentState(valueLeading: "STALE", valueTrailing: "", colorLeading: ".green", colorTrailing: "")
-                    self.contentState = state
-                    let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 10, to: Date())!)
+                    let content = ActivityContent(state: state, staleDate: .now)
                     await homeLiveActivity?.update(content)
-                    // await activity?.update(using: content)
                 }
                 if stateUpdate == .dismissed {
                     NSLog("activityStateUpdates: DISMISSED")
@@ -92,7 +100,9 @@ class LiveActivityViewModel: ObservableObject {
         
         let state = HomeLiveActivityAttributes.ContentState(valueLeading: "--", valueTrailing: "", colorLeading: "green", colorTrailing: "")
         let content = ActivityContent(state: state, staleDate: .now)
+        self.contentState = content.state
         await homeLiveActivity?.end(content, dismissalPolicy: .immediate)
+        isActive = false
         
         if let token = self.token {
             sendEndToServer(token)
@@ -118,7 +128,6 @@ class LiveActivityViewModel: ObservableObject {
         httpCall(urlString: loadUrl() + "liveActivityStart", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: onSuccess)
     }
     
-    #warning("handling end from lock screen")
     fileprivate func sendEndToServer(_ token: String) {
         
         func onError(msg : String, rc : Int){

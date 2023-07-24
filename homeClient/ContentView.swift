@@ -49,7 +49,7 @@ struct NavIconLeft : View {
     
     @EnvironmentObject private var userData : UserData
     @State var showLiveActivityPopover = false
-    @StateObject var liveActivityViewModel : LiveActivityViewModel
+    @StateObject var liveActivityViewModel = LiveActivityViewModel.shared
     
     var body: some View {
         HStack(){
@@ -61,7 +61,7 @@ struct NavIconLeft : View {
             if(userData.settingsUserName=="test" || userData.settingsUserName=="Matthias"){
                 Button(action: { self.showLiveActivityPopover.toggle() }) {
                     Image(systemName: "clock")
-                        .foregroundColor(Color.init(hexOrName: ".white", darker: true)).padding(.leading, 20)
+                        .foregroundColor(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : ".white", darker: true)).padding(.leading, 20)
                 }.popover(isPresented: $showLiveActivityPopover, arrowEdge: .top) {
                     LiveActivitySettingsContentView(liveActivityViewModel: liveActivityViewModel)
                 }

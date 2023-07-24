@@ -43,9 +43,10 @@ struct HomeLiveActivity: Widget {
                 }
                 
             } compactLeading: {
-                Text("compactLeading")
+                Image(systemName: context.attributes.symbolLeading)
+                    .foregroundColor(.white)
             } compactTrailing: {
-                Text("compactTrailing")
+                Text(context.state.valueLeading)
             } minimal: {
                 Text("minimal")
             }
