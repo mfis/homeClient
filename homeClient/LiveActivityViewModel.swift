@@ -16,12 +16,18 @@ class LiveActivityViewModel: ObservableObject {
     @Published private var token: String?
     @Published private(set) var contentState: HomeLiveActivityAttributes.ContentState?
     @Published var isActive = false
+    @Published var isStartIssueFrequentPushedSetting = false
     
     private let activityInfo = ActivityAuthorizationInfo()
     private var homeLiveActivity: Activity<HomeLiveActivityAttributes>?
     init() {}
     
     func start() {
+        
+        guard ActivityAuthorizationInfo().frequentPushesEnabled else {
+            isStartIssueFrequentPushedSetting = true
+            return
+        }
         
         guard activityInfo.areActivitiesEnabled else {
             return

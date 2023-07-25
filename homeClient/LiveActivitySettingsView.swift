@@ -41,7 +41,14 @@ struct LiveActivitySettingsContentView: View {
                             .background(Color(hexOrName: ".green", darker: true))
                             .cornerRadius(28)
                     }.disabled(liveActivityViewModel.isActive)
-                        .opacity(liveActivityViewModel.isActive ? 0.4 : 1.0)
+                     .opacity(liveActivityViewModel.isActive ? 0.4 : 1.0)
+                     .alert(isPresented: $liveActivityViewModel.isStartIssueFrequentPushedSetting) {
+                            Alert(title: Text("Start nicht möglich."), message: Text("Bitte aktiviere zunächst 'Häufigere Updates' in den Systemeinstellungen für diese App."),
+                                  dismissButton: .default (Text("Na gut")) {
+                                    liveActivityViewModel.isStartIssueFrequentPushedSetting = false
+                                  }
+                              )
+                        }
                     Spacer()
                     Button{
                         Task {
