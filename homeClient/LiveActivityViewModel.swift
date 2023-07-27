@@ -34,13 +34,11 @@ class LiveActivityViewModel: ObservableObject {
         }
         
         let attr = HomeLiveActivityAttributes(labelLeading: "Test", labelTrailing: "", symbolLeading: "plus.app", symbolTrailing: "")
-        let state = HomeLiveActivityAttributes.ContentState(valueLeading: "init", valueTrailing: "", colorLeading: ".green", colorTrailing: "")
-        let content = ActivityContent(state: state, staleDate: nil)
         
         do {
             let activity = try Activity<HomeLiveActivityAttributes>.request(
                 attributes: attr,
-                content: content,
+                content: emptyContentState(),
                 pushType: .token
             )
             homeLiveActivity = activity
@@ -86,9 +84,7 @@ class LiveActivityViewModel: ObservableObject {
                 }
                 if stateUpdate == .stale {
                     NSLog("activityStateUpdates: STALE")
-                    let state = HomeLiveActivityAttributes.ContentState(valueLeading: "STALE", valueTrailing: "", colorLeading: ".green", colorTrailing: "")
-                    let content = ActivityContent(state: state, staleDate: .now)
-                    await homeLiveActivity?.update(content)
+                    await homeLiveActivity?.update(emptyContentState())
                 }
                 if stateUpdate == .dismissed {
                     NSLog("activityStateUpdates: DISMISSED")
@@ -96,6 +92,15 @@ class LiveActivityViewModel: ObservableObject {
                 }
                 if stateUpdate == .ended {
                     NSLog("activityStateUpdates: ENDED")
+                    let content = ActivityContent(state: emptyContentState().state, staleDate: .now)
+                    self.contentState = content.state
+                    await homeLiveActivity?.end(content, dismissalPolicy: .immediate)
+                    isActive = false
+                    
+                    if let token = self.token {
+                        sendEndToServer(token)
+                        #warning("erst nach 200 'homeLiveActivity?.end'")
+                    }
                 }
             }
         }
@@ -103,16 +108,13 @@ class LiveActivityViewModel: ObservableObject {
 
     
     func end() async {
-        
+        await homeLiveActivity?.end(emptyContentState(), dismissalPolicy: .immediate)
+    }
+    
+    fileprivate func emptyContentState() -> ActivityContent<HomeLiveActivityAttributes.ContentState> {
         let state = HomeLiveActivityAttributes.ContentState(valueLeading: "--", valueTrailing: "", colorLeading: "green", colorTrailing: "")
         let content = ActivityContent(state: state, staleDate: .now)
-        self.contentState = content.state
-        await homeLiveActivity?.end(content, dismissalPolicy: .immediate)
-        isActive = false
-        
-        if let token = self.token {
-            sendEndToServer(token)
-        }
+        return content
     }
     
     fileprivate func sendStartToServer(_ token: String) {
