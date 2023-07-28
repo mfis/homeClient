@@ -69,10 +69,15 @@ class LiveActivityViewModel: ObservableObject {
         Task {
             for await contentUpdate in activity.contentUpdates {
                 NSLog("UPDATE Live Activity \(contentUpdate.state.valueLeading) \(String(describing: contentUpdate.staleDate))")
-                let stale = contentUpdate.staleDate == nil ? Calendar.current.date(byAdding: .minute, value: 10, to: Date())! : contentUpdate.staleDate
-                let content = ActivityContent(state: contentUpdate.state, staleDate: stale)
-                self.contentState = content.state
-                await homeLiveActivity?.update(content)
+                #warning("replace with update-id")
+                if contentUpdate.state.valueLeading != self.contentState?.valueLeading {
+                    NSLog("UPDATE-DO Live Activity \(contentUpdate.state.valueLeading) \(String(describing: contentUpdate.staleDate))")
+                    let stale = contentUpdate.staleDate == nil ? Calendar.current.date(byAdding: .minute, value: 10, to: Date())! : contentUpdate.staleDate
+                    let content = ActivityContent(state: contentUpdate.state, staleDate: stale)
+                    self.contentState = content.state
+                    await homeLiveActivity?.update(content)
+                }
+
             }
         }
         
@@ -88,21 +93,26 @@ class LiveActivityViewModel: ObservableObject {
                 }
                 if stateUpdate == .dismissed {
                     NSLog("activityStateUpdates: DISMISSED")
-                    await end()
+                    await dismissOrEnd()
                 }
                 if stateUpdate == .ended {
                     NSLog("activityStateUpdates: ENDED")
-                    let content = ActivityContent(state: emptyContentState().state, staleDate: .now)
-                    self.contentState = content.state
-                    await homeLiveActivity?.end(content, dismissalPolicy: .immediate)
-                    isActive = false
-                    
-                    if let token = self.token {
-                        sendEndToServer(token)
-                        #warning("erst nach 200 'homeLiveActivity?.end'")
-                    }
+                    await dismissOrEnd()
                 }
             }
+        }
+    }
+    
+    fileprivate func dismissOrEnd() async {
+        
+        let content = ActivityContent(state: emptyContentState().state, staleDate: .now)
+        self.contentState = content.state
+        await homeLiveActivity?.end(content, dismissalPolicy: .immediate)
+        isActive = false
+        
+        if let token = self.token {
+            sendEndToServer(token)
+            #warning("erst nach 200 'homeLiveActivity?.end'")
         }
     }
 
