@@ -10,16 +10,21 @@ import SwiftUI
 import WidgetKit
 
 struct HomeLiveActivityAttributes: ActivityAttributes {
-    
-    public struct ContentState: Codable, Hashable {
-        var valueLeading: String
-        var valueTrailing: String
-        var colorLeading: String
-        var colorTrailing: String
-    }
+    typealias ContentState = HomeLiveActivityContentState
+}
 
-    var labelLeading: String
-    var labelTrailing: String
-    var symbolLeading: String
-    var symbolTrailing: String
+public struct HomeLiveActivityContentState: Codable, Hashable {
+    var contentId : String
+    var primary : HomeLiveActivityContentStateValue
+    var secondary : HomeLiveActivityContentStateValue
+    var timestamp : String
+}
+
+public struct HomeLiveActivityContentStateValue: Codable, Hashable {
+    var symbolName: String
+    var symbolType: String
+    var label: String
+    var val: String
+    var valShort: String
+    var color: String
 }

@@ -20,6 +20,8 @@ class LiveActivityViewModel: ObservableObject {
     
     private let activityInfo = ActivityAuthorizationInfo()
     private var homeLiveActivity: Activity<HomeLiveActivityAttributes>?
+    private var idQueue = FixedSizeFiFoQueue(maxSize: 10)
+    
     init() {}
     
     func start() {
@@ -33,7 +35,7 @@ class LiveActivityViewModel: ObservableObject {
             return
         }
         
-        let attr = HomeLiveActivityAttributes(labelLeading: "Test", labelTrailing: "", symbolLeading: "plus.app", symbolTrailing: "")
+        let attr = HomeLiveActivityAttributes()
         
         do {
             let activity = try Activity<HomeLiveActivityAttributes>.request(
@@ -68,25 +70,14 @@ class LiveActivityViewModel: ObservableObject {
         // MARK: Update
         Task {
             for await contentUpdate in activity.contentUpdates {
-                NSLog("UPDATE Live Activity \(contentUpdate.state.valueLeading) \(String(describing: contentUpdate.staleDate))")
-                #warning("replace with update-id")
-                if contentUpdate.state.valueLeading != self.contentState?.valueLeading {
-                    NSLog("UPDATE-DO Live Activity \(contentUpdate.state.valueLeading) \(String(describing: contentUpdate.staleDate))")
+                NSLog("UPDATE Live Activity \(contentUpdate.state.contentId)")
+                if(!idQueue.contains(searchElement: contentUpdate.state.contentId)){
+                    idQueue.add(contentUpdate.state.contentId)
                     let stale = contentUpdate.staleDate == nil ? Calendar.current.date(byAdding: .minute, value: 10, to: Date())! : contentUpdate.staleDate
                     let content = ActivityContent(state: contentUpdate.state, staleDate: stale)
                     self.contentState = content.state
                     await homeLiveActivity?.update(content)
                 }
-
-/*                var queue = FixedSizeFiFoQueue(maxSize: 3)
-                queue.add("A")
-                print(queue.array)
-                queue.add("B")
-                print(queue.array)
-                queue.add("C")
-                print(queue.array)
-                queue.add("D")
-                print(queue.array)  */
             }
         }
         
@@ -131,8 +122,13 @@ class LiveActivityViewModel: ObservableObject {
     }
     
     fileprivate func emptyContentState() -> ActivityContent<HomeLiveActivityAttributes.ContentState> {
-        let state = HomeLiveActivityAttributes.ContentState(valueLeading: "--", valueTrailing: "", colorLeading: "green", colorTrailing: "")
-        let content = ActivityContent(state: state, staleDate: .now)
+        
+        let primary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
+        let secondary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
+        
+        let state = HomeLiveActivityContentState(contentId: "0", primary: primary, secondary: secondary, timestamp: "--:--")
+        
+        let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 10, to: Date())!)
         return content
     }
     

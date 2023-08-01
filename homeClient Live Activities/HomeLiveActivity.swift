@@ -14,77 +14,57 @@ struct HomeLiveActivity: Widget {
     var body: some WidgetConfiguration {
         
         ActivityConfiguration(for: HomeLiveActivityAttributes.self) { context in
-            HomeLiveActivityView(model: HomeLiveActivityModel(
-                valueLeading: context.state.valueLeading,
-                valueTrailing: context.state.valueTrailing,
-                labelLeading: context.attributes.labelLeading,
-                labelTrailing: context.attributes.labelTrailing,
-                colorLeading: context.state.colorLeading,
-                colorTrailing: context.state.colorTrailing,
-                symbolLeading: context.attributes.symbolLeading,
-                symbolTrailing: context.attributes.symbolTrailing
-            ))
+            HomeLiveActivityView(model: context.state)
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("ExpandedRegion.leading")
+                    Text("ER.leading")
                 }
                 
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("ExpandedRegion.trailing")
+                    Text("ER.trailing")
                 }
                 
                 DynamicIslandExpandedRegion(.center) {
-                    Text("ExpandedRegion.center")
+                    Text("ER.center")
                 }
                 
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("ExpandedRegion.bottom")
+                    Text("ER.bottom")
                 }
                 
             } compactLeading: {
-                Image(systemName: context.attributes.symbolLeading)
+                Image(systemName: context.state.primary.val) // FIXME
                     .foregroundColor(.white)
             } compactTrailing: {
-                Text(context.state.valueLeading)
+                Text(context.state.primary.val) // FIXME
             } minimal: {
-                Text("minimal")
+                Text(context.state.primary.val).lineLimit(1)
+                    .minimumScaleFactor(0.5) // FIXME
             }
         }
     }
 }
 
-struct HomeLiveActivityModel {
-    var valueLeading: String
-    var valueTrailing: String
-    var labelLeading: String
-    var labelTrailing: String
-    var colorLeading: String
-    var colorTrailing: String
-    var symbolLeading: String
-    var symbolTrailing: String
-}
-
 struct HomeLiveActivityView: View {
-    let model: HomeLiveActivityModel
+    let model: HomeLiveActivityContentState
     var body: some View {
         ZStack{
             Color.black
             HStack(spacing: 0) {
-                if(!model.labelLeading.isEmpty){
+                if(!model.primary.symbolName.isEmpty){
                     VStack {
-                        Image(systemName: model.symbolLeading)
+                        Image(systemName: model.primary.symbolName) // FIXME
                             .resizable()
                             .frame(width: 30, height: 30)
                             .foregroundColor(.white)
-                        Text("\(model.labelLeading)").foregroundColor(.white)
-                        Text(model.valueLeading)
-                            .foregroundColor(Color.init(hexOrName: model.colorLeading, darker: false))
+                        Text("\(model.primary.label)").foregroundColor(.white) // FIXME
+                        Text(model.primary.val)
+                            .foregroundColor(Color.init(hexOrName: model.primary.color, darker: false))
                             .padding(.top, 5).font(.title)
                     }
-                }
-                if(!model.labelTrailing.isEmpty){
-                    // TODO
+                }else{
+                    Text(model.primary.val)
                 }
             }.activitySystemActionForegroundColor(.yellow)
                 .activityBackgroundTint(.black)
@@ -95,8 +75,24 @@ struct HomeLiveActivityView: View {
 
 struct HomeLiveActivity_Previews: PreviewProvider {
     static var previews: some View {
-        HomeLiveActivityView(model: HomeLiveActivityModel(valueLeading: "1000 W", valueTrailing: "", labelLeading: "Photovoltaik", labelTrailing: "", colorLeading: ".green", colorTrailing: "", symbolLeading: "window.ceiling", symbolTrailing: ""))
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+
+        let a = HomeLiveActivityContentStateValue(symbolName: "a.circle", symbolType: "sys", label: "prim", val: "1234", valShort: "1k", color: ".green")
+        let b = HomeLiveActivityContentStateValue(symbolName: "b.circle", symbolType: "sys", label: "sec", val: "567", valShort: "2k", color: ".red")
+        let c = HomeLiveActivityContentStateValue(symbolName: "", symbolType: "", label: "", val: "", valShort: "", color: "")
+        
+        let contentSingle = HomeLiveActivityContentState(contentId: "xy", primary: a, secondary: c, timestamp: "12:30")
+        let contentBoth = HomeLiveActivityContentState(contentId: "yz", primary: a, secondary: b, timestamp: "12:30")
+        
+        Group {
+            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .content)
+            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .dynamicIsland(.expanded))
+            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .dynamicIsland(.compact))
+            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .dynamicIsland(.minimal))
+            
+            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .content)
+            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .dynamicIsland(.expanded))
+            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .dynamicIsland(.compact))
+            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .dynamicIsland(.minimal))
+        }
     }
 }
-
