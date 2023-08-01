@@ -147,3 +147,24 @@ func formattedTS() -> String {
     formatter.dateFormat = "yyyyMMdd_HHmmss"
     return formatter.string(from: Date())
 }
+
+public struct FixedSizeFiFoQueue {
+    
+    init(maxSize : Int) {
+        self.maxSize = maxSize
+    }
+    
+    fileprivate var array = [String]()
+    fileprivate var maxSize : Int
+    
+    public func contains(searchElement : String) -> Bool {
+        return array.contains(searchElement)
+    }
+    
+    public mutating func add(_ element: String) {
+        array.append(element)
+        if(array.count > maxSize){
+            array.removeFirst()
+        }
+    }
+}

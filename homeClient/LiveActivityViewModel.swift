@@ -78,6 +78,15 @@ class LiveActivityViewModel: ObservableObject {
                     await homeLiveActivity?.update(content)
                 }
 
+/*                var queue = FixedSizeFiFoQueue(maxSize: 3)
+                queue.add("A")
+                print(queue.array)
+                queue.add("B")
+                print(queue.array)
+                queue.add("C")
+                print(queue.array)
+                queue.add("D")
+                print(queue.array)  */
             }
         }
         
