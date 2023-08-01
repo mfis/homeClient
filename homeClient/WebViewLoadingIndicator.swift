@@ -13,22 +13,31 @@ import SwiftUI
 import WebKit
 
 struct LoadingView<Content>: View where Content: View {
+    
+    @EnvironmentObject private var userData : UserData
     @Binding var isShowing: Bool
     var content: () -> Content
     
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .center) {
-                self.content()
-                    .disabled(self.isShowing)
+                self.content().disabled(self.isShowing)
                 VStack {
-                    Image("zuhause")
-                        .renderingMode(.template)
-                        .foregroundColor(Color.init(hexOrName: ".green", darker: true))
+                    if(self.isShowing){
+                        Image("zuhause")
+                            .renderingMode(.template)
+                            .foregroundColor(Color.init(hexOrName: ".green", darker: true))
+                    }
                     ActivityIndicatorView(isAnimating: .constant(true), style: .large)
-                }
-                .background(.black)
-                .opacity(self.isShowing ? 1 : 0)
+                }.frame(width: 100, height: self.isShowing ? 150 : 100)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .strokeBorder(Color.init(hexOrName: "242424"), lineWidth: 0)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 15).fill(Color.init(hexOrName: "242424"))
+                                )
+                        ).opacity(0.9)
+                .opacity(self.isShowing || userData.webViewRefreshPending ? 1 : 0)
             }
         }
     }

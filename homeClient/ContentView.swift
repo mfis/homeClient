@@ -77,16 +77,6 @@ struct NavIconRight : View {
     
     var body: some View {
         HStack{
-            if(userData.webViewRefreshPending){
-                Button(action: { self.showRefreshPendingPopover.toggle() }) {
-                    Image(systemName: "exclamationmark.triangle.fill").foregroundColor(userData.webViewRefreshPending ? .orange : .black).padding(.leading, 25)
-                }.popover(isPresented: $showRefreshPendingPopover, arrowEdge: .top) {
-                    Text("Das Laden der aktuellen Daten ist fehlgeschlagen.")
-                        .font(.headline)
-                        .padding()
-                }.disabled(!userData.webViewRefreshPending)
-            }
-            
             Button(action: {
                 HomeWebView.shared.loadWebView()
             }) {
@@ -99,7 +89,6 @@ struct NavIconRight : View {
                 Image(systemName: "gearshape")
             }.buttonStyle(PlainButtonStyle())
         }
-
     }
 }
 
