@@ -117,8 +117,8 @@ struct HomeLiveActivity_Previews: PreviewProvider {
         let b = HomeLiveActivityContentStateValue(symbolName: "b.circle", symbolType: "sys", label: "sec", val: "567", valShort: "2k", color: ".red")
         let c = HomeLiveActivityContentStateValue(symbolName: "", symbolType: "", label: "", val: "", valShort: "", color: "")
         
-        let contentSingle = HomeLiveActivityContentState(contentId: "xy", timestamp: "12:30", primary: a, secondary: c)
-        let contentBoth = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", primary: a, secondary: b)
+        let contentSingle = HomeLiveActivityContentState(contentId: "xy", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: c)
+        let contentBoth = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: b)
         
         Group {
             HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .content)

@@ -66,12 +66,6 @@ struct LiveActivitySettingsContentView: View {
                 }.background(Color(hexOrName: "161616")).cornerRadius(16).padding(30)
             }
 
-            #if DEBUG
-            Section {
-                Text("ContentState: \(liveActivityViewModel.contentState.debugDescription)")
-            }
-            #endif
-
             Spacer()
 
         }

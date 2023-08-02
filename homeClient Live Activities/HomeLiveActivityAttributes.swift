@@ -16,6 +16,7 @@ struct HomeLiveActivityAttributes: ActivityAttributes {
 public struct HomeLiveActivityContentState: Codable, Hashable {
     var contentId : String
     var timestamp : String
+    var dismissSeconds : String
     var primary : HomeLiveActivityContentStateValue
     var secondary : HomeLiveActivityContentStateValue
 }

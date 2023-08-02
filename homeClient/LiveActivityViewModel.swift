@@ -14,7 +14,6 @@ class LiveActivityViewModel: ObservableObject {
     static let shared = LiveActivityViewModel()
     
     @Published private var token: String?
-    @Published private(set) var contentState: HomeLiveActivityAttributes.ContentState?
     @Published var isActive = false
     @Published var isStartIssueFrequentPushedSetting = false
     
@@ -40,7 +39,7 @@ class LiveActivityViewModel: ObservableObject {
         do {
             let activity = try Activity<HomeLiveActivityAttributes>.request(
                 attributes: attr,
-                content: emptyContentState(),
+                content: emptyContentState(isStale: false),
                 pushType: .token
             )
             homeLiveActivity = activity
@@ -58,9 +57,6 @@ class LiveActivityViewModel: ObservableObject {
             for await data in activity.pushTokenUpdates {
                 let token = data.map { String(format: "%02x", $0) }.joined()
                 self.token = token
-                #if targetEnvironment(simulator)
-                    UIPasteboard.general.string = token
-                #endif
                 if let token = self.token {
                     sendStartToServer(token)
                 }
@@ -73,9 +69,9 @@ class LiveActivityViewModel: ObservableObject {
                 NSLog("UPDATE Live Activity \(contentUpdate.state.contentId)")
                 if(!idQueue.contains(searchElement: contentUpdate.state.contentId)){
                     idQueue.add(contentUpdate.state.contentId)
-                    let stale = contentUpdate.staleDate == nil ? Calendar.current.date(byAdding: .minute, value: 10, to: Date())! : contentUpdate.staleDate
+                    let stale = Calendar.current.date(byAdding: .second, value: Int(contentUpdate.state.dismissSeconds) ?? 0, to: Date())!
+                    NSLog("UPDATE Live Activity WITH STALE \(contentUpdate.state.contentId) - \(stale)")
                     let content = ActivityContent(state: contentUpdate.state, staleDate: stale)
-                    self.contentState = content.state
                     await homeLiveActivity?.update(content)
                 }
             }
@@ -89,7 +85,7 @@ class LiveActivityViewModel: ObservableObject {
                 }
                 if stateUpdate == .stale {
                     NSLog("activityStateUpdates: STALE")
-                    await homeLiveActivity?.update(emptyContentState())
+                    await homeLiveActivity?.update(emptyContentState(isStale: true))
                 }
                 if stateUpdate == .dismissed {
                     NSLog("activityStateUpdates: DISMISSED")
@@ -108,35 +104,32 @@ class LiveActivityViewModel: ObservableObject {
         if let token = self.token {
             sendEndToServer(token, successHandler: onSendEndToServerSuccess)
         }
+
+        let content = ActivityContent(state: emptyContentState(isStale: true).state, staleDate: .now)
+        Task {
+            await self.homeLiveActivity?.end(content, dismissalPolicy: .immediate)
+            self.isActive = false
+        }
         
         func onSendEndToServerSuccess(response : String, newToken : String?) {
             NSLog("sendEndToServer OK")
-            let content = ActivityContent(state: emptyContentState().state, staleDate: .now)
-            DispatchQueue.main.async{
-                self.contentState = content.state
-                Task {
-                    await self.homeLiveActivity?.end(content, dismissalPolicy: .immediate)
-                    self.isActive = false
-                }
-            }
-            
- 
+
         }
     }
 
     
     func end() async {
-        await homeLiveActivity?.end(emptyContentState(), dismissalPolicy: .immediate)
+        await homeLiveActivity?.end(emptyContentState(isStale: false), dismissalPolicy: .immediate)
     }
     
-    fileprivate func emptyContentState() -> ActivityContent<HomeLiveActivityAttributes.ContentState> {
+    fileprivate func emptyContentState(isStale : Bool) -> ActivityContent<HomeLiveActivityAttributes.ContentState> {
         
         let primary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
         let secondary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
         
-        let state = HomeLiveActivityContentState(contentId: "0", timestamp: "--:--", primary: primary, secondary: secondary)
+        let state = HomeLiveActivityContentState(contentId: UUID().uuidString, timestamp: "--:--", dismissSeconds: isStale ? "0" : "60", primary: primary, secondary: secondary)
         
-        let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 10, to: Date())!)
+        let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .second, value: Int(state.dismissSeconds) ?? 0, to: Date())!)
         return content
     }
     
