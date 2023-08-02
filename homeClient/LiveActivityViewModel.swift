@@ -46,7 +46,7 @@ class LiveActivityViewModel: ObservableObject {
             isActive = true
             aquirePushTokenUpdates(activity: activity)
         } catch {
-            NSLog("LiveActivity could not be started: \(error)")
+            logInSimulator("LiveActivity could not be started: \(error)")
         }
     }
     
@@ -66,11 +66,11 @@ class LiveActivityViewModel: ObservableObject {
         // MARK: Update
         Task {
             for await contentUpdate in activity.contentUpdates {
-                NSLog("UPDATE Live Activity \(contentUpdate.state.contentId)")
+                logInSimulator("UPDATE Live Activity \(contentUpdate.state.contentId)")
                 if(!idQueue.contains(searchElement: contentUpdate.state.contentId)){
                     idQueue.add(contentUpdate.state.contentId)
                     let stale = Calendar.current.date(byAdding: .second, value: Int(contentUpdate.state.dismissSeconds) ?? 0, to: Date())!
-                    NSLog("UPDATE Live Activity WITH STALE \(contentUpdate.state.contentId) - \(stale)")
+                    logInSimulator("UPDATE Live Activity WITH STALE \(contentUpdate.state.contentId) - \(stale)")
                     let content = ActivityContent(state: contentUpdate.state, staleDate: stale)
                     await homeLiveActivity?.update(content)
                 }
@@ -81,18 +81,18 @@ class LiveActivityViewModel: ObservableObject {
         Task {
             for await stateUpdate in activity.activityStateUpdates {
                 if stateUpdate == .active {
-                    NSLog("activityStateUpdates: ACTIVE")
+                    logInSimulator("activityStateUpdates: ACTIVE")
                 }
                 if stateUpdate == .stale {
-                    NSLog("activityStateUpdates: STALE")
+                    logInSimulator("activityStateUpdates: STALE")
                     await homeLiveActivity?.update(emptyContentState(isStale: true))
                 }
                 if stateUpdate == .dismissed {
-                    NSLog("activityStateUpdates: DISMISSED")
+                    logInSimulator("activityStateUpdates: DISMISSED")
                     await dismissOrEnd()
                 }
                 if stateUpdate == .ended {
-                    NSLog("activityStateUpdates: ENDED")
+                    logInSimulator("activityStateUpdates: ENDED")
                     await dismissOrEnd()
                 }
             }
@@ -112,8 +112,7 @@ class LiveActivityViewModel: ObservableObject {
         }
         
         func onSendEndToServerSuccess(response : String, newToken : String?) {
-            NSLog("sendEndToServer OK")
-
+            logInSimulator("sendEndToServer OK")
         }
     }
 
@@ -136,11 +135,11 @@ class LiveActivityViewModel: ObservableObject {
     fileprivate func sendStartToServer(_ token: String) {
         
         func onError(msg : String, rc : Int){
-            NSLog("sendStartToServer ERROR: \(rc) - ˜(msg)")
+            logInSimulator("sendStartToServer ERROR: \(rc) - ˜(msg)")
         }
         
         func onSuccess(response : String, newToken : String?){
-            NSLog("sendStartToServer OK - \(token)")
+            logInSimulator("sendStartToServer OK - \(token)")
         }
         
         if(loadUserToken().isEmpty){
@@ -155,7 +154,7 @@ class LiveActivityViewModel: ObservableObject {
     fileprivate func sendEndToServer(_ token: String, successHandler : @escaping HttpSuccessHandler) {
         
         func onError(msg : String, rc : Int){
-            NSLog("sendEndToServer ERROR: \(rc) - ˜(msg)")
+            logInSimulator("sendEndToServer ERROR: \(rc) - ˜(msg)")
         }
         
         if(loadUserToken().isEmpty){
@@ -165,5 +164,11 @@ class LiveActivityViewModel: ObservableObject {
         let postParams = ["token": token]
         
         httpCall(urlString: loadUrl() + "liveActivityEnd", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: successHandler)
+    }
+    
+    fileprivate func logInSimulator(_ msg : String){
+        #if targetEnvironment(simulator)
+            NSLog(msg)
+        #endif
     }
 }
