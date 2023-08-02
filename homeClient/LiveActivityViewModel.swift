@@ -105,14 +105,22 @@ class LiveActivityViewModel: ObservableObject {
     
     fileprivate func dismissOrEnd() async {
         
-        let content = ActivityContent(state: emptyContentState().state, staleDate: .now)
-        self.contentState = content.state
-        await homeLiveActivity?.end(content, dismissalPolicy: .immediate)
-        isActive = false
-        
         if let token = self.token {
-            sendEndToServer(token)
-            #warning("erst nach 200 'homeLiveActivity?.end'")
+            sendEndToServer(token, successHandler: onSendEndToServerSuccess)
+        }
+        
+        func onSendEndToServerSuccess(response : String, newToken : String?) {
+            NSLog("sendEndToServer OK")
+            let content = ActivityContent(state: emptyContentState().state, staleDate: .now)
+            DispatchQueue.main.async{
+                self.contentState = content.state
+                Task {
+                    await self.homeLiveActivity?.end(content, dismissalPolicy: .immediate)
+                    self.isActive = false
+                }
+            }
+            
+ 
         }
     }
 
@@ -126,7 +134,7 @@ class LiveActivityViewModel: ObservableObject {
         let primary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
         let secondary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
         
-        let state = HomeLiveActivityContentState(contentId: "0", primary: primary, secondary: secondary, timestamp: "--:--")
+        let state = HomeLiveActivityContentState(contentId: "0", timestamp: "--:--", primary: primary, secondary: secondary)
         
         let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .minute, value: 10, to: Date())!)
         return content
@@ -151,14 +159,10 @@ class LiveActivityViewModel: ObservableObject {
         httpCall(urlString: loadUrl() + "liveActivityStart", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: onSuccess)
     }
     
-    fileprivate func sendEndToServer(_ token: String) {
+    fileprivate func sendEndToServer(_ token: String, successHandler : @escaping HttpSuccessHandler) {
         
         func onError(msg : String, rc : Int){
             NSLog("sendEndToServer ERROR: \(rc) - ˜(msg)")
-        }
-        
-        func onSuccess(response : String, newToken : String?){
-            NSLog("sendEndToServer OK - \(token)")
         }
         
         if(loadUserToken().isEmpty){
@@ -167,6 +171,6 @@ class LiveActivityViewModel: ObservableObject {
         
         let postParams = ["token": token]
         
-        httpCall(urlString: loadUrl() + "liveActivityEnd", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: onSuccess)
+        httpCall(urlString: loadUrl() + "liveActivityEnd", pin: nil, timeoutSeconds: 10.0, method: HttpMethod.POST, postParams: postParams, authHeaderFields: getAuth(), errorHandler: onError, successHandler: successHandler)
     }
 }

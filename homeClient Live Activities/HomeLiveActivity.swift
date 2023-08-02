@@ -50,28 +50,65 @@ struct HomeLiveActivityView: View {
     let model: HomeLiveActivityContentState
     var body: some View {
         ZStack{
-            Color.black
+            Color(hexOrName: "161616")
             HStack(spacing: 0) {
-                if(!model.primary.symbolName.isEmpty){
-                    VStack {
-                        Image(systemName: model.primary.symbolName) // FIXME
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.white)
-                        Text("\(model.primary.label)").foregroundColor(.white) // FIXME
-                        Text(model.primary.val)
-                            .foregroundColor(Color.init(hexOrName: model.primary.color, darker: false))
-                            .padding(.top, 5).font(.title)
-                    }
-                }else{
-                    Text(model.primary.val)
+                PrimaryContentView(stateValue: model.primary)
+                if(!model.secondary.val.isEmpty){
+                    Spacer()
+                    SecondaryContentView(stateValue: model.secondary)
                 }
             }.activitySystemActionForegroundColor(.yellow)
-                .activityBackgroundTint(.black)
+                .activityBackgroundTint(.gray)
+                .padding(.top, 8).padding(.bottom, 8).padding(.leading, 30).padding(.trailing, 30)
         }
     }
 }
 
+struct PrimaryContentView: View {
+    let stateValue: HomeLiveActivityContentStateValue
+    var body: some View {
+        HStack() {
+            SymbolOrLabelView(stateValue: stateValue, size: 50)
+            Text(stateValue.val)
+                .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
+                .padding(.leading, 8).font(.largeTitle)
+        }
+    }
+}
+
+struct SecondaryContentView: View {
+    let stateValue: HomeLiveActivityContentStateValue
+    var body: some View {
+        VStack() {
+            SymbolOrLabelView(stateValue: stateValue, size: 30)
+            Text(stateValue.val)
+                .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
+                .padding(.top, 2).font(.title2)
+        }
+    }
+}
+
+struct SymbolOrLabelView: View {
+    let stateValue: HomeLiveActivityContentStateValue
+    let size: CGFloat
+    var body: some View {
+        if(stateValue.symbolName.isEmpty){
+            Text("\(stateValue.label)").foregroundColor(.white)
+        }else{
+            if(stateValue.symbolType=="sys"){
+                Image(systemName: stateValue.symbolName)
+                    .resizable()
+                    .frame(width: size, height: size)
+                    .foregroundColor(.white)
+            }else{
+                Image(stateValue.symbolName)
+                    .resizable()
+                    .frame(width: size, height: size)
+                    .foregroundColor(.white)
+            }
+        }
+    }
+}
 
 struct HomeLiveActivity_Previews: PreviewProvider {
     static var previews: some View {
@@ -80,8 +117,8 @@ struct HomeLiveActivity_Previews: PreviewProvider {
         let b = HomeLiveActivityContentStateValue(symbolName: "b.circle", symbolType: "sys", label: "sec", val: "567", valShort: "2k", color: ".red")
         let c = HomeLiveActivityContentStateValue(symbolName: "", symbolType: "", label: "", val: "", valShort: "", color: "")
         
-        let contentSingle = HomeLiveActivityContentState(contentId: "xy", primary: a, secondary: c, timestamp: "12:30")
-        let contentBoth = HomeLiveActivityContentState(contentId: "yz", primary: a, secondary: b, timestamp: "12:30")
+        let contentSingle = HomeLiveActivityContentState(contentId: "xy", timestamp: "12:30", primary: a, secondary: c)
+        let contentBoth = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", primary: a, secondary: b)
         
         Group {
             HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .content)
