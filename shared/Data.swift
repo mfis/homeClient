@@ -10,40 +10,6 @@ import Foundation
 
 fileprivate let userDefaults = UserDefaults.init(suiteName: "group.de.fimatas.homeClient")!
 
-func migrateUserDefaults() {
-    
-    let old = UserDefaults.standard
-    
-    if let x = old.string(forKey: "userDefaultKeyUrl") {
-        if(loadUrl().isEmpty){
-            saveUrl(newUrl: x)
-            old.removeObject(forKey: "userDefaultKeyUrl")
-        }
-    }
-
-    if let x = old.string(forKey: "userDefaultKeyUserName") {
-        if(loadUserName().isEmpty){
-            saveUserName(newUserName: x)
-            old.removeObject(forKey: "userDefaultKeyUserName")
-        }
-    }
-
-    if let x = old.string(forKey: "userDefaultKeyUserToken") {
-        if(loadUserToken().isEmpty){
-            saveUserToken(newUserToken: x)
-            old.removeObject(forKey: "userDefaultKeyUserToken")
-        }
-    }
-
-    if let x = old.string(forKey: "userDefaultKeyPushToken") {
-        if(loadPushToken().isEmpty){
-            savePushToken(newPushToken: x)
-            old.removeObject(forKey: "userDefaultKeyPushToken")
-        }
-    }
-    
-}
-
 func loadUrl() -> String {
     if let x = userDefaults.string(forKey: "userDefaultKeyUrl") {
         return x
@@ -189,4 +155,16 @@ func loadGeofencingLat() -> Double? {
 
 func saveGeofencingLat(newVal : Double) {
     userDefaults.setValue(newVal, forKey: "userDefaultKeyGeofencingLat")
+}
+
+func loadIsWebViewTerminated() -> Bool {
+    if let x = userDefaults.string(forKey: "userDefaultIsWebViewTerminated") {
+        return x == "true" ? true : false
+    }else{
+        return false
+    }
+}
+
+func saveIsWebViewTerminated(newState : Bool) {
+    userDefaults.setValue(newState==true ? "true" : "false", forKey: "userDefaultIsWebViewTerminated")
 }

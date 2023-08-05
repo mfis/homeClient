@@ -23,21 +23,19 @@ struct LoadingView<Content>: View where Content: View {
             ZStack(alignment: .center) {
                 self.content().disabled(self.isShowing)
                 VStack {
-                    if(self.isShowing){
-                        Image("zuhause")
-                            .renderingMode(.template)
-                            .foregroundColor(Color.init(hexOrName: ".green", darker: true))
-                    }
+                    Image("zuhause")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.init(hexOrName: ".green", darker: true))
                     ActivityIndicatorView(isAnimating: .constant(true), style: .large)
-                }.frame(width: 100, height: self.isShowing ? 150 : 100)
-                        .background(
-                            RoundedRectangle(cornerRadius: 15)
-                                .strokeBorder(Color.init(hexOrName: "242424"), lineWidth: 0)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 15).fill(Color.init(hexOrName: "242424"))
-                                )
-                        ).opacity(0.9)
-                .opacity(self.isShowing || userData.webViewRefreshPending ? 1 : 0)
+                }.frame(width: 100, height: 150)
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .strokeBorder(Color.init(hexOrName: "242424"), lineWidth: 0)
+                            .background(
+                                RoundedRectangle(cornerRadius: 15).fill(Color.init(hexOrName: "242424"))
+                            )
+                    ).opacity(0.9)
+                    .opacity(self.isShowing || userData.webViewRefreshPending ? 1 : 0)
             }
         }
     }
@@ -61,13 +59,23 @@ class WebViewModel: ObservableObject {
 }
 
 class Coordinator: NSObject, WKNavigationDelegate {
+    
+    @EnvironmentObject private var userData : UserData
     private var viewModel: WebViewModel
     
     init(_ viewModel: WebViewModel) {
         self.viewModel = viewModel
     }
-
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.viewModel.isLoading = false
+    }
+    
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        saveIsWebViewTerminated(newState: true)
+        DispatchQueue.main.async {
+            self.userData.lastErrorMsg = "webViewWebContentProcessDidTerminate()";
+            self.userData.lastErrorTs = formattedTS()
+        }
     }
 }

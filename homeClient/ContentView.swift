@@ -40,7 +40,7 @@ struct Content : View {
         .navigationBarTitle(Text("Zuhause"), displayMode: .inline)
         .navigationBarItems(
             leading:  NavIconLeft(liveActivityViewModel: liveActivityViewModel),
-            trailing: NavIconRight()
+            trailing: NavIconRight(model: model)
         ).edgesIgnoringSafeArea(.bottom)
     }
 }
@@ -74,10 +74,12 @@ struct NavIconRight : View {
     
     @EnvironmentObject private var userData : UserData
     @State var showRefreshPendingPopover = false
+    @StateObject var model : WebViewModel
     
     var body: some View {
         HStack{
             Button(action: {
+                model.isLoading = true
                 HomeWebView.shared.loadWebView()
             }) {
                 Image(systemName: "backward.end")

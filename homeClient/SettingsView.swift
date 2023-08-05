@@ -29,6 +29,11 @@ struct SettingsView: View {
                 }
                 
                 Section(header: Text("Build: \(userData.build) Model: \(userData.webViewTitle)").foregroundColor(.gray)){}
+                
+                if(!userData.lastErrorTs.isEmpty && userData.lastErrorTs != CONST_NOT_AVAILABLE){
+                    Section(header: Text("ErrorMessage: \(userData.lastErrorTs) - \(userData.lastErrorMsg)").foregroundColor(.gray)){}
+                }
+                
             }.navigationBarTitle(Text("Einstellungen"))
                 .persistentSystemOverlays(.hidden)
         } .onDisappear(){

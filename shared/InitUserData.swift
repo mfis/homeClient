@@ -9,8 +9,6 @@ import Foundation
 
 func initHomeViewModel(deviceName : String?) -> UserData {
     
-    migrateUserDefaults()
-    
     let userData = UserData()
     
     saveTimerState(newState: false)

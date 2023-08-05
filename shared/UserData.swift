@@ -65,12 +65,12 @@ final class UserData: ObservableObject {
         pushHistoryListModel = newEmptyPushMessageHistoryModel()
     }
     
-    @Published var build : String = "n/a"
+    @Published var build : String = CONST_NOT_AVAILABLE
     
-    @Published var lastTimerTs : String = "n/a"
-    @Published var lastSuccessTs : String = "n/a"
-    @Published var lastErrorTs : String = "n/a"
-    @Published var lastErrorMsg : String = "n/a"
+    @Published var lastTimerTs : String = CONST_NOT_AVAILABLE
+    @Published var lastSuccessTs : String = CONST_NOT_AVAILABLE
+    @Published var lastErrorTs : String = CONST_NOT_AVAILABLE
+    @Published var lastErrorMsg : String = CONST_NOT_AVAILABLE
     
     func isDebugMode() -> Bool{
         #if DEBUG

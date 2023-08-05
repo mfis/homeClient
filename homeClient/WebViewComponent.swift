@@ -27,19 +27,21 @@ class HomeWebView {
     
     func loadWebView() {
         
+        var url : String
         if loadUrl().isEmpty {
             let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
             webView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl.deletingLastPathComponent())
-            DispatchQueue.main.async {
-                self.webViewMessageHandler.userData!.lastCalledUrl = fileUrl.absoluteString
-            }
+            url = fileUrl.absoluteString
         }else{
             saveRefreshState(newState: true)
             let request = URLRequest.init(url: URL.init(string: loadUrl())!)
             webView.load(request)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.webViewMessageHandler.userData!.lastCalledUrl = loadUrl()
-            }
+            url = loadUrl()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.webViewMessageHandler.userData!.lastCalledUrl = url
+            saveIsWebViewTerminated(newState: false)
         }
     }
     
@@ -84,7 +86,7 @@ class HomeWebView {
     }
     
     fileprivate func isHomePageLoaded() -> Bool {
-        return webView.url?.absoluteURL.absoluteString == loadUrl()
+        return webView.url?.absoluteURL.absoluteString == loadUrl() && webView.title != nil && !loadIsWebViewTerminated()
     }
     
     typealias ScriptErrorHandler = () -> Void
@@ -157,7 +159,11 @@ struct WebViewComponent : UIViewRepresentable {
     }
     
     func dismantleUIView(_ uiView: Self.UIViewType, coordinator: Self.Coordinator){
-        // nothing to do here
+        saveIsWebViewTerminated(newState: true)
+        DispatchQueue.main.async {
+            userData.lastErrorMsg = "dismantleUIView()";
+            userData.lastErrorTs = formattedTS()
+        }
     }
     
     func readLoginTokenCookie(_ store : WKWebsiteDataStore, userData : UserData) {
