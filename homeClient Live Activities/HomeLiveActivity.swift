@@ -62,14 +62,23 @@ struct HomeLiveActivityView: View {
         ZStack{
             Color(hexOrName: "161616")
             HStack(spacing: 0) {
-                PrimaryContentView(stateValue: model.primary)
-                if(!model.secondary.val.isEmpty){
-                    Spacer()
-                    SecondaryContentView(stateValue: model.secondary)
-                }
-                if(!model.tertiary.val.isEmpty){
-                    Spacer()
-                    SecondaryContentView(stateValue: model.tertiary)
+                if(model.primary.val.isEmpty && model.secondary.val.isEmpty && model.tertiary.val.isEmpty){
+                    Image("zuhause")
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 45, height: 45)
+                        .foregroundColor(Color.init(hexOrName: ".green", darker: false))
+                }else{
+                    PrimaryContentView(stateValue: model.primary)
+                    if(!model.secondary.val.isEmpty){
+                        Spacer()
+                        SecondaryContentView(stateValue: model.secondary)
+                    }
+                    if(!model.tertiary.val.isEmpty){
+                        Spacer()
+                        SecondaryContentView(stateValue: model.tertiary)
+                    }
                 }
             }.activitySystemActionForegroundColor(.yellow)
                 .activityBackgroundTint(.gray)
@@ -112,11 +121,14 @@ struct SymbolOrLabelView: View {
             if(stateValue.symbolType=="sys"){
                 Image(systemName: stateValue.symbolName)
                     .resizable()
+                    .scaledToFit()
                     .frame(width: size, height: size)
                     .foregroundColor(.white)
             }else{
                 Image(stateValue.symbolName)
+                    .renderingMode(.template)
                     .resizable()
+                    .scaledToFit()
                     .frame(width: size, height: size)
                     .foregroundColor(.white)
             }
@@ -127,16 +139,20 @@ struct SymbolOrLabelView: View {
 struct HomeLiveActivity_Previews: PreviewProvider {
     static var previews: some View {
 
-        let a = HomeLiveActivityContentStateValue(symbolName: "a.circle", symbolType: "sys", label: "prim", val: "123456", valShort: "1k", color: ".green")
-        let b = HomeLiveActivityContentStateValue(symbolName: "b.circle", symbolType: "sys", label: "sec", val: "5678", valShort: "2k", color: ".red")
+        let a = HomeLiveActivityContentStateValue(symbolName: "energygrid", symbolType: "app", label: "prim", val: "123456", valShort: "1k", color: ".green")
+        let b = HomeLiveActivityContentStateValue(symbolName: "solarpanel", symbolType: "app", label: "sec", val: "5678", valShort: "2k", color: ".red")
         let c = HomeLiveActivityContentStateValue(symbolName: "c.circle", symbolType: "sys", label: "ter", val: "ABCD", valShort: "3k", color: ".orange")
         let empty = HomeLiveActivityContentStateValue(symbolName: "", symbolType: "", label: "", val: "", valShort: "", color: "")
-        
+
+        let contentZero = HomeLiveActivityContentState(contentId: "xy", timestamp: "12:30", dismissSeconds: "600", primary: empty, secondary: empty, tertiary: empty)
         let contentOne = HomeLiveActivityContentState(contentId: "xy", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: empty, tertiary: empty)
         let contentTwo = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: b, tertiary: empty)
         let contentThree = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: b, tertiary: c)
         
         Group {
+            HomeLiveActivityAttributes().previewContext(contentZero, viewKind: .content)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+                .previewDisplayName("14 Pro 0x")
             HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .content)
                 .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
                 .previewDisplayName("14 Pro 1x")

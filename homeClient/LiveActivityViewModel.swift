@@ -123,7 +123,7 @@ class LiveActivityViewModel: ObservableObject {
     
     fileprivate func emptyContentState(isStale : Bool) -> ActivityContent<HomeLiveActivityAttributes.ContentState> {
         
-        let singleState = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
+        let singleState = HomeLiveActivityContentStateValue(symbolName: "", symbolType: "", label: "", val: "", valShort: "", color: "")
         
         let state = HomeLiveActivityContentState(contentId: UUID().uuidString, timestamp: "--:--", dismissSeconds: isStale ? "0" : "60", primary: singleState, secondary: singleState, tertiary: singleState)
         
