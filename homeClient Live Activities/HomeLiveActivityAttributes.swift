@@ -19,6 +19,7 @@ public struct HomeLiveActivityContentState: Codable, Hashable {
     var dismissSeconds : String
     var primary : HomeLiveActivityContentStateValue
     var secondary : HomeLiveActivityContentStateValue
+    var tertiary : HomeLiveActivityContentStateValue
 }
 
 public struct HomeLiveActivityContentStateValue: Codable, Hashable {

@@ -17,30 +17,33 @@ struct HomeLiveActivity: Widget {
             HomeLiveActivityView(model: context.state)
         } dynamicIsland: { context in
             DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) {
-                    Text("ER.leading")
-                }
-                
-                DynamicIslandExpandedRegion(.trailing) {
-                    Text("ER.trailing")
-                }
-                
+                DynamicIslandExpandedRegion(.leading) {}
+                DynamicIslandExpandedRegion(.trailing) {}
                 DynamicIslandExpandedRegion(.center) {
-                    Text("ER.center")
+                    HStack{
+                        PrimaryContentView(stateValue: context.state.primary)
+                            .padding(.top, 20)
+                        if(!context.state.secondary.val.isEmpty){
+                            Spacer()
+                            SecondaryContentView(stateValue: context.state.secondary)
+                                .padding(.top, 40)
+                        }
+                    }.padding([.leading, .trailing], 30)
+
                 }
-                
-                DynamicIslandExpandedRegion(.bottom) {
-                    Text("ER.bottom")
-                }
-                
+                DynamicIslandExpandedRegion(.bottom) {}
             } compactLeading: {
-                Image(systemName: context.state.primary.val) // FIXME
-                    .foregroundColor(.white)
+                Text(context.state.primary.valShort).lineLimit(1)
+                    .minimumScaleFactor(0.5)
             } compactTrailing: {
-                Text(context.state.primary.val) // FIXME
+                Text(context.state.secondary.valShort).lineLimit(1)
+                    .minimumScaleFactor(0.5)
             } minimal: {
-                Text(context.state.primary.val).lineLimit(1)
-                    .minimumScaleFactor(0.5) // FIXME
+                ZStack{
+                    Color.black
+                    Text(context.state.primary.valShort).lineLimit(1)
+                        .minimumScaleFactor(0.9).padding(4)
+                }
             }
         }
     }
@@ -57,9 +60,13 @@ struct HomeLiveActivityView: View {
                     Spacer()
                     SecondaryContentView(stateValue: model.secondary)
                 }
+                if(!model.tertiary.val.isEmpty){
+                    Spacer()
+                    TertiaryContentView(stateValue: model.tertiary)
+                }
             }.activitySystemActionForegroundColor(.yellow)
                 .activityBackgroundTint(.gray)
-                .padding(.top, 8).padding(.bottom, 8).padding(.leading, 30).padding(.trailing, 30)
+                .padding([.top, .bottom], 8).padding([.leading, .trailing], 20)
         }
     }
 }
@@ -68,15 +75,27 @@ struct PrimaryContentView: View {
     let stateValue: HomeLiveActivityContentStateValue
     var body: some View {
         HStack() {
-            SymbolOrLabelView(stateValue: stateValue, size: 50)
+            SymbolOrLabelView(stateValue: stateValue, size: 45)
             Text(stateValue.val)
                 .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
-                .padding(.leading, 8).font(.largeTitle)
+                .padding(.leading, 4).font(.largeTitle)
         }
     }
 }
 
 struct SecondaryContentView: View {
+    let stateValue: HomeLiveActivityContentStateValue
+    var body: some View {
+        VStack() {
+            SymbolOrLabelView(stateValue: stateValue, size: 30)
+            Text(stateValue.val)
+                .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
+                .padding(.top, 2).font(.title2)
+        }
+    }
+}
+
+struct TertiaryContentView: View {
     let stateValue: HomeLiveActivityContentStateValue
     var body: some View {
         VStack() {
@@ -113,23 +132,35 @@ struct SymbolOrLabelView: View {
 struct HomeLiveActivity_Previews: PreviewProvider {
     static var previews: some View {
 
-        let a = HomeLiveActivityContentStateValue(symbolName: "a.circle", symbolType: "sys", label: "prim", val: "1234", valShort: "1k", color: ".green")
-        let b = HomeLiveActivityContentStateValue(symbolName: "b.circle", symbolType: "sys", label: "sec", val: "567", valShort: "2k", color: ".red")
-        let c = HomeLiveActivityContentStateValue(symbolName: "", symbolType: "", label: "", val: "", valShort: "", color: "")
+        let a = HomeLiveActivityContentStateValue(symbolName: "a.circle", symbolType: "sys", label: "prim", val: "123456", valShort: "1k", color: ".green")
+        let b = HomeLiveActivityContentStateValue(symbolName: "b.circle", symbolType: "sys", label: "sec", val: "5678", valShort: "2k", color: ".red")
+        let c = HomeLiveActivityContentStateValue(symbolName: "c.circle", symbolType: "sys", label: "ter", val: "ABCD", valShort: "3k", color: ".orange")
+        let empty = HomeLiveActivityContentStateValue(symbolName: "", symbolType: "", label: "", val: "", valShort: "", color: "")
         
-        let contentSingle = HomeLiveActivityContentState(contentId: "xy", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: c)
-        let contentBoth = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: b)
+        let contentOne = HomeLiveActivityContentState(contentId: "xy", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: empty, tertiary: empty)
+        let contentTwo = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: b, tertiary: empty)
+        let contentThree = HomeLiveActivityContentState(contentId: "yz", timestamp: "12:30", dismissSeconds: "600", primary: a, secondary: b, tertiary: c)
         
         Group {
-            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .content)
-            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .dynamicIsland(.expanded))
-            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .dynamicIsland(.compact))
-            HomeLiveActivityAttributes().previewContext(contentSingle, viewKind: .dynamicIsland(.minimal))
+            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .content)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+                .previewDisplayName("14 Pro 1x")
+
+            HomeLiveActivityAttributes().previewContext(contentTwo, viewKind: .content)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+                .previewDisplayName("14 Pro 2x")
+
+            HomeLiveActivityAttributes().previewContext(contentThree, viewKind: .content)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+                .previewDisplayName("14 Pro 3x")
             
-            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .content)
-            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .dynamicIsland(.expanded))
-            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .dynamicIsland(.compact))
-            HomeLiveActivityAttributes().previewContext(contentBoth, viewKind: .dynamicIsland(.minimal))
+            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.expanded))
+            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.compact))
+            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.minimal))
+            
+            HomeLiveActivityAttributes().previewContext(contentTwo, viewKind: .dynamicIsland(.expanded))
+            HomeLiveActivityAttributes().previewContext(contentTwo, viewKind: .dynamicIsland(.compact))
+            HomeLiveActivityAttributes().previewContext(contentTwo, viewKind: .dynamicIsland(.minimal))
         }
     }
 }

@@ -123,10 +123,9 @@ class LiveActivityViewModel: ObservableObject {
     
     fileprivate func emptyContentState(isStale : Bool) -> ActivityContent<HomeLiveActivityAttributes.ContentState> {
         
-        let primary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
-        let secondary = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
+        let singleState = HomeLiveActivityContentStateValue(symbolName: "square.dashed", symbolType: "sys", label: "--", val: "--", valShort: "-", color: ".white")
         
-        let state = HomeLiveActivityContentState(contentId: UUID().uuidString, timestamp: "--:--", dismissSeconds: isStale ? "0" : "60", primary: primary, secondary: secondary)
+        let state = HomeLiveActivityContentState(contentId: UUID().uuidString, timestamp: "--:--", dismissSeconds: isStale ? "0" : "60", primary: singleState, secondary: singleState, tertiary: singleState)
         
         let content = ActivityContent(state: state, staleDate: Calendar.current.date(byAdding: .second, value: Int(state.dismissSeconds) ?? 0, to: Date())!)
         return content

@@ -13,21 +13,27 @@ struct LiveActivitySettingsContentView: View {
     @StateObject var liveActivityViewModel = LiveActivityViewModel.shared
     @State private var selected = "Test"
     let theme = ["Test"]
-
+    let animation = 2
+    
     var body: some View {
-
+        
         VStack(spacing: 30) {
             
             Text("Live-Aktivität").font(Font.title).padding(.top, 30).foregroundColor(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : ".white", darker: true))
+
+            Circle()
+                .fill(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : "#161616", darker: true))
+                .frame(width: 30, height: 30, alignment: .center)
+                .scaleEffect(liveActivityViewModel.isActive ? 1 : 0.5)
             
-                Section {
-                    Picker("Strength", selection: $selected) {
-                        ForEach(theme, id: \.self) {
-                            Text($0)
-                        }
+            Section {
+                Picker("Strength", selection: $selected) {
+                    ForEach(theme, id: \.self) {
+                        Text($0)
                     }
-                    .pickerStyle(.wheel).disabled(liveActivityViewModel.isActive)
-                }.background(Color(hexOrName: "161616")).cornerRadius(16).padding(10)
+                }
+                .pickerStyle(.wheel).disabled(liveActivityViewModel.isActive)
+            }.background(Color(hexOrName: "161616")).cornerRadius(16).padding(10)
             
             Section {
                 HStack {
@@ -41,13 +47,13 @@ struct LiveActivitySettingsContentView: View {
                             .background(Color(hexOrName: ".green", darker: true))
                             .cornerRadius(28)
                     }.disabled(liveActivityViewModel.isActive)
-                     .opacity(liveActivityViewModel.isActive ? 0.4 : 1.0)
-                     .alert(isPresented: $liveActivityViewModel.isStartIssueFrequentPushedSetting) {
+                        .opacity(liveActivityViewModel.isActive ? 0.4 : 1.0)
+                        .alert(isPresented: $liveActivityViewModel.isStartIssueFrequentPushedSetting) {
                             Alert(title: Text("Start nicht möglich."), message: Text("Bitte aktiviere zunächst 'Häufigere Updates' in den Systemeinstellungen für diese App."),
                                   dismissButton: .default (Text("Na gut")) {
-                                    liveActivityViewModel.isStartIssueFrequentPushedSetting = false
-                                  }
-                              )
+                                liveActivityViewModel.isStartIssueFrequentPushedSetting = false
+                            }
+                            )
                         }
                     Spacer()
                     Button{
@@ -65,9 +71,9 @@ struct LiveActivitySettingsContentView: View {
                         .opacity(!liveActivityViewModel.isActive ? 0.4 : 1.0)
                 }.background(Color(hexOrName: "161616")).cornerRadius(16).padding(30)
             }
-
+            
             Spacer()
-
+            
         }
     }
 }
