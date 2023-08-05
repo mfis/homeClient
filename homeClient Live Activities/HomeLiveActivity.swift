@@ -28,20 +28,27 @@ struct HomeLiveActivity: Widget {
                             SecondaryContentView(stateValue: context.state.secondary)
                                 .padding(.top, 40)
                         }
-                    }.padding([.leading, .trailing], 30)
+                        if(!context.state.tertiary.val.isEmpty){
+                            Spacer()
+                            SecondaryContentView(stateValue: context.state.tertiary)
+                                .padding(.top, 40)
+                        }
+                    }.padding([.leading, .trailing], 10)
 
                 }
                 DynamicIslandExpandedRegion(.bottom) {}
             } compactLeading: {
                 Text(context.state.primary.valShort).lineLimit(1)
-                    .minimumScaleFactor(0.5)
+                    .minimumScaleFactor(0.5).foregroundColor(Color.init(hexOrName: context.state.primary.color, darker: false))
             } compactTrailing: {
                 Text(context.state.secondary.valShort).lineLimit(1)
+                    .foregroundColor(Color.init(hexOrName: context.state.secondary.color, darker: false))
                     .minimumScaleFactor(0.5)
             } minimal: {
                 ZStack{
                     Color.black
                     Text(context.state.primary.valShort).lineLimit(1)
+                        .foregroundColor(Color.init(hexOrName: context.state.primary.color, darker: false))
                         .minimumScaleFactor(0.9).padding(4)
                 }
             }
@@ -62,7 +69,7 @@ struct HomeLiveActivityView: View {
                 }
                 if(!model.tertiary.val.isEmpty){
                     Spacer()
-                    TertiaryContentView(stateValue: model.tertiary)
+                    SecondaryContentView(stateValue: model.tertiary)
                 }
             }.activitySystemActionForegroundColor(.yellow)
                 .activityBackgroundTint(.gray)
@@ -84,18 +91,6 @@ struct PrimaryContentView: View {
 }
 
 struct SecondaryContentView: View {
-    let stateValue: HomeLiveActivityContentStateValue
-    var body: some View {
-        VStack() {
-            SymbolOrLabelView(stateValue: stateValue, size: 30)
-            Text(stateValue.val)
-                .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
-                .padding(.top, 2).font(.title2)
-        }
-    }
-}
-
-struct TertiaryContentView: View {
     let stateValue: HomeLiveActivityContentStateValue
     var body: some View {
         VStack() {
@@ -155,12 +150,20 @@ struct HomeLiveActivity_Previews: PreviewProvider {
                 .previewDisplayName("14 Pro 3x")
             
             HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.expanded))
-            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.compact))
-            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.minimal))
+                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+                .previewDisplayName("Expanded 1x")
+            HomeLiveActivityAttributes().previewContext(contentThree, viewKind: .dynamicIsland(.expanded))
+                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+                .previewDisplayName("Expanded 3x")
             
-            HomeLiveActivityAttributes().previewContext(contentTwo, viewKind: .dynamicIsland(.expanded))
+            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.compact))
+                .previewDisplayName("Compact 1x")
             HomeLiveActivityAttributes().previewContext(contentTwo, viewKind: .dynamicIsland(.compact))
-            HomeLiveActivityAttributes().previewContext(contentTwo, viewKind: .dynamicIsland(.minimal))
+                .previewDisplayName("Compact 2x")
+            
+            HomeLiveActivityAttributes().previewContext(contentOne, viewKind: .dynamicIsland(.minimal))
+                .previewDisplayName("minimal")
+
         }
     }
 }
