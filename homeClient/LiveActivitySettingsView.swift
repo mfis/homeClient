@@ -11,23 +11,22 @@ import SwiftUI
 struct LiveActivitySettingsContentView: View {
     
     @StateObject var liveActivityViewModel = LiveActivityViewModel.shared
-    @State private var selected = "Test"
-    let theme = ["Test"]
-    let animation = 2
+    @State private var selected = "Strom"
+    let theme = ["Strom"]
     
     var body: some View {
         
         VStack(spacing: 30) {
             
             Text("Live-Aktivität").font(Font.title).padding(.top, 30).foregroundColor(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : ".white", darker: true))
-
+            
             Circle()
-                .fill(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : "#161616", darker: true))
+                .fill(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : ".grey", darker: true))
                 .frame(width: 30, height: 30, alignment: .center)
                 .scaleEffect(liveActivityViewModel.isActive ? 1 : 0.5)
             
             Section {
-                Picker("Strength", selection: $selected) {
+                Picker("LiveActivityType", selection: $selected) {
                     ForEach(theme, id: \.self) {
                         Text($0)
                     }
@@ -52,6 +51,13 @@ struct LiveActivitySettingsContentView: View {
                             Alert(title: Text("Start nicht möglich."), message: Text("Bitte aktiviere zunächst 'Häufigere Updates' in den Systemeinstellungen für diese App."),
                                   dismissButton: .default (Text("Na gut")) {
                                 liveActivityViewModel.isStartIssueFrequentPushedSetting = false
+                            }
+                            )
+                        }
+                        .alert(isPresented: $liveActivityViewModel.isStartIssueContactingServer) {
+                            Alert(title: Text("Start nicht möglich."), message: Text("Server konnte nicht kontaktiert werden."),
+                                  dismissButton: .default (Text("Na gut")) {
+                                liveActivityViewModel.isStartIssueContactingServer = false
                             }
                             )
                         }

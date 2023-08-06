@@ -25,7 +25,7 @@ struct LoadingView<Content>: View where Content: View {
                 VStack {
                     Image("zuhause")
                         .renderingMode(.template)
-                        .foregroundColor(Color.init(hexOrName: ".green", darker: true))
+                        .foregroundColor(Color.init(hexOrName: ".green", darker: true)).padding(.bottom, 10)
                     ActivityIndicatorView(isAnimating: .constant(true), style: .large)
                 }.frame(width: 100, height: 150)
                     .background(

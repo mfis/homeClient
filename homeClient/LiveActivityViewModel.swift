@@ -16,6 +16,7 @@ class LiveActivityViewModel: ObservableObject {
     @Published private var token: String?
     @Published var isActive = false
     @Published var isStartIssueFrequentPushedSetting = false
+    @Published var isStartIssueContactingServer = false
     
     private let activityInfo = ActivityAuthorizationInfo()
     private var homeLiveActivity: Activity<HomeLiveActivityAttributes>?
@@ -24,6 +25,8 @@ class LiveActivityViewModel: ObservableObject {
     init() {}
     
     func start() {
+        
+        isStartIssueContactingServer = false
         
         guard ActivityAuthorizationInfo().frequentPushesEnabled else {
             isStartIssueFrequentPushedSetting = true
@@ -133,7 +136,13 @@ class LiveActivityViewModel: ObservableObject {
     
     fileprivate func sendStartToServer(_ token: String) {
         
-        func onError(msg : String, rc : Int){
+        func onError(msg : String, rc : Int) {
+            DispatchQueue.main.async {
+                self.isStartIssueContactingServer = true
+            }
+            Task {
+                await end()
+            }
             logInSimulator("sendStartToServer ERROR: \(rc) - ˜(msg)")
         }
         
