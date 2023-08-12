@@ -38,9 +38,9 @@ struct ListView: View {
                     Text("\(model.title)").multilineTextAlignment(.leading).font(.title2).padding(.bottom, 1)
                     Text("\(model.timestamp)").multilineTextAlignment(.leading).font(.headline).padding(.bottom, 1).foregroundColor(.gray)
                     Text("\(model.message)").multilineTextAlignment(.leading).font(.body).padding(.bottom, 1)
-                }
-            }
-        }
+                }.padding(0)
+            }.padding(0)
+        }.padding(.top, 20)
     }
 }
 

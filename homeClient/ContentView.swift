@@ -49,22 +49,24 @@ struct NavIconLeft : View {
     
     @EnvironmentObject private var userData : UserData
     @State var showLiveActivityPopover = false
+    @State var showPushMessagesPopover = false
     @StateObject var liveActivityViewModel = LiveActivityViewModel.shared
     
     var body: some View {
         HStack(){
-            
-            NavigationLink(destination: PushMessageHistoryView().environmentObject(userData).preferredColorScheme(.dark)) {
+
+            Button(action: { self.showPushMessagesPopover.toggle() }) {
                 Image(systemName: "envelope")
-            }.buttonStyle(PlainButtonStyle())
+                    .foregroundColor(Color.init(hexOrName: ".white", darker: true))
+            }.popover(isPresented: $showPushMessagesPopover, arrowEdge: .top) {
+                PushMessageHistoryView().environmentObject(userData);
+            }
             
-            if(userData.settingsUserName=="test" || userData.settingsUserName=="Matthias"){
-                Button(action: { self.showLiveActivityPopover.toggle() }) {
-                    Image(systemName: "clock")
-                        .foregroundColor(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : ".white", darker: true)).padding(.leading, 20)
-                }.popover(isPresented: $showLiveActivityPopover, arrowEdge: .top) {
-                    LiveActivitySettingsContentView(liveActivityViewModel: liveActivityViewModel)
-                }
+            Button(action: { self.showLiveActivityPopover.toggle() }) {
+                Image(systemName: "clock")
+                    .foregroundColor(Color.init(hexOrName: liveActivityViewModel.isActive ? ".green" : ".white", darker: true)).padding(.leading, 8)
+            }.popover(isPresented: $showLiveActivityPopover, arrowEdge: .top) {
+                LiveActivitySettingsContentView(liveActivityViewModel: liveActivityViewModel)
             }
         }
     }
