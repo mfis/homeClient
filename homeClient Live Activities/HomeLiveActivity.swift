@@ -81,8 +81,8 @@ struct HomeLiveActivityView: View {
                     }
                 }
             }.activitySystemActionForegroundColor(.yellow)
-                .activityBackgroundTint(.gray)
-                .padding([.top, .bottom], 8).padding([.leading, .trailing], 20)
+                //.activityBackgroundTint(.gray)
+                .padding([.top, .bottom], 8).padding([.leading, .trailing], model.tertiary.val.isEmpty ? 30 : 20)
         }
     }
 }
@@ -91,7 +91,7 @@ struct PrimaryContentView: View {
     let stateValue: HomeLiveActivityContentStateValue
     var body: some View {
         HStack() {
-            SymbolOrLabelView(stateValue: stateValue, size: 45)
+            SymbolOrLabelView(stateValue: stateValue, size: 40)
             Text(stateValue.val)
                 .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
                 .padding(.leading, 4).font(.largeTitle)
