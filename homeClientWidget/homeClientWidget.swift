@@ -151,9 +151,24 @@ struct homeClientWidgetEntryView : View {
     
     var body: some View {
         if(family == .accessoryCircular || family == .accessoryInline || family == .accessoryRectangular){
-            LockScreenWidget()
+            if #available(iOSApplicationExtension 17.0, *){
+                //GeometryReader { geometry in
+                    LockScreenWidget().containerBackground(for: .widget) {
+                        Color.black
+                    }
+                //}
+            }else{
+                LockScreenWidget()
+            }
         }else{
-            HomeScreenWidget()
+            if #available(iOSApplicationExtension 17.0, *){
+                HomeScreenWidget().containerBackground(for: .widget) {
+                    Color.black
+                }
+            }else{
+                HomeScreenWidget()
+            }
+
         }
     }
 }
@@ -305,15 +320,16 @@ struct homeClientWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             homeClientWidgetEntryView(entry: entry)
         }
+        .contentMarginsDisabled()
         .configurationDisplayName("Zuhause")
         .description("Zuhause")
         .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular])
     }
 }
 
-struct homeClientWidget_Previews: PreviewProvider {
+//struct homeClientWidget_Previews: PreviewProvider {
     
-    static var previews: some View {
+    //static var previews: some View {
         
         let WIDGET_LABEL_ALL = [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE]
         
@@ -339,8 +355,15 @@ struct homeClientWidget_Previews: PreviewProvider {
         let placeD = HomeViewPlaceModel(id: "d", name: "Draußen", values: [valD1], actions: [], placeDirectives: [CONST_PLACE_DIRECTIVE_WIDGET_LABEL_SMALL, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_MEDIUM, CONST_PLACE_DIRECTIVE_WIDGET_LABEL_LARGE, CONST_PLACE_DIRECTIVE_WIDGET_LOCKSCREEN_CIRCULAR])
         
         let modelB: HomeViewModel = HomeViewModel(timestamp: "12:34", defaultAccent: "ffffff", places: [placeD])
+    
         
-        Group {
+        /*#Preview(as: .systemMedium) {
+            homeClientWidget()
+        } timeline: {
+            SimpleEntry(date: Date(), model: modelA)
+        }*/
+        
+        /*Group {
             homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: modelA))
                 .previewContext(WidgetPreviewContext(family: .systemSmall))
             homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: modelA))
@@ -351,6 +374,6 @@ struct homeClientWidget_Previews: PreviewProvider {
                     .previewContext(WidgetPreviewContext(family: .accessoryCircular))
             homeClientWidgetEntryView(entry: SimpleEntry(date: Date(), model: modelB))
                     .previewContext(WidgetPreviewContext(family: .accessoryCircular))
-        }
-    }
-}
+        }*/
+    //}
+//}
