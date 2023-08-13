@@ -41,9 +41,14 @@ struct HomeLiveActivity: Widget {
                 Text(context.state.primary.valShort).lineLimit(1)
                     .minimumScaleFactor(0.5).foregroundColor(Color.init(hexOrName: context.state.primary.color, darker: false))
             } compactTrailing: {
-                Text(context.state.secondary.valShort).lineLimit(1)
-                    .foregroundColor(Color.init(hexOrName: context.state.secondary.color, darker: false))
-                    .minimumScaleFactor(0.5)
+                if(context.state.secondary.val.isEmpty){
+                    SymbolOrLabelView(stateValue: context.state.primary, size: 18)
+                        .padding(0)
+                }else{
+                    Text(context.state.secondary.valShort).lineLimit(1)
+                        .foregroundColor(Color.init(hexOrName: context.state.secondary.color, darker: false))
+                        .minimumScaleFactor(0.5)
+                }
             } minimal: {
                 ZStack{
                     Color.black
@@ -91,10 +96,10 @@ struct PrimaryContentView: View {
     let stateValue: HomeLiveActivityContentStateValue
     var body: some View {
         HStack() {
-            SymbolOrLabelView(stateValue: stateValue, size: 40)
+            SymbolOrLabelView(stateValue: stateValue, size: 35)
             Text(stateValue.val)
                 .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
-                .padding(.leading, 4).font(.largeTitle)
+                .padding(.leading, 0).font(.largeTitle)
         }
     }
 }
@@ -104,9 +109,10 @@ struct SecondaryContentView: View {
     var body: some View {
         VStack() {
             SymbolOrLabelView(stateValue: stateValue, size: 30)
+                .padding(.bottom, 0)
             Text(stateValue.val)
                 .foregroundColor(Color.init(hexOrName: stateValue.color, darker: false))
-                .padding(.top, 2).font(.title2)
+                .padding(.top, 0).font(.title2)
         }
     }
 }
