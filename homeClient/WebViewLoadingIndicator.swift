@@ -60,7 +60,6 @@ class WebViewModel: ObservableObject {
 
 class Coordinator: NSObject, WKNavigationDelegate {
     
-    @EnvironmentObject private var userData : UserData
     private var viewModel: WebViewModel
     
     init(_ viewModel: WebViewModel) {
@@ -73,9 +72,5 @@ class Coordinator: NSObject, WKNavigationDelegate {
     
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         saveIsWebViewTerminated(newState: true)
-        DispatchQueue.main.async {
-            self.userData.lastErrorMsg = "webViewWebContentProcessDidTerminate()";
-            self.userData.lastErrorTs = formattedTS()
-        }
     }
 }
