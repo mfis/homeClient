@@ -12,6 +12,7 @@ import CoreLocation
 struct SettingsView: View {
     
     @EnvironmentObject private var userData : UserData
+    var authController = AuthController()
     
     var body: some View {
         NavigationView {
@@ -22,6 +23,7 @@ struct SettingsView: View {
                 
                 if(!loadUserToken().isEmpty){
                     LogoutView()
+                    PinView()
                     LocationView()
                     PushView()
                 }else{
@@ -84,6 +86,25 @@ struct LogoutView: View {
     }
 }
 
+struct PinView: View {
+    
+    @EnvironmentObject private var userData : UserData
+    @State private var pin: String = (keychainRead(serviceName: CONST_KEYCHAIN_SERVICENAME_PIN) ?? "")
+    
+    var body: some View {
+        Section(header: Text("PIN speichern für Face-ID")){
+            HStack {
+                SecureField("PIN", text: $pin)
+                Button(action: {
+                    keychainSave(serviceName: CONST_KEYCHAIN_SERVICENAME_PIN, value: pin)
+                }) {
+                    Text("Speichern")
+                }
+            }
+        }
+    }
+}
+
 struct PushView: View {
     
     @EnvironmentObject private var userData : UserData
@@ -94,8 +115,8 @@ struct PushView: View {
                 ForEach($userData.pushSettingsModel.settings) { (model: Binding<PushSettingModel>) in
                     Toggle(isOn: model.value) {
                         Text("" + model.text.wrappedValue)
-                    }.onChange(of: model.wrappedValue) { model in
-                        writePushSettings(id: model.id, value: model.value, userData: userData)
+                    }.onChange(of: model.wrappedValue) { oldModel, newModel in
+                        writePushSettings(id: model.id, value: newModel.value, userData: userData)
                     }.disabled(userData.pushSettingsSaveInProgress)
                 }
             }
@@ -124,7 +145,7 @@ struct LocationView: View {
             }else{
                 Toggle(isOn: $userData.settingsIsGeofencingOn) {
                     Text("Anwesenheitserkennung")
-                }.onChange(of: userData.settingsIsGeofencingOn) { model in
+                }.onChange(of: userData.settingsIsGeofencingOn) { oldModel, newModel in
                     saveIsGeofencingOn(newValue: userData.settingsIsGeofencingOn)
                     if(userData.settingsIsGeofencingOn){
                         NSLog("switch geofencing on")

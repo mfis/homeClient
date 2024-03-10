@@ -57,6 +57,13 @@ extension String {
     }
 }
 
+extension String {
+  var sanitized: String {
+    return self
+      .replacingOccurrences(of: "[^a-zA-Z0-9]", with: "", options: .regularExpression)
+  }
+}
+
 extension Bool {
     init(isRisingTendency: String){
         self.init(isRisingTendency.contains("RISE"))

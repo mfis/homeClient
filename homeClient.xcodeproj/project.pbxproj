@@ -62,6 +62,7 @@
 		8CA396D126A47EE90074E26E /* homeClientWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8CA396C326A47EE80074E26E /* homeClientWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8CA396D626A498A10074E26E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E262251754A3001C5841 /* Utils.swift */; };
 		8CA396D726A4A2F40074E26E /* NetworkStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C63E22225167E37001C5841 /* NetworkStructs.swift */; };
+		8CA723042B9A56890038DF0D /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA723032B9A56890038DF0D /* AuthController.swift */; };
 		8CC1B4A92A5ACDF300421337 /* LiveActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */; };
 		8CC1B4AA2A5ACDF300421337 /* LiveActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */; };
 		8CC1B4AC2A5ACE4100421337 /* HomeLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC1B4AB2A5ACE4100421337 /* HomeLiveActivityAttributes.swift */; };
@@ -200,6 +201,7 @@
 		8CA396CA26A47EE80074E26E /* homeClientWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeClientWidget.swift; sourceTree = "<group>"; };
 		8CA396CC26A47EE90074E26E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8CA396CE26A47EE90074E26E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8CA723032B9A56890038DF0D /* AuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthController.swift; sourceTree = "<group>"; };
 		8CA7F3F325B2294A00645A54 /* homeClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = homeClient.entitlements; sourceTree = "<group>"; };
 		8CADD0942947C187001BD83A /* homeClient WatchKit App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "homeClient WatchKit App.entitlements"; sourceTree = "<group>"; };
 		8CC1B4A82A5ACDF300421337 /* LiveActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityViewModel.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				8CCF161A2827C9470099592F /* Settings.swift */,
 				8C63E1C225167ADD001C5841 /* Preview Content */,
 				8C63E23425167EC1001C5841 /* signInFirst.html */,
+				8CA723032B9A56890038DF0D /* AuthController.swift */,
 				8C63E23925169EFA001C5841 /* SettingsView.swift */,
 				8C63E2412516A1E0001C5841 /* WebViewMessageHandler.swift */,
 				8C6F2F732615F2CE00C5BFB7 /* WebViewComponent.swift */,
@@ -601,6 +604,7 @@
 			files = (
 				8C63E2422516A1E0001C5841 /* WebViewMessageHandler.swift in Sources */,
 				8C63E22325167E38001C5841 /* NetworkStructs.swift in Sources */,
+				8CA723042B9A56890038DF0D /* AuthController.swift in Sources */,
 				8CA268072A483CEF00DA87D2 /* WebViewLoadingIndicator.swift in Sources */,
 				8C63E23A25169EFA001C5841 /* SettingsView.swift in Sources */,
 				8C63E1BF25167ADB001C5841 /* ContentView.swift in Sources */,
@@ -824,7 +828,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -852,7 +856,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient WatchKit Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -886,7 +890,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "homeClient WatchKit App/homeClient WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
@@ -919,7 +923,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "homeClient WatchKit App/homeClient WatchKit App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				IBSC_MODULE = homeClient_WatchKit_Extension;
 				INFOPLIST_FILE = "homeClient WatchKit App/Info.plist";
@@ -950,7 +954,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -982,7 +986,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = homeClient/homeClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_ASSET_PATHS = "\"homeClient/Preview Content\"";
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				ENABLE_PREVIEWS = YES;
@@ -1014,7 +1018,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "11.0.0-E";
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "homeClient Live Activities/Info.plist";
@@ -1044,7 +1048,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "11.0.0-E";
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "homeClient Live Activities/Info.plist";
@@ -1075,7 +1079,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "11.0.0-E";
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1101,7 +1105,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = homeClientWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "11.0.0-E";
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_TEAM = L88X8YULLQ;
 				INFOPLIST_FILE = homeClientWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

@@ -19,7 +19,7 @@ struct homeClientApp: App {
             NavigationView {
                 ContentView().environmentObject(userData)
             }
-        }.onChange(of: phase) { newPhase in
+        }.onChange(of: phase) { oldPhase, newPhase in
             // #if DEBUG
                 NSLog("### watch App onChange: \(newPhase)")
             // #endif

@@ -12,8 +12,9 @@ import WebKit
 class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
     
     var userData : UserData?
-    
     var selectionGenerator : UISelectionFeedbackGenerator
+    var authController = AuthController()
+    
     override init() {
         selectionGenerator = UISelectionFeedbackGenerator()
         super.init()
@@ -63,6 +64,24 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
                     userData.webViewRefreshPending = false
                 }
             }
+        case "checkBiometricAuthAvailableForPin":
+            authController.isAvailable { result in
+                if let result, let _ = keychainRead(serviceName: CONST_KEYCHAIN_SERVICENAME_PIN) {
+                    if(result == true){
+                        HomeWebView.shared.executeScript(script: "if(typeof \(value ?? "noop") === 'function'){\(value ?? "noop")();}")
+                    }
+                }
+            }
+        case "biometryGetPin":
+            authController.doAuthentication { result in
+                var pin = ""
+                if let result {
+                    if(result == true){
+                        pin = (keychainRead(serviceName: CONST_KEYCHAIN_SERVICENAME_PIN) ?? "")
+                    }
+                }
+                HomeWebView.shared.executeScript(script: "if(typeof \(value ?? "noop") === 'function'){\(value ?? "noop")('\(pin)');}")
+             }
         case "log":
                 NSLog("WebView log message: \(value ?? "")")
         default:

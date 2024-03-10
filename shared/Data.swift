@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AuthenticationServices
 
 fileprivate let userDefaults = UserDefaults.init(suiteName: "group.de.fimatas.homeClient")!
 
@@ -167,4 +168,80 @@ func loadIsWebViewTerminated() -> Bool {
 
 func saveIsWebViewTerminated(newState : Bool) {
     userDefaults.setValue(newState==true ? "true" : "false", forKey: "userDefaultIsWebViewTerminated")
+}
+
+func keychainSave(serviceName : String, value : String) {
+    if keychainRead(serviceName: serviceName) != nil{
+        keychainUpdate(serviceName: serviceName, value: value)
+    }else {
+        let attributes: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: loadUserName().sanitized,
+            kSecValueData as String: value.data(using: .utf8)!,
+            kSecAttrService as String: serviceName.sanitized
+        ]
+        let status = SecItemAdd(attributes as CFDictionary, nil)
+        if status == noErr {
+            return
+        } else {
+            NSLog("keychain: could not write \(serviceName) : \(status.description)")
+        }
+    }
+}
+
+func keychainRead(serviceName : String) -> String? {
+    let query: [String: Any] = [
+        kSecClass as String: kSecClassGenericPassword,
+        kSecAttrAccount as String: loadUserName().sanitized,
+        kSecMatchLimit as String: kSecMatchLimitOne,
+        kSecReturnAttributes as String: true,
+        kSecReturnData as String: true,
+        kSecAttrService as String: serviceName.sanitized
+    ]
+    var item: CFTypeRef?
+    let status = SecItemCopyMatching(query as CFDictionary, &item)
+    if status == noErr {
+        if let existingItem = item as? [String: Any],
+           let passwordData = existingItem[kSecValueData as String] as? Data,
+           let password = String(data: passwordData, encoding: .utf8) {
+               return password
+        } else {
+            NSLog("keychain: unexpected item")
+            return nil
+        }
+    } else if (status == errSecItemNotFound){
+        return nil
+    } else {
+        NSLog("keychain: could not read \(serviceName) : \(status.description)")
+        return nil
+    }
+}
+
+func keychainUpdate(serviceName : String, value : String) {
+    let query: [String: Any] = [
+        kSecClass as String: kSecClassGenericPassword,
+        kSecAttrAccount as String: loadUserName().sanitized,
+        kSecAttrService as String: serviceName.sanitized
+    ]
+    let attributes: [String: Any] = [kSecValueData as String: value.data(using: .utf8)!]
+    let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+    if status == noErr {
+        return
+    } else {
+        NSLog("keychain: could not update \(serviceName) : \(status.description)")
+    }
+}
+
+func keychainDelete(serviceName : String) {
+    let query: [String: Any] = [
+        kSecClass as String: kSecClassGenericPassword,
+        kSecAttrAccount as String: loadUserName().sanitized,
+        kSecAttrService as String: serviceName.sanitized
+    ]
+    let status = SecItemDelete(query as CFDictionary)
+    if status == noErr {
+        return
+    } else {
+        NSLog("keychain: could not delete \(serviceName) : \(status.description)")
+    }
 }

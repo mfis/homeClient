@@ -10,3 +10,4 @@ import Foundation
 let CONST_WEBVIEW_USERAGENT = "HomeClientAppWebView"
 let CONST_WEBVIEW_COOKIENAME = "HomeLoginCookie"
 let CONST_NOT_AVAILABLE = "n/a"
+let CONST_KEYCHAIN_SERVICENAME_PIN = "pin"

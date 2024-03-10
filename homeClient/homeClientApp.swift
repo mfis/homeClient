@@ -27,7 +27,7 @@ struct homeClientApp: App {
                     userData.webViewFastLink = id.description
                 }
             }
-        }.onChange(of: phase) { newPhase in
+        }.onChange(of: phase) { oldPhase, newPhase in
             switch newPhase {
             case .active:
                 userData.isInBackground = false
@@ -40,7 +40,7 @@ struct homeClientApp: App {
                 userData.isInBackground = true
                 userData.webViewTitle = ""
                 userData.prepareBackground()
-                UIApplication.shared.applicationIconBadgeNumber = 0
+                UNUserNotificationCenter.current().setBadgeCount(0, withCompletionHandler: nil)
                 WidgetCenter.shared.reloadAllTimelines()
                 userData.webViewRefreshPending = true
                 HomeWebView.shared.handleAppInBackround()
