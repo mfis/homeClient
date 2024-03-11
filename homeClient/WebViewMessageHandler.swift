@@ -77,6 +77,7 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
                 var pin = ""
                 if let result {
                     if(result == true){
+                        NSLog("biometryGetPin - deliver pin")
                         pin = (keychainRead(serviceName: CONST_KEYCHAIN_SERVICENAME_PIN) ?? "")
                     }
                 }
