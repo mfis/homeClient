@@ -65,7 +65,7 @@ class HomeWebView {
         
         if(isHomePageLoaded()){
             HomeWebView.shared.executeScript(script: "setAppInForegroundMarker(true)", errorHandler: settingForgroundMarkerFailed, successHandler: settingForegroundMarcerSucceded);
-        }else{
+        }else if (!isHomePageNavigated()){
             loadWebView()
         }
     }
@@ -86,6 +86,10 @@ class HomeWebView {
     }
     
     fileprivate func isHomePageLoaded() -> Bool {
+        return isHomePageNavigated() && webView.estimatedProgress == 1.0
+    }
+
+    fileprivate func isHomePageNavigated() -> Bool {
         return webView.url?.absoluteURL.absoluteString == loadUrl() && webView.title != nil && !loadIsWebViewTerminated()
     }
     

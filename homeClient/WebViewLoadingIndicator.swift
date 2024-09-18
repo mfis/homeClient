@@ -67,6 +67,7 @@ class Coordinator: NSObject, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        HomeWebView.shared.handleAppInForeground()
         self.viewModel.isLoading = false
     }
     
