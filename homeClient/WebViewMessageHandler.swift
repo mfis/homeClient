@@ -77,14 +77,18 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
                 var pin = ""
                 if let result {
                     if(result == true){
-                        NSLog("biometryGetPin - deliver pin")
+                        #if DEBUG
+                            NSLog("biometryGetPin - deliver pin")
+                        #endif
                         pin = (keychainRead(serviceName: CONST_KEYCHAIN_SERVICENAME_PIN) ?? "")
                     }
                 }
                 HomeWebView.shared.executeScript(script: "if(typeof \(value ?? "noop") === 'function'){\(value ?? "noop")('\(pin)');}")
              }
         case "log":
+            #if DEBUG
                 NSLog("WebView log message: \(value ?? "")")
+            #endif
         default:
             return
         }

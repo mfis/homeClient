@@ -25,6 +25,7 @@ struct homeClientApp: App {
                 if let idRange = url.absoluteString.range(of: "?id=") { // FIXME
                     let id = url.absoluteString.suffix(from: idRange.upperBound)
                     userData.webViewFastLink = id.description
+                    userData.webViewFastLinkIsUsed = false
                 }
             }
         }.onChange(of: phase) { oldPhase, newPhase in

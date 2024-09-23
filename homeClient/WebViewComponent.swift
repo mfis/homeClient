@@ -26,7 +26,9 @@ class HomeWebView {
     }
     
     func loadWebView() {
-        
+        #if targetEnvironment(simulator)
+            NSLog("loadWebView()")
+        #endif
         var url : String
         if loadUrl().isEmpty {
             let fileUrl = Bundle.main.url(forResource: "signInFirst", withExtension: "html")!
@@ -56,6 +58,10 @@ class HomeWebView {
     func handleAppInForeground(){
         
         func settingForgroundMarkerFailed(){
+            DispatchQueue.main.sync {
+                // set to unused to use it after reload
+                self.webViewMessageHandler.userData!.webViewFastLinkIsUsed = false
+            }
             webView.reload()
         }
         
@@ -76,12 +82,16 @@ class HomeWebView {
         }
     }
     
+    fileprivate func fastLinkSuccess(result: Any?){
+        DispatchQueue.main.async {
+            self.webViewMessageHandler.userData!.webViewFastLinkIsUsed = true
+        }
+    }
+    
     func handleFastLink(){
-        if(!self.webViewMessageHandler.userData!.webViewFastLink.isEmpty) {
-            HomeWebView.shared.executeScript(script: "fastLinkTo('\(self.webViewMessageHandler.userData!.webViewFastLink)')")
-            DispatchQueue.main.async {
-                self.webViewMessageHandler.userData!.webViewFastLink = ""
-            }
+        if(!self.webViewMessageHandler.userData!.webViewFastLink.isEmpty
+           && !self.webViewMessageHandler.userData!.webViewFastLinkIsUsed) {
+            HomeWebView.shared.executeScript(script: "fastLinkTo('\(self.webViewMessageHandler.userData!.webViewFastLink)')", errorHandler: {}, successHandler: fastLinkSuccess)
         }
     }
     
@@ -150,7 +160,7 @@ struct WebViewComponent : UIViewRepresentable {
             }
         }
         
-        if(!loadUrl().isEmpty && userData.lastCalledUrl != loadUrl()){
+        if(!loadUrl().isEmpty && userData.lastCalledUrl != "" && userData.lastCalledUrl != loadUrl()){
             HomeWebView.shared.loadWebView()
             return
         }

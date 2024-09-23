@@ -30,6 +30,7 @@ final class UserData: ObservableObject {
     @Published var webViewUserName = ""
     
     @Published var webViewFastLink = ""
+    @Published var webViewFastLinkIsUsed = true
     
     @Published var isInBackground = false
     @Published var webViewRefreshPending = false
@@ -45,7 +46,10 @@ final class UserData: ObservableObject {
     }
     
     func prepareBackground(){
+        #if os(iOS)
             webViewFastLink = ""
+            webViewFastLinkIsUsed = true;
+        #endif
     }
     
     @Published var watchModel = newEmptyModel(state: "", msg: "")
