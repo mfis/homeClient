@@ -62,6 +62,7 @@ class WebViewMessageHandler : NSObject, WKScriptMessageHandler {
                 HomeWebView.shared.executeScript(script: "if(typeof setPushToken === 'function'){setPushToken('\(lookupPushToken(userData: userData))', '\(userData.device)');}")
                 DispatchQueue.main.async {
                     userData.webViewRefreshPending = false
+                    userData.showLoadingIndicator = false
                 }
             }
         case "checkBiometricAuthAvailableForPin":

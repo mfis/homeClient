@@ -29,18 +29,22 @@ struct Content : View {
         UINavigationBar.appearance().titleTextAttributes = [.font : UIFont.systemFont(ofSize: 20.0, weight: .light)]
     }
     
-    @StateObject var model = WebViewModel()
-    @StateObject var liveActivityViewModel = LiveActivityViewModel()
+    @EnvironmentObject private var userData : UserData
     
+    @StateObject var liveActivityViewModel = LiveActivityViewModel()
     var body: some View {
         
-        LoadingView(isShowing: self.$model.isLoading) {
-            WebViewComponent(viewModel: self.model)
+        ZStack{
+            WebViewComponent()
+            if userData.showLoadingIndicator {
+                LoadingView().transition(.opacity).zIndex(1).allowsHitTesting(false)
+            }
         }
+        .animation(.easeInOut(duration: 0.2), value: userData.showLoadingIndicator)
         .navigationBarTitle(Text("Zuhause"), displayMode: .inline)
         .navigationBarItems(
             leading:  NavIconLeft(liveActivityViewModel: liveActivityViewModel),
-            trailing: NavIconRight(model: model)
+            trailing: NavIconRight()
         ).edgesIgnoringSafeArea(.bottom)
     }
 }
@@ -76,13 +80,14 @@ struct NavIconRight : View {
     
     @EnvironmentObject private var userData : UserData
     @State var showRefreshPendingPopover = false
-    @StateObject var model : WebViewModel
     
     var body: some View {
         HStack{
             Button(action: {
-                model.isLoading = true
-                HomeWebView.shared.loadWebView()
+                DispatchQueue.main.async {
+                    userData.showLoadingIndicator = true
+                    HomeWebView.shared.loadWebView()
+                }
             }) {
                 Image(systemName: "backward.end")
                     .renderingMode(.template)

@@ -12,36 +12,29 @@
 import SwiftUI
 import WebKit
 
-struct LoadingView<Content>: View where Content: View {
-    
-    @EnvironmentObject private var userData : UserData
-    @Binding var isShowing: Bool
-    var content: () -> Content
+struct LoadingView : View {
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .center) {
-                self.content().disabled(self.isShowing)
-                VStack {
-                    Image("zuhause")
-                        .renderingMode(.template)
-                        .foregroundColor(Color.init(hexOrName: ".green", darker: true)).padding(.bottom, 10)
-                    ActivityIndicatorView(isAnimating: .constant(true), style: .large)
-                }.frame(width: 100, height: 150)
-                    .background(
-                        RoundedRectangle(cornerRadius: 15)
-                            .strokeBorder(Color.init(hexOrName: "242424"), lineWidth: 0)
-                            .background(
-                                RoundedRectangle(cornerRadius: 15).fill(Color.init(hexOrName: "242424"))
-                            )
-                    ).opacity(0.9)
-                    .opacity(self.isShowing || userData.webViewRefreshPending ? 1 : 0)
-            }
+        ZStack(alignment: .center) {
+            VStack {
+                Image("zuhause")
+                    .renderingMode(.template)
+                    .foregroundColor(Color.init(hexOrName: ".green", darker: true)).padding(.bottom, 10)
+                ActivityIndicatorView(isAnimating: .constant(true), style: .large)
+            }.frame(width: 100, height: 150)
+                .background(
+                    RoundedRectangle(cornerRadius: 15)
+                        .strokeBorder(Color.init(hexOrName: "242424"), lineWidth: 0)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15).fill(Color.init(hexOrName: "242424"))
+                        )
+                )
         }
     }
 }
 
 struct ActivityIndicatorView: UIViewRepresentable {
+    
     @Binding var isAnimating: Bool
     let style: UIActivityIndicatorView.Style
     
@@ -51,29 +44,5 @@ struct ActivityIndicatorView: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicatorView>) {
         isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
-    }
-}
-
-class WebViewModel: ObservableObject {
-    @Published var isLoading: Bool = true
-}
-
-class Coordinator: NSObject, WKNavigationDelegate {
-    
-    private var viewModel: WebViewModel
-    
-    init(_ viewModel: WebViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        DispatchQueue.main.async {
-            self.viewModel.isLoading = false
-        }
-        HomeWebView.shared.handleFastLink()
-    }
-    
-    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-        saveIsWebViewTerminated(newState: true)
     }
 }

@@ -36,6 +36,7 @@ final class UserData: ObservableObject {
     @Published var webViewRefreshPending = false
     
     @Published var showAlert = false
+    @Published var showLoadingIndicator = false
     
     @Published var doWebViewLogout = false
     

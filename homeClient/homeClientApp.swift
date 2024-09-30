@@ -32,6 +32,7 @@ struct homeClientApp: App {
             switch newPhase {
             case .active:
                 userData.isInBackground = false
+                userData.showLoadingIndicator = true
                 HomeWebView.shared.handleAppInForeground()
                 break
             case .inactive:

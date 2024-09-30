@@ -124,13 +124,31 @@ class HomeWebView {
     }
 }
 
+class Coordinator: NSObject, WKNavigationDelegate {
+    
+    private var userData : UserData
+    init(_ userData : UserData) {
+        self.userData = userData
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        DispatchQueue.main.async {
+            self.userData.showLoadingIndicator = false
+        }
+        HomeWebView.shared.handleFastLink()
+    }
+    
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        saveIsWebViewTerminated(newState: true)
+    }
+}
+
 struct WebViewComponent : UIViewRepresentable {
     
     @EnvironmentObject private var userData : UserData
-    @ObservedObject var viewModel: WebViewModel
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self.viewModel)
+        Coordinator(userData)
     }
     
     func makeUIView(context: Context) -> WKWebView  {
