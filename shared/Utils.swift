@@ -78,6 +78,7 @@ extension Bool {
 
 fileprivate var colorNameDictDefault = [
     "green" : "66ff66",
+    "darkgreen" : "019C00",
     "olive" : "285028",
     "orange" : "ffb84d",
     "red" : "ff6666",

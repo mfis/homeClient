@@ -178,7 +178,7 @@ struct WidgetTitleView : View {
     var body: some View {
         ZStack{
             Rectangle()
-                .fill(Color.init(hexOrName: ".green", darker: true))
+                .fill(Color.init(hexOrName: ".darkgreen", darker: false))
                 .frame(height: 28)
             HStack{
                 Image("zuhause")
